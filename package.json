@@ -1,0 +1,10 @@
+{
+  "name": "vkui-connect",
+  "version": "1.0.0",
+  "description": "Connects a VKUI application with native VK client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tim Chaptykov <tim.chaptykov@gmail.com> (https://vk.com/tc)"
+}
