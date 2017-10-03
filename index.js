@@ -1,45 +1,53 @@
-const isFunc = (f) => typeof f === 'function';
-const isClient = () => typeof window !== 'undefined';
+(function(window) {
+  var FUNCTION = 'function';
+  var UNDEFINED = 'undefined';
+  var subscribers = [];
 
-let subscribers = [];
+  if (typeof window !== UNDEFINED) {
+    window.addEventListener('VKWebAppEvent', function() {
+      var args = Array.prototype.slice.call(arguments);
 
-if (isClient()) {
-  window.addEventListener('VKWebAppEvent', function(...args) {
-    subscribers.forEach(function(fn) {
-      fn.apply(null, args);
+      subscribers.forEach(function(fn) {
+        fn.apply(null, args);
+      });
     });
-  });
-}
-
-module.exports = {
-  /**
-   * Sends a message to native client
-   *
-   * @example
-   * message.send('VKWebAppInit');
-   *
-   * @param {String} handler Message type
-   * @param {Object} params Message data
-   * @returns {void}
-   */
-  send(handler, params = {}) {
-    const androidBridge = isClient() && window.AndroidBridge;
-    const iosBridge = isClient() && window.webkit && window.webkit.messageHandlers;
-
-    if (androidBridge && isFunction(androidBridge[handler])) {
-      androidBridge[handler](JSON.stringify(params));
-    }
-    if (iosBridge && iosBridge[handler] && isFunction(iosBridge[handler].postMessage)) {
-      iosBridge[handler].postMessage(params);
-    }
-  },
-  /**
-   * Subscribe on VKWebAppEvent
-   *
-   * @param {Function} fn Event handler
-   * @returns {void}
-   */
-  subscribe(fn) {
-    subscribers.push(fn);
   }
-};
+
+  module.exports = {
+    /**
+     * Sends a message to native client
+     *
+     * @example
+     * message.send('VKWebAppInit');
+     *
+     * @param {String} handler Message type
+     * @param {Object} params Message data
+     * @returns {void}
+     */
+    send: function send(handler, params) {
+      if (!params) {
+        params = {};
+      }
+
+      var isClient = typeof window !== UNDEFINED;
+      var androidBridge = isClient && window.AndroidBridge;
+      var iosBridge = isClient && window.webkit && window.webkit.messageHandlers;
+
+      if (androidBridge && typeof androidBridge[handler] == FUNCTION) {
+        androidBridge[handler](JSON.stringify(params));
+      }
+      if (iosBridge && iosBridge[handler] && typeof iosBridge[handler].postMessage == FUNCTION) {
+        iosBridge[handler].postMessage(params);
+      }
+    },
+    /**
+     * Subscribe on VKWebAppEvent
+     *
+     * @param {Function} fn Event handler
+     * @returns {void}
+     */
+    subscribe: function subscribe(fn) {
+      subscribers.push(fn);
+    }
+  };
+})(window);
