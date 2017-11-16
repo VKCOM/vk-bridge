@@ -48,6 +48,19 @@
      */
     subscribe: function subscribe(fn) {
       subscribers.push(fn);
+    },
+    /**
+     * Unsubscribe on VKWebAppEvent
+     *
+     * @param {Function} fn Event handler
+     * @returns {void}
+     */
+    unsubscribe: function unsubscribe(fn) {
+      var index = subscribers.indexOf(fn);
+
+      if (index > -1) {
+        subscribers.splice(index, 1);
+      }
     }
   };
 })(window);
