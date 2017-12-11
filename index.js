@@ -4,6 +4,23 @@
   var subscribers = [];
 
   if (typeof window !== UNDEFINED) {
+
+    //polyfill
+    if (!window.CustomEvent) {
+      (function() {
+        function CustomEvent(event, params) {
+          params = params || {bubbles: false, cancelable: false, detail: undefined};
+          var evt = document.createEvent('CustomEvent');
+          evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+          return evt;
+        };
+
+        CustomEvent.prototype = window.Event.prototype;
+
+        window.CustomEvent = CustomEvent;
+      })();
+    }
+
     window.addEventListener('VKWebAppEvent', function() {
       var args = Array.prototype.slice.call(arguments);
 
@@ -48,6 +65,19 @@
      */
     subscribe: function subscribe(fn) {
       subscribers.push(fn);
+    },
+    /**
+     * Unsubscribe on VKWebAppEvent
+     *
+     * @param {Function} fn Event handler
+     * @returns {void}
+     */
+    unsubscribe: function unsubscribe(fn) {
+      var index = subscribers.indexOf(fn);
+
+      if (index > -1) {
+        subscribers.splice(index, 1);
+      }
     }
   };
 })(window);
