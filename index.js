@@ -2,6 +2,8 @@
   var FUNCTION = 'function';
   var UNDEFINED = 'undefined';
   var subscribers = [];
+  var isWeb = typeof window !== UNDEFINED && !window.AndroidBridge && !window.webkit;
+  var eventType = isWeb ? 'message' : 'VKWebAppEvent';
 
   if (typeof window !== UNDEFINED) {
 
@@ -21,12 +23,19 @@
       })();
     }
 
-    window.addEventListener('VKWebAppEvent', function() {
+    window.addEventListener(eventType, function() {
       var args = Array.prototype.slice.call(arguments);
-
-      subscribers.forEach(function(fn) {
-        fn.apply(null, args);
-      });
+      if (isWeb) {
+        subscribers.forEach(function(fn) {
+          fn({
+            detail: args[0].data
+          });
+        });
+      } else {
+        subscribers.forEach(function(fn) {
+          fn.apply(null, args);
+        });
+      }
     });
   }
 
@@ -49,12 +58,21 @@
       var isClient = typeof window !== UNDEFINED;
       var androidBridge = isClient && window.AndroidBridge;
       var iosBridge = isClient && window.webkit && window.webkit.messageHandlers;
+      var isDesktop = !androidBridge && !iosBridge;
 
       if (androidBridge && typeof androidBridge[handler] == FUNCTION) {
         androidBridge[handler](JSON.stringify(params));
       }
       if (iosBridge && iosBridge[handler] && typeof iosBridge[handler].postMessage == FUNCTION) {
         iosBridge[handler].postMessage(params);
+      }
+
+      if (isDesktop) {
+        parent.postMessage({
+          handler,
+          params,
+          type: 'vk-connect'
+        }, '*');
       }
     },
     /**
@@ -78,6 +96,30 @@
       if (index > -1) {
         subscribers.splice(index, 1);
       }
+    },
+
+    /**
+     * Checks if native client supports nandler
+     *
+     * @param {String} handler Handler name
+     * @returns {boolean}
+     */
+    supports: function supports(handler) {
+
+      var isClient = typeof window !== UNDEFINED;
+      var androidBridge = isClient && window.AndroidBridge;
+      var iosBridge = isClient && window.webkit && window.webkit.messageHandlers;
+
+      if (androidBridge && typeof androidBridge[handler] == FUNCTION) return true;
+
+      if (iosBridge && iosBridge[handler] && typeof iosBridge[handler].postMessage == FUNCTION) return true;
+
+      if (iosBridge && iosBridge[handler] && typeof iosBridge[handler].postMessage == FUNCTION) {
+        console.warn('Currently "supports" method is not supported on the web');
+        return false;
+      }
+
+      return false;
     }
   };
 })(window);
