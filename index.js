@@ -109,15 +109,30 @@
       var isClient = typeof window !== UNDEFINED;
       var androidBridge = isClient && window.AndroidBridge;
       var iosBridge = isClient && window.webkit && window.webkit.messageHandlers;
+      var desktopEvents = [
+        "VKWebAppGetAuthToken",
+        "VKWebAppCallAPIMethod",
+        "VKWebAppGetGeodata",
+        "VKWebAppGetUserInfo",
+        "VKWebAppGetPhoneNumber",
+        "VKWebAppGetClientVersion",
+        "VKWebAppOpenPayForm",
+        "VKWebAppShare",
+        "VKWebAppAllowNotifications",
+        "VKWebAppDenyNotifications",
+        "VKWebAppShowWallPostBox",
+        "VKWebAppGetEmail",
+        "VKWebAppAllowMessagesFromGroup",
+        "VKWebAppJoinGroup",
+        "VKWebAppOpenApp",
+        "VKWebAppSetLocation",
+      ];
 
       if (androidBridge && typeof androidBridge[handler] == FUNCTION) return true;
 
       if (iosBridge && iosBridge[handler] && typeof iosBridge[handler].postMessage == FUNCTION) return true;
 
-      if (iosBridge && iosBridge[handler] && typeof iosBridge[handler].postMessage == FUNCTION) {
-        console.warn('Currently "supports" method is not supported on the web');
-        return false;
-      }
+      if (!iosBridge && !androidBridge && ~desktopEvents.indexOf(handler)) return true;
 
       return false;
     }
