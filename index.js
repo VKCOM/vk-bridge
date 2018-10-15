@@ -69,8 +69,8 @@
 
       if (isDesktop) {
         parent.postMessage({
-          handler,
-          params,
+          handler: handler,
+          params: params,
           type: 'vk-connect'
         }, '*');
       }
@@ -126,6 +126,8 @@
         "VKWebAppJoinGroup",
         "VKWebAppOpenApp",
         "VKWebAppSetLocation",
+        "VKWebAppScroll",
+        "VKWebAppResizeWindow",
       ];
 
       if (androidBridge && typeof androidBridge[handler] == FUNCTION) return true;
