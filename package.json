@@ -1,7 +1,7 @@
 {
   "name": "@vkontakte/vkui-connect",
-  "version": "1.1.2",
-  "description": "Connects a VKUI application with native VK client",
+  "version": "2.0.0",
+  "description": "Connects a VKUI application with any VK client",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
