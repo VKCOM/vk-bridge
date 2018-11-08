@@ -2,8 +2,6 @@
   var FUNCTION = 'function';
   var UNDEFINED = 'undefined';
   var subscribers = [];
-  var isWeb = typeof window !== UNDEFINED && !window.AndroidBridge && !window.webkit;
-  var eventType = isWeb ? 'message' : 'VKWebAppEvent';
 
   if (typeof window !== UNDEFINED) {
 
@@ -23,19 +21,12 @@
       })();
     }
 
-    window.addEventListener(eventType, function() {
+    window.addEventListener('VKWebAppEvent', function() {
       var args = Array.prototype.slice.call(arguments);
-      if (isWeb) {
-        subscribers.forEach(function(fn) {
-          fn({
-            detail: args[0].data
-          });
-        });
-      } else {
-        subscribers.forEach(function(fn) {
-          fn.apply(null, args);
-        });
-      }
+
+      subscribers.forEach(function(fn) {
+        fn.apply(null, args);
+      });
     });
   }
 
@@ -58,21 +49,12 @@
       var isClient = typeof window !== UNDEFINED;
       var androidBridge = isClient && window.AndroidBridge;
       var iosBridge = isClient && window.webkit && window.webkit.messageHandlers;
-      var isDesktop = !androidBridge && !iosBridge;
 
       if (androidBridge && typeof androidBridge[handler] == FUNCTION) {
         androidBridge[handler](JSON.stringify(params));
       }
       if (iosBridge && iosBridge[handler] && typeof iosBridge[handler].postMessage == FUNCTION) {
         iosBridge[handler].postMessage(params);
-      }
-
-      if (isDesktop) {
-        parent.postMessage({
-          handler: handler,
-          params: params,
-          type: 'vk-connect'
-        }, '*');
       }
     },
     /**
@@ -96,47 +78,6 @@
       if (index > -1) {
         subscribers.splice(index, 1);
       }
-    },
-
-    /**
-     * Checks if native client supports nandler
-     *
-     * @param {String} handler Handler name
-     * @returns {boolean}
-     */
-    supports: function supports(handler) {
-
-      var isClient = typeof window !== UNDEFINED;
-      var androidBridge = isClient && window.AndroidBridge;
-      var iosBridge = isClient && window.webkit && window.webkit.messageHandlers;
-      var desktopEvents = [
-        "VKWebAppGetAuthToken",
-        "VKWebAppCallAPIMethod",
-        "VKWebAppGetGeodata",
-        "VKWebAppGetUserInfo",
-        "VKWebAppGetPhoneNumber",
-        "VKWebAppGetClientVersion",
-        "VKWebAppOpenPayForm",
-        "VKWebAppShare",
-        "VKWebAppAllowNotifications",
-        "VKWebAppDenyNotifications",
-        "VKWebAppShowWallPostBox",
-        "VKWebAppGetEmail",
-        "VKWebAppAllowMessagesFromGroup",
-        "VKWebAppJoinGroup",
-        "VKWebAppOpenApp",
-        "VKWebAppSetLocation",
-        "VKWebAppScroll",
-        "VKWebAppResizeWindow",
-      ];
-
-      if (androidBridge && typeof androidBridge[handler] == FUNCTION) return true;
-
-      if (iosBridge && iosBridge[handler] && typeof iosBridge[handler].postMessage == FUNCTION) return true;
-
-      if (!iosBridge && !androidBridge && ~desktopEvents.indexOf(handler)) return true;
-
-      return false;
     }
   };
 })(window);
