@@ -14,8 +14,8 @@
           params = {};
         }
         parent.postMessage({
-          handler,
-          params,
+          handler: handler,
+          params: params,
           type: 'vk-connect'
         }, '*');
       },
