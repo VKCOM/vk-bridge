@@ -2,6 +2,8 @@
   var FUNCTION = 'function';
   var UNDEFINED = 'undefined';
   var subscribers = [];
+  var webFrameId = null;
+  var connectVersion = '1.2.0';
   var isWeb = typeof window !== UNDEFINED && !window.AndroidBridge && !window.webkit;
   var eventType = isWeb ? 'message' : 'VKWebAppEvent';
 
@@ -27,11 +29,21 @@
       var args = Array.prototype.slice.call(arguments);
       var _subscribers = subscribers.slice();
       if (isWeb) {
-        _subscribers.forEach(function(fn) {
-          fn({
-            detail: args[0].data
+        if (args[0].data.hasOwnProperty('webFrameId')) {
+          delete args[0].data.webFrameId;
+        }
+        if (args[0].data.hasOwnProperty('connectVersion')) {
+          delete args[0].data.connectVersion;
+        }
+        if (args[0].data.type && args[0].data.type === 'VKWebAppSettings') {
+          webFrameId = args[0].data.frameId;
+        } else {
+          _subscribers.forEach(function(fn) {
+            fn({
+              detail: args[0].data
+            });
           });
-        });
+        }
       } else {
         _subscribers.forEach(function(fn) {
           fn.apply(null, args);
@@ -72,7 +84,9 @@
         parent.postMessage({
           handler: handler,
           params: params,
-          type: 'vk-connect'
+          type: 'vk-connect',
+          webFrameId: webFrameId,
+          connectVersion
         }, '*');
       }
     },
@@ -111,22 +125,26 @@
       var androidBridge = isClient && window.AndroidBridge;
       var iosBridge = isClient && window.webkit && window.webkit.messageHandlers;
       var desktopEvents = [
+        "VKWebAppInit",
+        "VKWebAppGetCommunityAuthToken",
+        "VKWebAppAddToCommunity",
+        "VKWebAppGetUserInfo",
+        "VKWebAppSetLocation",
+        "VKWebAppGetClientVersion",
+        "VKWebAppGetPhoneNumber",
+        "VKWebAppGetEmail",
+        "VKWebAppGetGeodata",
+        "VKWebAppSetTitle",
         "VKWebAppGetAuthToken",
         "VKWebAppCallAPIMethod",
-        "VKWebAppGetGeodata",
-        "VKWebAppGetUserInfo",
-        "VKWebAppGetPhoneNumber",
-        "VKWebAppGetClientVersion",
-        "VKWebAppOpenPayForm",
-        "VKWebAppShare",
-        "VKWebAppAllowNotifications",
-        "VKWebAppDenyNotifications",
-        "VKWebAppShowWallPostBox",
-        "VKWebAppGetEmail",
-        "VKWebAppAllowMessagesFromGroup",
         "VKWebAppJoinGroup",
+        "VKWebAppAllowMessagesFromGroup",
+        "VKWebAppDenyNotifications",
+        "VKWebAppAllowNotifications",
+        "VKWebAppOpenPayForm",
         "VKWebAppOpenApp",
-        "VKWebAppSetLocation",
+        "VKWebAppShare",
+        "VKWebAppShowWallPostBox",
         "VKWebAppScroll",
         "VKWebAppResizeWindow",
       ];
