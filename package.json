@@ -4,11 +4,23 @@
   "description": "Connects a VKUI application with VK client",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production"
   },
   "author": "Tim Chaptykov <tim.chaptykov@gmail.com> (https://vk.com/tc), Gleb Vorontsov <gleb.vorontsov@gmail.com> (https://vk.com/gleb.vorontsov)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/VKCOM/vkui-connect.git"
   },
+  "browserslist": [
+    "android >= 4.4",
+    "ios >= 9"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.5.4",
+    "@babel/preset-env": "^7.5.4",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.5"
+  }
 }
