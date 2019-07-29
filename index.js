@@ -5,7 +5,7 @@
 
   var subscribers = [];
   var webFrameId = null;
-  var connectVersion = '1.2.0';
+  var connectVersion = '1.3.1';
 
   var isClient = typeof window !== 'undefined';
   var isWeb = isClient && !window.AndroidBridge && !window.webkit;
@@ -88,7 +88,7 @@
           params: params,
           type: 'vk-connect',
           webFrameId: webFrameId,
-          connectVersion
+          connectVersion: connectVersion,
         }, '*');
       }
     },
