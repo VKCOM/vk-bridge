@@ -8,6 +8,10 @@
   var connectVersion = '1.3.1';
 
   var isClient = typeof window !== 'undefined';
+
+  var androidBridge = isClient && window.AndroidBridge;
+  var iosBridge = isClient && window.webkit && window.webkit.messageHandlers;
+
   var isWeb = isClient && !window.AndroidBridge && !window.webkit;
   var eventType = isWeb ? 'message' : 'VKWebAppEvent';
 
@@ -71,10 +75,6 @@
         params = {};
       }
 
-      var androidBridge = isClient && window.AndroidBridge;
-      var iosBridge = isClient && window.webkit && window.webkit.messageHandlers;
-      var isDesktop = !androidBridge && !iosBridge;
-
       if (androidBridge && isFunction(androidBridge[handler])) {
         androidBridge[handler](JSON.stringify(params));
       }
@@ -82,7 +82,7 @@
         iosBridge[handler].postMessage(params);
       }
 
-      if (isDesktop) {
+      if (isWeb) {
         parent.postMessage({
           handler: handler,
           params: params,
@@ -116,14 +116,21 @@
     },
 
     /**
+     * Checks if it is client webview
+     *
+     * @returns {boolean}
+     */
+    isWebView: function isWebView() {
+      return !!(androidBridge || iosBridge);
+    },
+
+    /**
      * Checks if native client supports nandler
      *
      * @param {String} handler Handler name
      * @returns {boolean}
      */
     supports: function supports(handler) {
-      var androidBridge = isClient && window.AndroidBridge;
-      var iosBridge = isClient && window.webkit && window.webkit.messageHandlers;
       var desktopEvents = [
         'VKWebAppInit',
         'VKWebAppGetCommunityAuthToken',
