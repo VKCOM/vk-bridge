@@ -5,7 +5,7 @@
 
   var subscribers = [];
   var webFrameId = null;
-  var connectVersion = '1.3.1';
+  var connectVersion = '1.4.0';
 
   var isClient = typeof window !== 'undefined';
 
