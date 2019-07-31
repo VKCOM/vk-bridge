@@ -88,7 +88,7 @@
           params: params,
           type: 'vk-connect',
           webFrameId: webFrameId,
-          connectVersion: connectVersion,
+          connectVersion: connectVersion
         }, '*');
       }
     },
@@ -157,7 +157,8 @@
         'VKWebAppShowOrderBox',
         'VKWebAppShowLeaderBoardBox',
         'VKWebAppShowInviteBox',
-        'VKWebAppShowRequestBox'
+        'VKWebAppShowRequestBox',
+        'VKWebAppAddToFavorites'
       ];
 
       if (androidBridge && isFunction(androidBridge[handler])) return true;
