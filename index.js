@@ -13,7 +13,7 @@
   var androidBridge = isClient && window.AndroidBridge;
   var iosBridge = isChrome ? false : isClient && window.webkit && window.webkit.messageHandlers;
 
-  var isWeb = isClient && !window.AndroidBridge && !window.webkit;
+  var isWeb = isClient && !androidBridge && !iosBridge;
   var eventType = isWeb ? 'message' : 'VKWebAppEvent';
 
   if (isClient) {
