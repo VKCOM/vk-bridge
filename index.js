@@ -8,10 +8,13 @@
   var connectVersion = '1.4.0';
 
   var isClient = typeof window !== 'undefined';
-  var isChrome = navigator && ~navigator.userAgent.indexOf('CriOS');
+  var isIOSNativeClient = isClient
+      && window.webkit
+      && window.webkit.messageHandlers !== undefined
+      && window.webkit.messageHandlers.VKWebAppGetUserInfo !== undefined;
 
   var androidBridge = isClient && window.AndroidBridge;
-  var iosBridge = isChrome ? false : isClient && window.webkit && window.webkit.messageHandlers;
+  var iosBridge = isIOSNativeClient && window.webkit.messageHandlers;
 
   var isWeb = isClient && !androidBridge && !iosBridge;
   var eventType = isWeb ? 'message' : 'VKWebAppEvent';
