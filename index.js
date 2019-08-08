@@ -5,7 +5,7 @@
 
   var subscribers = [];
   var webFrameId = null;
-  var connectVersion = '1.4.0';
+  var connectVersion = '1.5.4';
 
   var isClient = typeof window !== 'undefined';
   var isIOSNativeClient = isClient

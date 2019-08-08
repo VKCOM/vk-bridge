@@ -1,6 +1,6 @@
 {
   "name": "@vkontakte/vkui-connect",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "Connects a VKUI application with VK client",
   "main": "index.js",
   "scripts": {
