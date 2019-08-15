@@ -5,31 +5,32 @@
   <br>
   <br>
 
-  [![npm][npm]][npm-url]
-  [![deps][deps]][deps-url]
+[![npm][npm]][npm-url]
+[![deps][deps]][deps-url]
 
 </div>
 
-# vkui-connect
+# vk-connect
 
 Пакет для интеграции VKUI приложений с официальными клиентами VK для iOS, Android и Web.
 
 ## Подключение
+
 ```js
-import connect from '@vkontakte/vkui-connect';
+import connect from '@vkontakte/vk-connect';
 ```
 
 ## Инициализация и подписка на события
+
 ```js
 // Отправляет событие клиенту
 connect.send('VKWebAppInit');
 
 // Подписывается на события, отправленные клиентом
-connect.subscribe((e) => console.log(e));
+connect.subscribe(e => console.log(e));
 ```
 
-[npm]: https://img.shields.io/npm/v/@vkontakte/vkui-connect.svg
-[npm-url]: https://npmjs.com/package/@vkontakte/vkui-connect
-
-[deps]: https://img.shields.io/david/vkcom/vkui-connect.svg
-[deps-url]: https://david-dm.org/vkcom/vkui-connect
+[npm]: https://img.shields.io/npm/v/@vkontakte/vk-connect.svg
+[npm-url]: https://npmjs.com/package/@vkontakte/vk-connect
+[deps]: https://img.shields.io/david/vkcom/vk-connect.svg
+[deps-url]: https://david-dm.org/vkcom/vk-connect
