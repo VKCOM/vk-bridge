@@ -1,5 +1,5 @@
 {
-  "name": "@vkontakte/vkui-connect",
+  "name": "@vkontakte/vk-connect",
   "version": "1.5.4",
   "description": "Connects a VKUI application with VK client",
   "main": "index.js",
@@ -9,6 +9,6 @@
   "author": "Tim Chaptykov <tim.chaptykov@gmail.com> (https://vk.com/tc), Gleb Vorontsov <gleb.vorontsov@gmail.com> (https://vk.com/gleb.vorontsov)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/VKCOM/vkui-connect.git"
+    "url": "git+https://github.com/VKCOM/vk-connect.git"
   }
 }

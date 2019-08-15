@@ -8,10 +8,11 @@
   var connectVersion = '1.5.4';
 
   var isClient = typeof window !== 'undefined';
-  var isIOSNativeClient = isClient
-      && window.webkit
-      && window.webkit.messageHandlers !== undefined
-      && window.webkit.messageHandlers.VKWebAppGetUserInfo !== undefined;
+  var isIOSNativeClient =
+    isClient &&
+    window.webkit &&
+    window.webkit.messageHandlers !== undefined &&
+    window.webkit.messageHandlers.VKWebAppGetUserInfo !== undefined;
 
   var androidBridge = isClient && window.AndroidBridge;
   var iosBridge = isIOSNativeClient && window.webkit.messageHandlers;
@@ -63,7 +64,7 @@
     });
   }
 
-  var vkuiConnect = {
+  var vkConnect = {
     /**
      * Sends a message to native client
      *
@@ -87,13 +88,16 @@
       }
 
       if (isWeb) {
-        parent.postMessage({
-          handler: handler,
-          params: params,
-          type: 'vk-connect',
-          webFrameId: webFrameId,
-          connectVersion: connectVersion
-        }, '*');
+        parent.postMessage(
+          {
+            handler: handler,
+            params: params,
+            type: 'vk-connect',
+            webFrameId: webFrameId,
+            connectVersion: connectVersion
+          },
+          '*'
+        );
       }
     },
     /**
@@ -174,7 +178,7 @@
   };
 
   if (typeof exports === 'object' && typeof module !== 'undefined') {
-    module.exports = vkuiConnect;
+    module.exports = vkConnect;
   } else {
     var root;
     if (typeof window !== 'undefined') {
@@ -186,6 +190,10 @@
     } else {
       root = this;
     }
-    root.vkuiConnect = vkuiConnect;
+
+    root.vkConnect = vkConnect;
+
+    // Backward compatibility
+    root.vkuiConnect = vkConnect;
   }
 })();
