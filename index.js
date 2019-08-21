@@ -5,14 +5,14 @@
 
   var subscribers = [];
   var webFrameId = null;
-  var connectVersion = '1.5.4';
+  var connectVersion = '1.5.5';
 
   var isClient = typeof window !== 'undefined';
   var isIOSNativeClient =
     isClient &&
     window.webkit &&
     window.webkit.messageHandlers !== undefined &&
-    window.webkit.messageHandlers.VKWebAppGetUserInfo !== undefined;
+    window.webkit.messageHandlers.VKWebAppClose !== undefined;
 
   var androidBridge = isClient && window.AndroidBridge;
   var iosBridge = isIOSNativeClient && window.webkit.messageHandlers;
