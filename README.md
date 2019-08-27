@@ -10,24 +10,31 @@
 
 </div>
 
-# vk-connect
+# VK Connect
 
-Пакет для интеграции VKUI приложений с официальными клиентами VK для iOS, Android и Web.
+A package for integrating VK applications with official VK clients for iOS, Android and Web.
 
-## Подключение
+## Usage
 
 ```js
 import connect from '@vkontakte/vk-connect';
-```
 
-## Инициализация и подписка на события
-
-```js
-// Отправляет событие клиенту
+// Sends event to client
 connect.send('VKWebAppInit');
 
-// Подписывается на события, отправленные клиентом
+// Subscribes to event, sended by client
 connect.subscribe(e => console.log(e));
+```
+
+For use in a browser, include the file [`dist/index.umd.js`](dist/index.umd.js) and use as follows
+
+```html
+<script src="dist/index.umd.js"></script>
+
+<script>
+  // Sends event to client
+  vkConnect.send('VKWebAppInit');
+</script>
 ```
 
 [npm]: https://img.shields.io/npm/v/@vkontakte/vk-connect.svg

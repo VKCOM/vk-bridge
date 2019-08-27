@@ -1,0 +1,32 @@
+/**
+ * Events supported on the desktop
+ */
+export const desktopEvents = [
+  'VKWebAppInit',
+  'VKWebAppGetCommunityAuthToken',
+  'VKWebAppAddToCommunity',
+  'VKWebAppGetUserInfo',
+  'VKWebAppSetLocation',
+  'VKWebAppGetClientVersion',
+  'VKWebAppGetPhoneNumber',
+  'VKWebAppGetEmail',
+  'VKWebAppGetGeodata',
+  'VKWebAppSetTitle',
+  'VKWebAppGetAuthToken',
+  'VKWebAppCallAPIMethod',
+  'VKWebAppJoinGroup',
+  'VKWebAppAllowMessagesFromGroup',
+  'VKWebAppDenyNotifications',
+  'VKWebAppAllowNotifications',
+  'VKWebAppOpenPayForm',
+  'VKWebAppOpenApp',
+  'VKWebAppShare',
+  'VKWebAppShowWallPostBox',
+  'VKWebAppScroll',
+  'VKWebAppResizeWindow',
+  'VKWebAppShowOrderBox',
+  'VKWebAppShowLeaderBoardBox',
+  'VKWebAppShowInviteBox',
+  'VKWebAppShowRequestBox',
+  'VKWebAppAddToFavorites'
+];

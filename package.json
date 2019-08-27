@@ -2,13 +2,22 @@
   "name": "@vkontakte/vk-connect",
   "version": "1.5.5",
   "description": "Connects a VKUI application with VK client",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "umd:main": "dist/index.umd.js",
+  "module": "dist/index.mjs",
+  "source": "src/index.ts",
+  "types": "dist/src/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rimraf dist && microbundle --sourcemap=false",
+    "dev": "microbundle watch"
   },
   "author": "Tim Chaptykov <tim.chaptykov@gmail.com> (https://vk.com/tc), Gleb Vorontsov <gleb.vorontsov@gmail.com> (https://vk.com/gleb.vorontsov)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/VKCOM/vk-connect.git"
+  },
+  "devDependencies": {
+    "microbundle": "^0.11.0",
+    "rimraf": "^3.0.0"
   }
 }
