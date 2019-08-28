@@ -71,7 +71,7 @@ connect.send('VKWebAppShowImages', {
 
 ### `connect.subscribe(fn)`
 
-Subscribes a function to events listen
+Subscribes a function to events listening
 
 **Parameters**
 
@@ -105,7 +105,7 @@ connect.send('VKWebAppOpenCodeReader', {});
 
 ### `connect.unsubscribe(fn)`
 
-Unsubscribes a function from events listen
+Unsubscribes a function from events listening
 
 **Parameters**
 
