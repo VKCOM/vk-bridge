@@ -17,7 +17,7 @@
 
 # VK Connect
 
-A package for integrating VK applications with official VK clients for iOS, Android and Web.
+A package for integrating VK Mini Apps with official VK clients for iOS, Android and Web.
 
 ## Usage
 

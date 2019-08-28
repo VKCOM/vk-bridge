@@ -109,7 +109,7 @@ const vkConnect = {
    * @param method The VK Connect method
    * @param [params] Message data object
    */
-  send<K extends RequestMethodName>(method: K, params: RequestProps<K> = <RequestProps<K>>{}) {
+  send<K extends RequestMethodName>(method: K, params: RequestProps<K> = {} as RequestProps<K>) {
     if (androidBridge && typeof androidBridge[method] === 'function') {
       androidBridge[method](JSON.stringify(params));
     }
