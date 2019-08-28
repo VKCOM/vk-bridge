@@ -11,7 +11,22 @@
     "build": "rimraf dist && microbundle --sourcemap=false",
     "dev": "microbundle watch"
   },
-  "author": "Tim Chaptykov <tim.chaptykov@gmail.com> (https://vk.com/tc), Gleb Vorontsov <gleb.vorontsov@gmail.com> (https://vk.com/gleb.vorontsov)",
+  "author": {
+    "name": "VK",
+    "url": "https://vk.com"
+  },
+  "contributors": [
+    {
+      "name": "Tim Chaptykov",
+      "email": "tim.chaptykov@gmail.com",
+      "url": "https://vk.com/tc"
+    },
+    {
+      "name": "Gleb Vorontsov",
+      "email": "gleb.vorontsov@gmail.com",
+      "url": "https://vk.com/gleb.vorontsov"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/VKCOM/vk-connect.git"
