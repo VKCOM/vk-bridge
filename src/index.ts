@@ -107,7 +107,7 @@ const vkConnect = {
    * message.send('VKWebAppInit');
    *
    * @param method The VK Connect method
-   * @param [params] Message data
+   * @param [params] Message data object
    */
   send<K extends RequestMethodName>(method: K, params: RequestProps<K> = <RequestProps<K>>{}) {
     if (androidBridge && typeof androidBridge[method] === 'function') {
