@@ -350,6 +350,14 @@ export type WallPostRequestOptions = {
     });
 
 /**
+ * Result data of link share
+ */
+type LinkShareResult =
+  | { type: 'message' | 'qr' | 'other' }
+  | { type: 'post'; post_id: string }
+  | { type: 'story'; story_id: string };
+
+/**
  * Map of types of request props
  *
  * @todo Decompose me
@@ -435,7 +443,7 @@ export type ResponseMethodPropsMap = {
   VKWebAppScroll: { top: number; height: number };
   VKWebAppSetLocation: { result: true };
   VKWebAppSetViewSettings: { result: true };
-  VKWebAppShare: { post_id: string };
+  VKWebAppShare: LinkShareResult;
   VKWebAppShowCommunityWidgetPreviewBox: { result: true };
   VKWebAppShowImages: { result: true };
   VKWebAppShowInviteBox: {}; // TODO
