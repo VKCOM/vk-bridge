@@ -1,18 +1,15 @@
-import { IOSBridge, AndroidBridge, RequestProps, RequestMethodName, ResponseMethodName, VKConnectEvent } from './types';
+import {
+  IOSBridge,
+  AndroidBridge,
+  RequestMethodName,
+  RequestPropsMap,
+  VKConnectSubscribeHandler,
+  VKConnectSend,
+  VKConnectSubscribe,
+  VKConnectSendPromisified
+} from './types';
 import { version as connectVersion } from '../package.json';
 import { promisifySend } from './promisifier';
-
-/** The type of function that will be subscribed to VK Connect events */
-export type VKConnectSubscribeHandler = <T extends ResponseMethodName>(event: VKConnectEvent<T>) => void;
-
-/** Sending method function type */
-export type VKConnectSend = <K extends RequestMethodName>(method: K, params?: RequestProps<K>) => void;
-
-/** Subscribing method function type */
-export type VKConnectSubscribe = (fn: VKConnectSubscribeHandler) => void;
-
-/** Type of promisified VK Connect */
-export type VKConnectSendPromisified = ReturnType<typeof promisifySend>;
 
 /**
  * Methods supported on the desktop
@@ -117,20 +114,20 @@ if (isBrowser) {
  */
 const send: VKConnectSend = <K extends RequestMethodName>(
   method: K,
-  params: RequestProps<K> = {} as RequestProps<K>
-) => {
+  props: RequestPropsMap[K] = {} as RequestPropsMap[K]
+): void => {
   if (androidBridge && typeof androidBridge[method] === 'function') {
-    androidBridge[method](JSON.stringify(params));
+    androidBridge[method](JSON.stringify(props));
   }
   if (iosBridge && iosBridge[method] && typeof iosBridge[method].postMessage === 'function') {
-    iosBridge[method].postMessage!(params);
+    iosBridge[method].postMessage!(props);
   }
 
   if (isWeb) {
     parent.postMessage(
       {
         handler: method,
-        params,
+        params: props,
         type: 'vk-connect',
         webFrameId,
         connectVersion
@@ -163,7 +160,7 @@ const vkConnect = {
    * message.send('VKWebAppInit');
    *
    * @param method The VK Connect method
-   * @param [params] Message data object
+   * @param [props] Method props object
    */
   send,
 
@@ -178,7 +175,7 @@ const vkConnect = {
    * Sends a VK Connect method to client and returns a promise of response data
    *
    * @param method The VK Connect method
-   * @param [params] Message data object
+   * @param [props] Method props object
    * @returns Promise of response data
    */
   sendPromise,

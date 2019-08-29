@@ -1,5 +1,5 @@
-import { VKConnect, VKConnectSend, VKConnectSubscribe } from './';
-import { IOMethodName, RequestMethodPropsMap, ResponseMethodPropsMap } from './types';
+import { VKConnectSend, VKConnectSubscribe } from './';
+import { IOMethodName, ResponseData, ErrorData, RequestIdProp, RequestProps } from './types';
 
 /**
  * Creates counter interface
@@ -77,22 +77,19 @@ export const promisifySend = (send: VKConnectSend, subscribe: VKConnectSubscribe
       return;
     }
 
-    const { request_id: requestId, ...data } = event.detail.data;
+    const { request_id: requestId, ...data } = event.detail.data as (ResponseData | ErrorData) & RequestIdProp;
 
     if (requestId) {
       requestResolver.resolve(requestId, data, data => !('error_type' in data));
     }
   });
 
-  return <K extends IOMethodName, P extends RequestMethodPropsMap[K]>(
-    method: K,
-    params?: P
-  ): Promise<ResponseMethodPropsMap[K]> =>
+  return <K extends IOMethodName>(method: K, props?: RequestProps<K>): Promise<ResponseData<K>> =>
     new Promise((resolve, reject) => {
       const requestId = requestResolver.add({ resolve, reject });
 
       send(method, {
-        ...(params as any), // FIXME
+        ...(props as RequestProps<K>),
         request_id: requestId
       });
     });
