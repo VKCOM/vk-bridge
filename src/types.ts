@@ -352,7 +352,7 @@ export type WallPostRequestOptions = {
 /**
  * Result data of link share
  */
-type LinkShareResult =
+export type LinkShareResult =
   | { type: 'message' | 'qr' | 'other' }
   | { type: 'post'; post_id: string }
   | { type: 'story'; story_id: string };
