@@ -165,7 +165,7 @@ const vkConnect = {
    * @param method The VK Connect method
    * @param [params] Message data object
    */
-  send: send,
+  send,
 
   /**
    * Subscribe on VKWebAppEvent
@@ -177,10 +177,11 @@ const vkConnect = {
   /**
    * Sends a VK Connect method to client and returns a promise of response data
    *
-   * @param
+   * @param method The VK Connect method
+   * @param [params] Message data object
    * @returns Promise of response data
    */
-  sendPromise: sendPromise,
+  sendPromise,
 
   /**
    * Unsubscribe on VKWebAppEvent
