@@ -1,10 +1,23 @@
-import { SubscribeHandler, IOSBridge, AndroidBridge, RequestProps, RequestMethodName } from './types';
+import { IOSBridge, AndroidBridge, RequestProps, RequestMethodName, ResponseMethodName, VKConnectEvent } from './types';
 import { version as connectVersion } from '../package.json';
+import { promisifySend } from './promisifier';
+
+/** The type of function that will be subscribed to VK Connect events */
+export type VKConnectSubscribeHandler = <T extends ResponseMethodName>(event: VKConnectEvent<T>) => void;
+
+/** Sending method function type */
+export type VKConnectSend = <K extends RequestMethodName>(method: K, params?: RequestProps<K>) => void;
+
+/** Subscribing method function type */
+export type VKConnectSubscribe = (fn: VKConnectSubscribeHandler) => void;
+
+/** Type of promisified VK Connect */
+export type VKConnectSendPromisified = ReturnType<typeof promisifySend>;
 
 /**
- * Events supported on the desktop
+ * Methods supported on the desktop
  */
-const DESKTOP_EVENTS = [
+const DESKTOP_METHODS = [
   'VKWebAppInit',
   'VKWebAppGetCommunityAuthToken',
   'VKWebAppAddToCommunity',
@@ -55,7 +68,7 @@ const createCustomEventClass = () => {
 /**
  * List of functions that subscribed on events
  */
-const subscribers: SubscribeHandler[] = [];
+const subscribers: VKConnectSubscribeHandler[] = [];
 let webFrameId: number | null = null;
 
 const isBrowser = typeof window !== 'undefined';
@@ -99,9 +112,52 @@ if (isBrowser) {
   });
 }
 
+/**
+ * The send function
+ */
+const send: VKConnectSend = <K extends RequestMethodName>(
+  method: K,
+  params: RequestProps<K> = {} as RequestProps<K>
+) => {
+  if (androidBridge && typeof androidBridge[method] === 'function') {
+    androidBridge[method](JSON.stringify(params));
+  }
+  if (iosBridge && iosBridge[method] && typeof iosBridge[method].postMessage === 'function') {
+    iosBridge[method].postMessage!(params);
+  }
+
+  if (isWeb) {
+    parent.postMessage(
+      {
+        handler: method,
+        params,
+        type: 'vk-connect',
+        webFrameId,
+        connectVersion
+      },
+      '*'
+    );
+  }
+};
+
+/**
+ * The subscribe function
+ */
+const subscribe: VKConnectSubscribe = (fn: VKConnectSubscribeHandler) => {
+  subscribers.push(fn);
+};
+
+/**
+ * The send function that returns promise
+ */
+const sendPromise: VKConnectSendPromisified = promisifySend(send, subscribe);
+
+/**
+ * VK connect
+ */
 const vkConnect = {
   /**
-   * Sends a message to native client
+   * Sends a VK Connect method to client
    *
    * @example
    * message.send('VKWebAppInit');
@@ -109,43 +165,29 @@ const vkConnect = {
    * @param method The VK Connect method
    * @param [params] Message data object
    */
-  send<K extends RequestMethodName>(method: K, params: RequestProps<K> = {} as RequestProps<K>) {
-    if (androidBridge && typeof androidBridge[method] === 'function') {
-      androidBridge[method](JSON.stringify(params));
-    }
-    if (iosBridge && iosBridge[method] && typeof iosBridge[method].postMessage === 'function') {
-      iosBridge[method].postMessage!(params);
-    }
-
-    if (isWeb) {
-      parent.postMessage(
-        {
-          handler: method,
-          params,
-          type: 'vk-connect',
-          webFrameId,
-          connectVersion
-        },
-        '*'
-      );
-    }
-  },
+  send: send,
 
   /**
    * Subscribe on VKWebAppEvent
    *
    * @param fn Event handler
    */
-  subscribe(fn: SubscribeHandler) {
-    subscribers.push(fn);
-  },
+  subscribe: subscribe,
+
+  /**
+   * Sends a VK Connect method to client and returns a promise of response data
+   *
+   * @param
+   * @returns Promise of response data
+   */
+  sendPromise: sendPromise,
 
   /**
    * Unsubscribe on VKWebAppEvent
    *
    * @param fn Event handler
    */
-  unsubscribe(fn: SubscribeHandler) {
+  unsubscribe: (fn: VKConnectSubscribeHandler) => {
     const index = subscribers.indexOf(fn);
 
     if (index > -1) {
@@ -156,7 +198,7 @@ const vkConnect = {
   /**
    * Checks if it is client webview
    */
-  isWebView(): boolean {
+  isWebView: (): boolean => {
     return !!(androidBridge || iosBridge);
   },
 
@@ -165,7 +207,7 @@ const vkConnect = {
    *
    * @param method The VK Connect method
    */
-  supports(method: string): boolean {
+  supports: (method: string): boolean => {
     // Android support check
     if (androidBridge && typeof (androidBridge as any)[method] === 'function') {
       return true;
@@ -177,7 +219,7 @@ const vkConnect = {
     }
 
     // Web support check
-    if (!iosBridge && !androidBridge && DESKTOP_EVENTS.includes(method)) {
+    if (!iosBridge && !androidBridge && DESKTOP_METHODS.includes(method)) {
       return true;
     }
 

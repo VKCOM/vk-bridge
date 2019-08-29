@@ -555,11 +555,6 @@ export type VKConnectSuccessEvent<T extends ResponseMethodName> = {
 export type VKConnectEvent<T extends ResponseMethodName> = VKConnectErrorEvent<T> | VKConnectSuccessEvent<T>;
 
 /**
- * The type of function that will be subscribed to VK Connect events
- */
-export type SubscribeHandler = <T extends ResponseMethodName>(event: VKConnectEvent<T>) => void;
-
-/**
  * Type of global object with VK Connect methods in Android app WebView
  */
 export type AndroidBridge = Record<RequestMethodName, (serializedData: string) => void>;
