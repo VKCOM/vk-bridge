@@ -1,12 +1,15 @@
-import { version as connectVersion } from '../package.json';
 import {
   IOSBridge,
   AndroidBridge,
   RequestMethodName,
   RequestPropsMap,
   VKConnectSubscribeHandler,
-  VKConnect
+  VKConnectSend,
+  VKConnectSubscribeOrUnsubscribe,
+  VKConnectSendPromise
 } from './types';
+import { version as connectVersion } from '../package.json';
+import { promisifySend } from './promisifier';
 
 /**
  * Methods supported on the desktop
@@ -107,9 +110,49 @@ if (isBrowser) {
 }
 
 /**
+ * The send function
+ */
+const send: VKConnectSend = <K extends RequestMethodName>(
+  method: K,
+  props: RequestPropsMap[K] = {} as RequestPropsMap[K]
+): void => {
+  if (androidBridge && typeof androidBridge[method] === 'function') {
+    androidBridge[method](JSON.stringify(props));
+  }
+  if (iosBridge && iosBridge[method] && typeof iosBridge[method].postMessage === 'function') {
+    iosBridge[method].postMessage!(props);
+  }
+
+  if (isWeb) {
+    parent.postMessage(
+      {
+        handler: method,
+        params: props,
+        type: 'vk-connect',
+        webFrameId,
+        connectVersion
+      },
+      '*'
+    );
+  }
+};
+
+/**
+ * The subscribe function
+ */
+const subscribe: VKConnectSubscribeOrUnsubscribe = (fn: VKConnectSubscribeHandler) => {
+  subscribers.push(fn);
+};
+
+/**
+ * The send function that returns promise
+ */
+const sendPromise: VKConnectSendPromise = promisifySend(send, subscribe);
+
+/**
  * VK connect
  */
-const vkConnect: VKConnect = {
+const vkConnect = {
   /**
    * Sends a VK Connect method to client
    *
@@ -119,43 +162,30 @@ const vkConnect: VKConnect = {
    * @param method The VK Connect method
    * @param [props] Method props object
    */
-  send<K extends RequestMethodName>(method: K, props: RequestPropsMap[K] = {} as RequestPropsMap[K]): void {
-    if (androidBridge && typeof androidBridge[method] === 'function') {
-      androidBridge[method](JSON.stringify(props));
-    }
-    if (iosBridge && iosBridge[method] && typeof iosBridge[method].postMessage === 'function') {
-      iosBridge[method].postMessage!(props);
-    }
-
-    if (isWeb) {
-      parent.postMessage(
-        {
-          handler: method,
-          params: props,
-          type: 'vk-connect',
-          webFrameId,
-          connectVersion
-        },
-        '*'
-      );
-    }
-  },
+  send,
 
   /**
    * Subscribe on VKWebAppEvent
    *
    * @param fn Event handler
    */
-  subscribe(fn: VKConnectSubscribeHandler) {
-    subscribers.push(fn);
-  },
+  subscribe,
+
+  /**
+   * Sends a VK Connect method to client and returns a promise of response data
+   *
+   * @param method The VK Connect method
+   * @param [props] Method props object
+   * @returns Promise of response data
+   */
+  sendPromise,
 
   /**
    * Unsubscribe on VKWebAppEvent
    *
    * @param fn Event handler
    */
-  unsubscribe(fn: VKConnectSubscribeHandler) {
+  unsubscribe: (fn: VKConnectSubscribeHandler) => {
     const index = subscribers.indexOf(fn);
 
     if (index > -1) {
@@ -166,7 +196,7 @@ const vkConnect: VKConnect = {
   /**
    * Checks if it is client webview
    */
-  isWebView(): boolean {
+  isWebView: (): boolean => {
     return !!(androidBridge || iosBridge);
   },
 
@@ -175,7 +205,7 @@ const vkConnect: VKConnect = {
    *
    * @param method The VK Connect method
    */
-  supports(method: string): boolean {
+  supports: (method: string): boolean => {
     // Android support check
     if (androidBridge && typeof (androidBridge as any)[method] === 'function') {
       return true;
@@ -194,6 +224,11 @@ const vkConnect: VKConnect = {
     return false;
   }
 };
+
+/**
+ * Type of VK Connect interface
+ */
+export type VKConnect = typeof vkConnect;
 
 // UMD exports
 if (typeof exports !== 'object' || typeof module === 'undefined') {
