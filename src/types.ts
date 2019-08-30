@@ -542,16 +542,16 @@ export type ErrorData =
       request_id?: number | string;
     };
 
-export type VKConnectErrorEvent<T extends MethodName> = {
+export type VKConnectErrorEvent = {
   detail: {
-    type: T;
+    type: string; // TODO
     data: ErrorData;
   };
 };
 
 export type VKConnectSuccessEvent<T extends ReceiveMethodName> = {
   detail: {
-    type: T;
+    type: string; // TODO
     data: ReceiveData<T> & RequestIdProp;
     app_id?: string;
     scheme?: AppearanceSchemeType;
@@ -560,10 +560,10 @@ export type VKConnectSuccessEvent<T extends ReceiveMethodName> = {
 };
 
 /** VK Connect event */
-export type VKConnectEvent<T extends ReceiveMethodName> = VKConnectErrorEvent<T> | VKConnectSuccessEvent<T>;
+export type VKConnectEvent<T extends ReceiveMethodName> = VKConnectErrorEvent | VKConnectSuccessEvent<T>;
 
 /** The type of function that will be subscribed to VK Connect events */
-export type VKConnectSubscribeHandler = <T extends ReceiveMethodName>(event: VKConnectEvent<T>) => void;
+export type VKConnectSubscribeHandler = (event: VKConnectEvent<ReceiveMethodName>) => void;
 
 /** Sending method function type */
 export type VKConnectSend = <K extends RequestMethodName>(method: K, params?: RequestProps<K> & RequestIdProp) => void;
