@@ -1,10 +1,17 @@
-import { SubscribeHandler, IOSBridge, AndroidBridge, RequestProps, RequestMethodName } from './types';
 import { version as connectVersion } from '../package.json';
+import {
+  IOSBridge,
+  AndroidBridge,
+  RequestMethodName,
+  RequestPropsMap,
+  VKConnectSubscribeHandler,
+  VKConnect
+} from './types';
 
 /**
- * Events supported on the desktop
+ * Methods supported on the desktop
  */
-const DESKTOP_EVENTS = [
+const DESKTOP_METHODS = [
   'VKWebAppInit',
   'VKWebAppGetCommunityAuthToken',
   'VKWebAppAddToCommunity',
@@ -55,7 +62,7 @@ const createCustomEventClass = () => {
 /**
  * List of functions that subscribed on events
  */
-const subscribers: SubscribeHandler[] = [];
+const subscribers: VKConnectSubscribeHandler[] = [];
 let webFrameId: number | null = null;
 
 const isBrowser = typeof window !== 'undefined';
@@ -99,29 +106,32 @@ if (isBrowser) {
   });
 }
 
-const vkConnect = {
+/**
+ * VK connect
+ */
+const vkConnect: VKConnect = {
   /**
-   * Sends a message to native client
+   * Sends a VK Connect method to client
    *
    * @example
    * message.send('VKWebAppInit');
    *
    * @param method The VK Connect method
-   * @param [params] Message data object
+   * @param [props] Method props object
    */
-  send<K extends RequestMethodName>(method: K, params: RequestProps<K> = {} as RequestProps<K>) {
+  send<K extends RequestMethodName>(method: K, props: RequestPropsMap[K] = {} as RequestPropsMap[K]): void {
     if (androidBridge && typeof androidBridge[method] === 'function') {
-      androidBridge[method](JSON.stringify(params));
+      androidBridge[method](JSON.stringify(props));
     }
     if (iosBridge && iosBridge[method] && typeof iosBridge[method].postMessage === 'function') {
-      iosBridge[method].postMessage!(params);
+      iosBridge[method].postMessage!(props);
     }
 
     if (isWeb) {
       parent.postMessage(
         {
           handler: method,
-          params,
+          params: props,
           type: 'vk-connect',
           webFrameId,
           connectVersion
@@ -136,7 +146,7 @@ const vkConnect = {
    *
    * @param fn Event handler
    */
-  subscribe(fn: SubscribeHandler) {
+  subscribe(fn: VKConnectSubscribeHandler) {
     subscribers.push(fn);
   },
 
@@ -145,7 +155,7 @@ const vkConnect = {
    *
    * @param fn Event handler
    */
-  unsubscribe(fn: SubscribeHandler) {
+  unsubscribe(fn: VKConnectSubscribeHandler) {
     const index = subscribers.indexOf(fn);
 
     if (index > -1) {
@@ -177,18 +187,13 @@ const vkConnect = {
     }
 
     // Web support check
-    if (!iosBridge && !androidBridge && DESKTOP_EVENTS.includes(method)) {
+    if (!iosBridge && !androidBridge && DESKTOP_METHODS.includes(method)) {
       return true;
     }
 
     return false;
   }
 };
-
-/**
- * Type of VK Connect interface
- */
-export type VKConnect = typeof vkConnect;
 
 // UMD exports
 if (typeof exports !== 'object' || typeof module === 'undefined') {

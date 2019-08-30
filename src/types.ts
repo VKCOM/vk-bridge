@@ -1,6 +1,10 @@
-/**
- * Type of the Personal Card
- */
+/** Type of global object with VK Connect methods in Android app WebView */
+export type AndroidBridge = Record<RequestMethodName, (serializedData: string) => void>;
+
+/** Type of global object with VK Connect methods in iOS app WebView */
+export type IOSBridge = Record<RequestMethodName, { postMessage?: (data: any) => void }>;
+
+/** Type of the Personal Card */
 export type PersonalCardType = 'phone' | 'email' | 'address';
 
 /**
@@ -352,17 +356,15 @@ export type WallPostRequestOptions = {
 /**
  * Result data of link share
  */
-type LinkShareResult =
+export type LinkShareResult =
   | { type: 'message' | 'qr' | 'other' }
   | { type: 'post'; post_id: string }
   | { type: 'story'; story_id: string };
 
 /**
- * Map of types of request props
- *
- * @todo Decompose me
+ * Map of types of request props of VK Connect methods
  */
-export type RequestMethodPropsMap = {
+export type RequestPropsMap = {
   VKWebAppInit: {};
   VKWebAppAddToCommunity: {};
   VKWebAppAllowMessagesFromGroup: { group_id: number; key?: string };
@@ -396,7 +398,7 @@ export type RequestMethodPropsMap = {
   VKWebAppSetViewSettings: { status_bar_style: AppearanceType; action_bar_color?: string };
   VKWebAppShare: { link: string };
   VKWebAppShowCommunityWidgetPreviewBox: WidgetPreviewRequestOptions;
-  VKWebAppShowImages: {};
+  VKWebAppShowImages: { images: string[]; start_index?: number };
   VKWebAppShowInviteBox: {};
   VKWebAppShowLeaderBoardBox: { user_result: number };
   VKWebAppShowMessageBox: MessageRequestOptions;
@@ -405,7 +407,7 @@ export type RequestMethodPropsMap = {
   VKWebAppShowWallPostBox: WallPostRequestOptions;
   VKWebAppStorageGet: { keys: string[]; global: boolean };
   VKWebAppStorageGetKeys: { count: number; offset: number; global: boolean };
-  VKWebAppStorageSet: {};
+  VKWebAppStorageSet: { key: string; value: string; global: boolean };
   VKWebAppTapticImpactOccurred: { style: TapticVibrationPowerType };
   VKWebAppTapticNotificationOccurred: { type: TapticNotificationType };
   VKWebAppTapticSelectionChanged: {};
@@ -414,15 +416,15 @@ export type RequestMethodPropsMap = {
 };
 
 /**
- * Map of types of request props
+ * Map of types of response data of VK Connect methods
  */
-export type ResponseMethodPropsMap = {
+export type ReceiveDataMap = {
   VKWebAppAddToCommunity: { group_id: number };
   VKWebAppAllowMessagesFromGroup: { result: true };
   VKWebAppAllowNotifications: { enabled: true };
   VKWebAppCallAPIMethod: { response: any[] };
   VKWebAppGetAuthToken: { access_token: string; scope: string };
-  VKWebAppClose: {}; // TODO
+  VKWebAppClose: { payload: any };
   VKWebAppOpenApp: { result: true };
   VKWebAppDenyNotifications: { disabled: true };
   VKWebAppFlashGetInfo: { is_available: boolean; level: number };
@@ -446,7 +448,7 @@ export type ResponseMethodPropsMap = {
   VKWebAppShare: LinkShareResult;
   VKWebAppShowCommunityWidgetPreviewBox: { result: true };
   VKWebAppShowImages: { result: true };
-  VKWebAppShowInviteBox: {}; // TODO
+  VKWebAppShowInviteBox: { success: true };
   VKWebAppShowLeaderBoardBox: { success: boolean };
   VKWebAppShowMessageBox: { result: true };
   VKWebAppShowOrderBox: { status: OrderBoxShowingStatus };
@@ -454,12 +456,16 @@ export type ResponseMethodPropsMap = {
   VKWebAppShowWallPostBox: { post_id: number };
   VKWebAppStorageGet: { keys: { key: string; value: string }[] };
   VKWebAppStorageGetKeys: { keys: string[] };
-  VKWebAppStorageSet: { key: string; value: string; global: boolean };
+  VKWebAppStorageSet: { result: true };
   VKWebAppTapticImpactOccurred: { result: true };
   VKWebAppTapticNotificationOccurred: { result: true };
   VKWebAppTapticSelectionChanged: { result: true };
   VKWebAppAddToFavorites: { result: true };
   VKWebAppSendPayload: { result: true };
+  VKWebAppGetCommunityToken: { access_token: string };
+  VKWebAppGetCommunityAuthToken: { access_token: string }; // Web. Deprecated in favor `VKWebAppGetCommunityToken`
+  VKWebAppCommunityAccessToken: { access_token: string }; // iOS. Deprecated in favor `VKWebAppGetCommunityToken`
+  VKWebAppCommunityToken: { access_token: string }; // Android. Deprecated in favor `VKWebAppGetCommunityToken`
   VKWebAppAudioPaused: { position: number; type: string; id: string };
   VKWebAppAudioStopped: {}; // Always empty
   VKWebAppAudioTrackChanged: { type: string; id: string };
@@ -469,30 +475,34 @@ export type ResponseMethodPropsMap = {
   VKWebAppUpdateConfig: UpdateConfigData;
   VKWebAppViewHide: {}; // Always empty
   VKWebAppViewRestore: {}; // Always empty
-  VKWebAppGetCommunityToken: { access_token: string };
-  VKWebAppGetCommunityAuthToken: { access_token: string }; // Web. Deprecated in favor `VKWebAppGetCommunityToken`
-  VKWebAppCommunityAccessToken: { access_token: string }; // iOS. Deprecated in favor `VKWebAppGetCommunityToken`
-  VKWebAppCommunityToken: { access_token: string }; // Android. Deprecated in favor `VKWebAppGetCommunityToken`
 };
 
-export type RequestMethodName = keyof RequestMethodPropsMap;
+/** Name of the method that can be sent */
+export type RequestMethodName = keyof RequestPropsMap;
 
-export type ResponseMethodName = keyof ResponseMethodPropsMap;
+/** Name of the method that can be received */
+export type ReceiveMethodName = keyof ReceiveDataMap;
+
+/** Name of the method that can be only sent */
+export type RequestOnlyMethodName = Exclude<RequestMethodName, ReceiveMethodName>;
+
+/** Name of the method that can be only received */
+export type ReceiveOnlyMethodName = Exclude<ReceiveMethodName, RequestMethodName>;
 
 /** Type of any method name */
-export type MethodName = RequestMethodName | ResponseMethodName;
+export type MethodName = RequestMethodName | ReceiveMethodName;
 
-export type IOMethodName = RequestMethodName & ResponseMethodName;
+/** The name of the method that can be both sent and received */
+export type IOMethodName = RequestMethodName & ReceiveMethodName;
 
 /** Getter of request properties of a method */
-export type RequestProps<M extends RequestMethodName = RequestMethodName> = RequestMethodPropsMap[M] & {
-  request_id?: number | string;
-};
+export type RequestProps<M extends RequestMethodName = RequestMethodName> = RequestPropsMap[M];
 
-/** Getter of response properties of a method */
-export type ResponseProps<M extends ResponseMethodName = ResponseMethodName> = ResponseMethodPropsMap[M] & {
-  request_id?: number | string;
-};
+/** Getter of response data of a method */
+export type ReceiveData<M extends ReceiveMethodName = ReceiveMethodName> = ReceiveDataMap[M];
+
+/** Property for matching sent request and received message */
+export type RequestIdProp = { request_id?: number | string };
 
 /** Client error data */
 export type ErrorDataClientError = {
@@ -532,39 +542,43 @@ export type ErrorData =
       request_id?: number | string;
     };
 
-export type VKConnectErrorEvent<T extends MethodName> = {
+export type VKConnectErrorEvent = {
   detail: {
-    type: T;
+    type: string; // TODO
     data: ErrorData;
   };
 };
 
-export type VKConnectSuccessEvent<T extends ResponseMethodName> = {
+export type VKConnectSuccessEvent<T extends ReceiveMethodName> = {
   detail: {
-    type: T;
-    data: ResponseProps<T>;
+    type: string; // TODO
+    data: ReceiveData<T> & RequestIdProp;
     app_id?: string;
     scheme?: AppearanceSchemeType;
     appearance?: AppearanceType;
   };
 };
 
-/**
- * VK Connect event
- */
-export type VKConnectEvent<T extends ResponseMethodName> = VKConnectErrorEvent<T> | VKConnectSuccessEvent<T>;
+/** VK Connect event */
+export type VKConnectEvent<T extends ReceiveMethodName> = VKConnectErrorEvent | VKConnectSuccessEvent<T>;
 
-/**
- * The type of function that will be subscribed to VK Connect events
- */
-export type SubscribeHandler = <T extends ResponseMethodName>(event: VKConnectEvent<T>) => void;
+/** The type of function that will be subscribed to VK Connect events */
+export type VKConnectSubscribeHandler = (event: VKConnectEvent<ReceiveMethodName>) => void;
 
-/**
- * Type of global object with VK Connect methods in Android app WebView
- */
-export type AndroidBridge = Record<RequestMethodName, (serializedData: string) => void>;
+/** Sending method function type */
+export type VKConnectSend = <K extends RequestMethodName>(method: K, params?: RequestProps<K> & RequestIdProp) => void;
 
-/**
- * Type of global object with VK Connect methods in iOS app WebView
- */
-export type IOSBridge = Record<RequestMethodName, { postMessage?: (data: any) => void }>;
+/** Subscribing/unsubscribing method function type */
+export type VKConnectSubscribeOrUnsubscribe = (fn: VKConnectSubscribeHandler) => void;
+
+/** Subscribing/unsubscribing method function type */
+export type VKConnectSupports = (method: string) => boolean;
+
+/** Type of VK Connect interface */
+export interface VKConnect {
+  send: VKConnectSend;
+  subscribe: VKConnectSubscribeOrUnsubscribe;
+  unsubscribe: VKConnectSubscribeOrUnsubscribe;
+  supports: VKConnectSupports;
+  isWebView: () => boolean;
+}
