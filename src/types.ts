@@ -409,7 +409,7 @@ export type RequestPropsMap = {
   VKWebAppShowWallPostBox: WallPostRequestOptions;
   VKWebAppStorageGet: { keys: string[]; global: boolean };
   VKWebAppStorageGetKeys: { count: number; offset: number; global: boolean };
-  VKWebAppStorageSet: { result: true };
+  VKWebAppStorageSet: { key: string; value: string; global: boolean };
   VKWebAppTapticImpactOccurred: { style: TapticVibrationPowerType };
   VKWebAppTapticNotificationOccurred: { type: TapticNotificationType };
   VKWebAppTapticSelectionChanged: {};
@@ -458,7 +458,7 @@ export type ResponseDataMap = {
   VKWebAppShowWallPostBox: { post_id: number };
   VKWebAppStorageGet: { keys: { key: string; value: string }[] };
   VKWebAppStorageGetKeys: { keys: string[] };
-  VKWebAppStorageSet: { key: string; value: string; global: boolean };
+  VKWebAppStorageSet: { result: true };
   VKWebAppTapticImpactOccurred: { result: true };
   VKWebAppTapticNotificationOccurred: { result: true };
   VKWebAppTapticSelectionChanged: { result: true };
