@@ -1,5 +1,5 @@
 import { VKConnectSend, VKConnectSubscribe } from './';
-import { IOMethodName, ResponseData, ErrorData, RequestIdProp, RequestProps } from './types';
+import { IOMethodName, ReceiveData, ErrorData, RequestIdProp, RequestProps } from './types';
 
 /**
  * Creates counter interface
@@ -77,14 +77,14 @@ export const promisifySend = (send: VKConnectSend, subscribe: VKConnectSubscribe
       return;
     }
 
-    const { request_id: requestId, ...data } = event.detail.data as (ResponseData | ErrorData) & RequestIdProp;
+    const { request_id: requestId, ...data } = event.detail.data as (ReceiveData | ErrorData) & RequestIdProp;
 
     if (requestId) {
       requestResolver.resolve(requestId, data, data => !('error_type' in data));
     }
   });
 
-  return <K extends IOMethodName>(method: K, props?: RequestProps<K>): Promise<ResponseData<K>> =>
+  return <K extends IOMethodName>(method: K, props?: RequestProps<K>): Promise<ReceiveData<K>> =>
     new Promise((resolve, reject) => {
       const requestId = requestResolver.add({ resolve, reject });
 

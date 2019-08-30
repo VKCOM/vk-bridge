@@ -362,9 +362,7 @@ export type LinkShareResult =
   | { type: 'story'; story_id: string };
 
 /**
- * Map of types of request props
- *
- * @todo Decompose me
+ * Map of types of request props of VK Connect methods
  */
 export type RequestPropsMap = {
   VKWebAppInit: {};
@@ -418,9 +416,9 @@ export type RequestPropsMap = {
 };
 
 /**
- * Map of types of request props
+ * Map of types of response data of VK Connect methods
  */
-export type ResponseDataMap = {
+export type ReceiveDataMap = {
   VKWebAppAddToCommunity: { group_id: number };
   VKWebAppAllowMessagesFromGroup: { result: true };
   VKWebAppAllowNotifications: { enabled: true };
@@ -483,7 +481,7 @@ export type ResponseDataMap = {
 export type RequestMethodName = keyof RequestPropsMap;
 
 /** Name of the method that can be received */
-export type ReceiveMethodName = keyof ResponseDataMap;
+export type ReceiveMethodName = keyof ReceiveDataMap;
 
 /** Name of the method that can be only sent */
 export type RequestOnlyMethodName = Exclude<RequestMethodName, ReceiveMethodName>;
@@ -500,8 +498,8 @@ export type IOMethodName = RequestMethodName & ReceiveMethodName;
 /** Getter of request properties of a method */
 export type RequestProps<M extends RequestMethodName = RequestMethodName> = RequestPropsMap[M];
 
-/** Getter of response properties of a method */
-export type ResponseData<M extends ReceiveMethodName = ReceiveMethodName> = ResponseDataMap[M];
+/** Getter of response data of a method */
+export type ReceiveData<M extends ReceiveMethodName = ReceiveMethodName> = ReceiveDataMap[M];
 
 /** Property for matching sent request and received message */
 export type RequestIdProp = { request_id?: number | string };
@@ -554,7 +552,7 @@ export type VKConnectErrorEvent<T extends MethodName> = {
 export type VKConnectSuccessEvent<T extends ReceiveMethodName> = {
   detail: {
     type: T;
-    data: ResponseData<T> & RequestIdProp;
+    data: ReceiveData<T> & RequestIdProp;
     app_id?: string;
     scheme?: AppearanceSchemeType;
     appearance?: AppearanceType;
@@ -577,4 +575,4 @@ export type VKConnectSubscribe = (fn: VKConnectSubscribeHandler) => void;
 export type VKConnectSendPromisified = <K extends IOMethodName>(
   method: K,
   props?: RequestProps<K>
-) => Promise<ResponseData<K>>;
+) => Promise<ReceiveData<K>>;
