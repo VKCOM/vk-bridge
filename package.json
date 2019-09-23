@@ -1,15 +1,15 @@
 {
   "name": "@vkontakte/vk-connect",
-  "version": "1.5.6-beta.13-promise",
+  "version": "1.5.6-beta.18",
   "description": "Connects a VKUI application with VK client",
   "main": "dist/index.js",
-  "umd:main": "dist/index.umd.js",
-  "module": "dist/index.mjs",
-  "source": "src/index.ts",
-  "types": "dist/src/index.d.ts",
+  "browser": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "umdName": "vkConnect",
+  "types": "dist/types/src/index.d.ts",
   "scripts": {
-    "build": "rimraf dist && microbundle --sourcemap=false",
-    "dev": "microbundle watch",
+    "watch": "rollup -c -w",
+    "build": "rimraf dist && NODE_ENV=production rollup -c",
     "prepublishOnly": "npm run build"
   },
   "author": {
@@ -33,7 +33,17 @@
     "url": "git+https://github.com/VKCOM/vk-connect.git"
   },
   "devDependencies": {
-    "microbundle": "^0.11.0",
-    "rimraf": "^3.0.0"
+    "@babel/core": "^7.6.0",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.21.4",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-bundle-size": "^1.0.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-typescript2": "^0.24.2",
+    "rollup-plugin-uglify": "^6.0.3",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.3"
   }
 }

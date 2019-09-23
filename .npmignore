@@ -3,3 +3,5 @@
 node_modules/
 .rpt2_cache/
 .rts2_cache_*/
+rollup.config.js
+PUBLISHING.md
