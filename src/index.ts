@@ -197,7 +197,9 @@ const vkConnect: VKConnect = {
 
 // UMD exports
 if (typeof exports !== 'object' || typeof module === 'undefined') {
-  let root: (typeof globalThis | Window | NodeJS.Global) & { vkConnect?: VKConnect; vkuiConnect?: VKConnect };
+  let root:
+    | (typeof globalThis | Window | NodeJS.Global) & { vkConnect?: VKConnect; vkuiConnect?: VKConnect }
+    | null = null;
 
   if (typeof window !== 'undefined') {
     root = window;
@@ -205,14 +207,14 @@ if (typeof exports !== 'object' || typeof module === 'undefined') {
     root = global;
   } else if (typeof self !== 'undefined') {
     root = self;
-  } else {
-    root = this;
   }
 
-  root.vkConnect = vkConnect;
+  if (root) {
+    root.vkConnect = vkConnect;
 
-  // Backward compatibility
-  root.vkuiConnect = vkConnect;
+    // Backward compatibility
+    root.vkuiConnect = vkConnect;
+  }
 }
 
 // Export typings
