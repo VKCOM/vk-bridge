@@ -1,12 +1,12 @@
 {
   "name": "@vkontakte/vk-connect",
-  "version": "1.5.6-beta.11",
+  "version": "1.5.6-beta.17",
   "description": "Connects a VKUI application with VK client",
   "main": "dist/index.js",
   "browser": "dist/index.umd.js",
   "module": "dist/index.es.js",
   "umdName": "vkConnect",
-  "type": "dist/types/index.d.ts",
+  "types": "dist/types/src/index.d.ts",
   "scripts": {
     "watch": "rollup -c -w",
     "build": "rimraf dist && NODE_ENV=production rollup -c",
