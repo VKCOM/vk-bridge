@@ -44,6 +44,30 @@ For use in a browser, include the file [`dist/index.umd.js`](dist/index.umd.js) 
 
 ## API Reference
 
+### `connect.sendPromise(method[, params])`
+
+Sends a message to native client and returns the `Promise` object with response data
+
+**Parameters**
+
+- `method` _required_ The VK Connect method
+- `params` _optional_ Message data object
+
+**Example**
+
+```js
+// Sending event to client
+connect
+  .send('VKWebAppGetEmail')
+  .then(data => {
+    // Handling received data
+    console.log(data.email);
+  })
+  .catch(error => {
+    // Handling an error
+  });
+```
+
 ### `connect.send(method[, params])`
 
 Sends a message to native client
