@@ -31,7 +31,7 @@ connect.send('VKWebAppInit');
 connect.subscribe(e => console.log(e));
 ```
 
-For use in a browser, include the file [`dist/index.umd.js`](dist/index.umd.js) and use as follows
+For use in a browser, include the file [`dist/index.umd.js`](https://unpkg.com/@vkontakte/vk-connect/dist/index.umd.js) and use as follows
 
 ```html
 <script src="dist/index.umd.js"></script>
