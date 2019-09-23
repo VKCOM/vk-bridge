@@ -574,11 +574,8 @@ export type VKConnectSubscribeOrUnsubscribe = (fn: VKConnectSubscribeHandler) =>
 /** Subscribing/unsubscribing method function type */
 export type VKConnectSupports = (method: string) => boolean;
 
-/** Type of VK Connect interface */
-export interface VKConnect {
-  send: VKConnectSend;
-  subscribe: VKConnectSubscribeOrUnsubscribe;
-  unsubscribe: VKConnectSubscribeOrUnsubscribe;
-  supports: VKConnectSupports;
-  isWebView: () => boolean;
-}
+/** Type of promisified send function */
+export type VKConnectSendPromise = <K extends IOMethodName>(
+  method: K,
+  props?: RequestProps<K>
+) => Promise<ReceiveData<K>>;
