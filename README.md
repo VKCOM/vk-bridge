@@ -58,7 +58,7 @@ Sends a message to native client and returns the `Promise` object with response 
 ```js
 // Sending event to client
 connect
-  .send('VKWebAppGetEmail')
+  .sendPromise('VKWebAppGetEmail')
   .then(data => {
     // Handling received data
     console.log(data.email);
@@ -66,6 +66,19 @@ connect
   .catch(error => {
     // Handling an error
   });
+```
+
+You can also use imperative way
+
+```js
+try {
+  const data = await connect.sendPromise('VKWebAppGetEmail');
+
+  // Handling received data
+  console.log(data.email);
+} catch (error) {
+  // Handling an error
+}
 ```
 
 ### `connect.send(method[, params])`
