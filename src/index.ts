@@ -8,8 +8,16 @@ import {
   VKConnectSubscribeOrUnsubscribe,
   VKConnectSendPromise
 } from './types';
-import { version as connectVersion } from '../package.json';
-import { promisifySend } from './promisifier';
+const {version: connectVersion} = require('../package.json');
+import {promisifySend} from './promisifier';
+
+declare global {
+  interface Window {
+    webkit: any;
+    AndroidBridge?: Record<string, undefined | ((serializedData: string) => void)>;
+    CustomEvent: typeof CustomEvent | typeof undefined;
+  }
+}
 
 /**
  * Methods supported on the desktop
