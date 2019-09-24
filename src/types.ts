@@ -405,9 +405,9 @@ export type RequestPropsMap = {
   VKWebAppShowOrderBox: OrderRequestOptions;
   VKWebAppShowRequestBox: RequestForRequestOptions;
   VKWebAppShowWallPostBox: WallPostRequestOptions;
-  VKWebAppStorageGet: { keys: string[]; global: boolean };
-  VKWebAppStorageGetKeys: { count: number; offset: number; global: boolean };
-  VKWebAppStorageSet: { key: string; value: string; global: boolean };
+  VKWebAppStorageGet: { keys: string[] };
+  VKWebAppStorageGetKeys: { count: number; offset: number };
+  VKWebAppStorageSet: { key: string; value: string };
   VKWebAppTapticImpactOccurred: { style: TapticVibrationPowerType };
   VKWebAppTapticNotificationOccurred: { type: TapticNotificationType };
   VKWebAppTapticSelectionChanged: {};
