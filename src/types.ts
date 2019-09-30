@@ -413,6 +413,8 @@ export type RequestPropsMap = {
   VKWebAppTapticSelectionChanged: {};
   VKWebAppAddToFavorites: {};
   VKWebAppSendPayload: { group_id: number; payload: any };
+  VKWebAppDisableSwipeBack: {};
+  VKWebAppEnableSwipeBack: {};
 };
 
 /**
@@ -475,6 +477,8 @@ export type ReceiveDataMap = {
   VKWebAppUpdateConfig: UpdateConfigData;
   VKWebAppViewHide: {}; // Always empty
   VKWebAppViewRestore: {}; // Always empty
+  VKWebAppDisableSwipeBack: {};
+  VKWebAppEnableSwipeBack: {};
 };
 
 /** Name of the method that can be sent */
