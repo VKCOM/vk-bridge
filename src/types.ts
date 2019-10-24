@@ -436,7 +436,7 @@ export type ReceiveDataMap = {
   VKWebAppGetFriends: { users: Array<{ id: number; first_name: string; last_name: string }> };
   VKWebAppGetGeodata: { available: boolean; lat: string; long: string };
   VKWebAppGetPersonalCard: PersonalCardData;
-  VKWebAppGetPhoneNumber: { phone_number: string; sign: string };
+  VKWebAppGetPhoneNumber: { phone_number: string; sign: string; is_verified: boolean };
   VKWebAppGetUserInfo: UserInfo;
   VKWebAppJoinGroup: { result: true };
   VKWebAppOpenCodeReader: CodeReaderOutput;
