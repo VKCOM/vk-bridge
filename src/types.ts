@@ -442,7 +442,7 @@ export type ReceiveDataMap = {
   VKWebAppOpenCodeReader: CodeReaderOutput;
   VKWebAppOpenQR: CodeReaderOutput;
   VKWebAppOpenContacts: SelectedContact;
-  VKWebAppOpenPayForm: TransactionResult;
+  VKWebAppOpenPayForm: TransactionResult | { result: TransactionResult };
   VKWebAppResizeWindow: { width: number; height: number };
   VKWebAppScroll: { top: number; height: number };
   VKWebAppSetLocation: { result: true };
