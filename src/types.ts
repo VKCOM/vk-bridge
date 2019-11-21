@@ -351,7 +351,8 @@ export type WallPostRequestOptions = {
   | {
       message: string;
       attachments?: string;
-    });
+    }
+);
 
 /**
  * Result data of link share
@@ -424,7 +425,7 @@ export type ReceiveDataMap = {
   VKWebAppAddToCommunity: { group_id: number };
   VKWebAppAllowMessagesFromGroup: { result: true };
   VKWebAppAllowNotifications: { enabled: true };
-  VKWebAppCallAPIMethod: { response: any[] };
+  VKWebAppCallAPIMethod: { response: any };
   VKWebAppGetAuthToken: { access_token: string; scope: string };
   VKWebAppClose: { payload: any };
   VKWebAppOpenApp: { result: true };
