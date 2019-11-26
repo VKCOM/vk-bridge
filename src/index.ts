@@ -42,7 +42,8 @@ const DESKTOP_METHODS = [
   'VKWebAppShowInviteBox',
   'VKWebAppShowRequestBox',
   'VKWebAppAddToFavorites',
-  'VKWebAppShowCommunityWidgetPreviewBox'
+  'VKWebAppShowCommunityWidgetPreviewBox',
+  'VKWebAppShowStoryBox'
 ];
 
 /**
