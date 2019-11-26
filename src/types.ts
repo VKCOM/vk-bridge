@@ -362,6 +362,288 @@ export type LinkShareResult =
   | { type: 'post'; post_id: string }
   | { type: 'story'; story_id: string };
 
+export type StoryObjectTransform = {
+  /** Rotation, from 0 to 359 deg. Counterclockwise rotation. */
+  rotation?: number;
+  /**
+   * The desired width of the sticker relative to the screen is (0, 1), the
+   * height will be calculated taking into account maintaining the aspect ratio
+   * of the content.
+   */
+  relation_width?: number;
+  /** From -1 to 1 of screen with */
+  translation_x?: number;
+  /** From -1 to 1 of screen height */
+  translation_y?: number;
+  /** Gravity. Default: center. */
+  gravity?:
+    | 'left_top'
+    | 'left_center'
+    | 'left_bottom'
+    | 'center_top'
+    | 'center'
+    | 'center_bottom'
+    | 'right_top'
+    | 'right_center'
+    | 'right_bottom';
+};
+
+export type StoryActionHashtag = {
+  /** Hashtag text */
+  hashtag: string;
+  /** Hashtag style. Default: `blue_gradient` */
+  style?: 'transparent' | 'blue_gradient';
+};
+
+export type StoryActionMention = {
+  /**
+   * Text in mention format:
+   * for users: "[id123|name]"
+   * for communities: "[club123|name]"
+   */
+  mention: string;
+  /** Mention style. Default: `red_gradient` */
+  style?: 'transparent' | 'red_gradient';
+};
+
+export type StoryActionPlace = {
+  /** Place id */
+  place_id: number;
+  /** Place name */
+  title: string;
+  /** Category id */
+  category_id?: number;
+  /** Style */
+  style?: 'transparent' | 'blue' | 'green' | 'white';
+};
+
+/**
+ * Story action link
+ */
+export type StoryActionLink = {
+  /** Content link */
+  link: string;
+  /**
+   * The value of the string that will be displayed on the client when
+   * clicking on the tooltip.
+   */
+  tooltip_text_key: string;
+};
+
+export type StoryActionTime = {
+  /** Time style. Default: `date` */
+  style?: 'black' | 'white' | 'green' | 'text' | 'date';
+  /** Timestamp in milliseconds */
+  timestamp_ms?: number;
+  /**
+   * Date (`timestamp_ms` alternative) in format:
+   * `yyyy:MM:dd HH:mm:ss`
+   * (this format is chosen to unify dates from exif fields https://vk.cc/9NrgMr) */
+  date?: string;
+  /** Top sticker title, meaning only for date style */
+  title?: string;
+};
+
+export type StoryActionGeo = {
+  /** Place id */
+  place_id: number;
+  /** Place name */
+  text: string;
+  /** Category id */
+  category_id?: number;
+  /** Sticker style. Default: `blue`*/
+  style?: 'blue' | 'green' | 'white' | 'transparent';
+};
+
+export type StoryActionQuestion = {
+  /** Question text */
+  question: string;
+  /** Button text */
+  button: string;
+};
+
+export type StoryActionText = {
+  /**
+   * The text may contain mentions/hashtags in the formats specified with
+   * the corresponding objects
+   */
+  text: string;
+  /** Text style */
+  style?: 'classic' | 'cursive' | 'marker' | 'italics' | 'typewriter' | 'poster' | 'retro';
+  /** Background/border style. Default: `none` */
+  background_style?: 'none' | 'alpha' | 'solid' | 'sticker' | 'neon';
+  /** Horizontal alignment */
+  alignment?: 'center' | 'left' | 'right';
+  /** HEX color */
+  selection_color?: string;
+};
+
+export type StoryActionEmoji = {
+  /**
+   * Supported emoji:
+   * https://pastebin.mvk.com/u3JQHc6W3eajdS8jpMfryNVF2IrGmcaCwAtgs4JANy895zip4LqgumiVg5hjZj6ie9hpGDotVLpi4QAG
+   */
+  emoji: string;
+};
+
+export type StoryActionSticker = {
+  /** Sticker id */
+  sticker_id: number;
+  /** Sticker url */
+  url?: string;
+  /** JSON sticker url */
+  animation_url?: string;
+  /** Sticker pack id */
+  pack_id?: number;
+};
+
+export type StoryActionMarketItem = {
+  /** Product name */
+  title: string;
+  /** Product id in VK Market */
+  product_id?: number;
+  /** Owner id of product in VK Market */
+  owner_id?: number;
+  /** Aliexpress product link */
+  link?: string;
+};
+
+/**
+ * Story action type
+ */
+export type StoryAction =
+  | StoryActionHashtag
+  | StoryActionMention
+  | StoryActionPlace
+  | StoryActionLink
+  | StoryActionTime
+  | StoryActionGeo
+  | StoryActionQuestion
+  | StoryActionText
+  | StoryActionEmoji
+  | StoryActionSticker
+  | StoryActionMarketItem;
+
+export type StoryClickableZoneOrigin = {
+  x: number;
+  y: number;
+};
+
+export type StoryClickableZone = {
+  /** Action type */
+  action_type: 'hashtag' | 'mention' | 'link' | 'place' | 'question' | 'market_item';
+  /** Action data */
+  action: StoryAction;
+  /**
+   * Clickable area border on the sticker. The points should be located
+   * clockwise, forming a closed square.
+   */
+  clickable_area?: StoryClickableZoneOrigin[];
+};
+
+export type StoryRenderableSticker = (
+  | {
+      /** Content url */
+      url: string;
+    }
+  | {
+      /** Base64 string with BLOB */
+      blob: string;
+    }
+) & {
+  /** Story type */
+  content_type: 'image' | 'gif' | 'video';
+  /** Object transform */
+  transform?: StoryObjectTransform;
+  /** Clickable zones */
+  clickable_zones?: StoryClickableZone[];
+  /** Content width */
+  original_width?: number;
+  /** Content height */
+  original_height?: number;
+  /** Whether the sticker can be removed from the screen, `true` by default */
+  can_delete?: boolean;
+};
+
+export type StoryNativeSticker = {
+  /** Story action type */
+  action_type: 'text' | 'hashtag' | 'mention' | 'time' | 'place' | 'question' | 'emoji' | 'sticker' | 'market_item';
+  /** Story action */
+  action: StoryAction;
+  /** Object transform */
+  transform?: StoryObjectTransform;
+  /** Whether the sticker can be removed from the screen, `true` by default */
+  can_delete?: boolean;
+};
+
+/**
+ * Sticket container
+ */
+export type StickerContainer =
+  | {
+      sticker_type: 'renderable';
+      sticker: StoryRenderableSticker;
+    }
+  | {
+      sticker_type: 'native';
+      sticker: StoryNativeSticker;
+    };
+
+/** Link text for moving from a story (community stories only) */
+export type StoryButtonText =
+  | 'learn_more' // «Подробнее» (default)
+  | 'to_store' // «В магазин»
+  | 'vote' // «Голосовать»
+  | 'more' // «Ещё»
+  | 'book' // «Забронировать»
+  | 'order' // «Заказать»
+  | 'enroll' // «Записаться»
+  | 'fill' // «Заполнить»
+  | 'signup' // «Зарегистрироваться»
+  | 'buy' // «Купить»
+  | 'ticket' // «Купить билет»
+  | 'write' // «Написать»
+  | 'open' // «Открыть»
+  | 'view' // «Посмотреть»
+  | 'go_to' // «Перейти»
+  | 'contact' // «Связаться»
+  | 'watch' // «Смотреть»
+  | 'play' // «Слушать»
+  | 'install' // «Установить»
+  | 'read'; // «Читать»
+
+export type StoryAttachment = {
+  /** Button text key (см. link_text в stories.getVideoUploadServer) */
+  text: string;
+  /** Attach type */
+  type: 'url' | 'audio' | 'video' | 'photo';
+  /** Content url */
+  url?: string;
+  /** Owner id */
+  owner_id?: number;
+  /** Object id */
+  id?: number;
+  /** Access key for the attachment */
+  access_key?: string;
+};
+
+export type ShowStoryBoxOptions = {
+  /** Story type */
+  background_type: 'image' | 'video' | 'none';
+  /** Camera type (only for `background_type: none`). Default: `back` */
+  camera_type?: 'back' | 'front';
+  /** Link to an image or video (should follow a direct link to mp4) */
+  url?: string;
+  /** Base64 string with BLOB (supported only for image) */
+  blob?: string;
+  /** Lock to move the photo */
+  locked?: boolean;
+  /** Story attachment object */
+  attachment?: StoryAttachment;
+  /** Array of sticker objects */
+  stickers?: StickerContainer[];
+};
+
 /**
  * Map of types of request props of VK Connect methods
  */
@@ -416,6 +698,7 @@ export type RequestPropsMap = {
   VKWebAppSendPayload: { group_id: number; payload: any };
   VKWebAppDisableSwipeBack: {};
   VKWebAppEnableSwipeBack: {};
+  VKWebAppShowStoryBox: ShowStoryBoxOptions;
 };
 
 /**
@@ -480,6 +763,7 @@ export type ReceiveDataMap = {
   VKWebAppViewRestore: {}; // Always empty
   VKWebAppDisableSwipeBack: {};
   VKWebAppEnableSwipeBack: {};
+  VKWebAppShowStoryBox: { result: true };
 };
 
 /** Name of the method that can be sent */
