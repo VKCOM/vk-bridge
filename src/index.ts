@@ -42,7 +42,7 @@ const DESKTOP_METHODS = [
   'VKWebAppShowInviteBox',
   'VKWebAppShowRequestBox',
   'VKWebAppAddToFavorites',
-  'VKWebAppShowCommunityWidgetPreviewBox',
+  'VKWebAppShowCommunityWidgetPreviewBox'
 ];
 
 /**
@@ -234,7 +234,7 @@ export type VKConnect = typeof vkConnect;
 // UMD exports
 if (typeof exports !== 'object' || typeof module === 'undefined') {
   let root:
-    | (typeof globalThis | Window | NodeJS.Global) & { vkConnect?: VKConnect; vkuiConnect?: VKConnect }
+    | ((typeof globalThis | Window | NodeJS.Global) & { vkConnect?: VKConnect; vkuiConnect?: VKConnect })
     | null = null;
 
   if (typeof window !== 'undefined') {
