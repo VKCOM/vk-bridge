@@ -388,9 +388,6 @@ export type StoryObjectTransform = {
     | 'right_bottom';
 };
 
-/** Click action type */
-export type StoryClickActionType = 'hashtag' | 'mention' | 'link' | 'place' | 'question' | 'market_item';
-
 export type StoryActionHashtag = {
   /** Hashtag text */
   hashtag: string;
@@ -534,7 +531,7 @@ export type StoryClickableZoneOrigin = {
 
 export type StoryClickableZone = {
   /** Action type */
-  action_type: StoryClickActionType;
+  action_type: 'hashtag' | 'mention' | 'link' | 'place' | 'question' | 'market_item';
   /** Action data */
   action: StoryAction;
   /**
