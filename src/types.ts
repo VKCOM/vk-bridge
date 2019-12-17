@@ -678,7 +678,12 @@ export type RequestPropsMap = {
   VKWebAppResizeWindow: { width?: number; height: number };
   VKWebAppScroll: { top: number; speed?: number };
   VKWebAppSetLocation: { location: string };
-  VKWebAppSetViewSettings: { status_bar_style: AppearanceType; action_bar_color?: string };
+  VKWebAppSetViewSettings: {
+    status_bar_style: AppearanceType;
+    action_bar_color?: string;
+    // Only for android
+    navigation_bar_color?: string;
+  };
   VKWebAppShare: { link: string };
   VKWebAppShowCommunityWidgetPreviewBox: WidgetPreviewRequestOptions;
   VKWebAppShowImages: { images: string[]; start_index?: number };
