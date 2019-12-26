@@ -681,7 +681,7 @@ export type RequestPropsMap = {
   VKWebAppSetViewSettings: {
     status_bar_style: AppearanceType;
     action_bar_color?: string;
-    // Only for android
+    /** Only for android */
     navigation_bar_color?: string;
   };
   VKWebAppShare: { link: string };
@@ -760,9 +760,12 @@ export type ReceiveDataMap = {
   VKWebAppAddToFavorites: { result: true };
   VKWebAppSendPayload: { result: true };
   VKWebAppGetCommunityToken: { access_token: string };
-  VKWebAppGetCommunityAuthToken: { access_token: string }; // Web. Deprecated in favor `VKWebAppGetCommunityToken`
-  VKWebAppCommunityAccessToken: { access_token: string }; // iOS. Deprecated in favor `VKWebAppGetCommunityToken`
-  VKWebAppCommunityToken: { access_token: string }; // Android. Deprecated in favor `VKWebAppGetCommunityToken`
+  /** Web. Deprecated in favor `VKWebAppGetCommunityToken` */
+  VKWebAppGetCommunityAuthToken: { access_token: string };
+  /**  iOS. Deprecated in favor `VKWebAppGetCommunityToken` */
+  VKWebAppCommunityAccessToken: { access_token: string };
+  /** Android. Deprecated in favor `VKWebAppGetCommunityToken` */
+  VKWebAppCommunityToken: { access_token: string };
   VKWebAppAudioPaused: { position: number; type: string; id: string };
   VKWebAppAudioStopped: {}; // Always empty
   VKWebAppAudioTrackChanged: { type: string; id: string };
