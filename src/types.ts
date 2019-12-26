@@ -704,6 +704,12 @@ export type RequestPropsMap = {
   VKWebAppDisableSwipeBack: {};
   VKWebAppEnableSwipeBack: {};
   VKWebAppShowStoryBox: ShowStoryBoxOptions;
+  VKWebAppAccelerometerStart: {};
+  VKWebAppAccelerometerStop: {};
+  VKWebAppGyroscopeStart: {};
+  VKWebAppGyroscopeStop: {};
+  VKWebAppDeviceMotionStart: {};
+  VKWebAppDeviceMotionStop: {};
 };
 
 /**
@@ -769,6 +775,9 @@ export type ReceiveDataMap = {
   VKWebAppDisableSwipeBack: {};
   VKWebAppEnableSwipeBack: {};
   VKWebAppShowStoryBox: { result: true };
+  VKWebAppAccelerometerChanged: { x: string; y: string; z: string };
+  VKWebAppGyroscopeChanged: { x: string; y: string; z: string };
+  VKWebAppDeviceMotionChanged: { alpha: string; beta: string; gamma: string };
 };
 
 /** Name of the method that can be sent */
