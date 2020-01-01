@@ -718,12 +718,12 @@ export type RequestPropsMap = {
 export type ReceiveDataMap = {
   VKWebAppAddToCommunity: { group_id: number };
   VKWebAppAllowMessagesFromGroup: { result: true };
-  VKWebAppAllowNotifications: { enabled: true };
+  VKWebAppAllowNotifications: { result: true };
   VKWebAppCallAPIMethod: { response: any };
   VKWebAppGetAuthToken: { access_token: string; scope: string };
   VKWebAppClose: { payload: any };
   VKWebAppOpenApp: { result: true };
-  VKWebAppDenyNotifications: { disabled: true };
+  VKWebAppDenyNotifications: { result: true };
   VKWebAppFlashGetInfo: { is_available: boolean; level: number };
   VKWebAppFlashSetLevel: { result: true };
   VKWebAppGetClientVersion: { platform: string; version: string };
