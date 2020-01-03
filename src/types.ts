@@ -185,7 +185,7 @@ export type AppearanceType = 'light' | 'dark';
 /**
  * Application color scheme type
  */
-export type AppearanceSchemeType = 'client_light' | 'client_dark';
+export type AppearanceSchemeType = 'client_light' | 'client_dark' | 'space_gray' | 'bright_light';
 
 /**
  * Vibration type for Taptic Engine
