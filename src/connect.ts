@@ -1,4 +1,4 @@
-import { promisifySend } from './promisifier';
+import { promisifySend } from './promisifySend';
 import { VKConnect, VKConnectSubscribeHandler, RequestMethodName, RequestProps, RequestIdProp } from './types/connect';
 
 /** Is the client side runtime environment */
