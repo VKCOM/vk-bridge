@@ -118,9 +118,17 @@ export type VKConnectSuccessEvent<T extends ReceiveMethodName> = {
 export type VKConnectEvent<T extends ReceiveMethodName> = VKConnectErrorEvent | VKConnectSuccessEvent<T>;
 
 /**
- * The type of function that will be subscribed to VK Connect events.
+ * Type of function that will be subscribed to VK Connect events.
  */
 export type VKConnectSubscribeHandler = (event: VKConnectEvent<ReceiveMethodName>) => void;
+
+/**
+ * Type of send function.
+ */
+export type VKConnectSend = <K extends IOMethodName = IOMethodName>(
+  method: K,
+  props?: RequestProps<K>
+) => Promise<ReceiveData<K>>;
 
 /**
  * VK Connect interface.
@@ -136,13 +144,13 @@ export interface VKConnect {
    * @param [props] Method properties.
    * @returns The Promise object with response data.
    */
-  send: <K extends IOMethodName>(method: K, props?: RequestProps<K>) => Promise<ReceiveData<K>>;
+  send: VKConnectSend;
 
   /**
    * @alias send
    * @deprecated
    */
-  sendPromise: <K extends IOMethodName>(method: K, props?: RequestProps<K>) => Promise<ReceiveData<K>>;
+  sendPromise: VKConnectSend;
 
   /**
    * Adds an event listener. It will be called any time a data is received.
