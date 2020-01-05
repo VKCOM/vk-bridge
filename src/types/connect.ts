@@ -1,24 +1,36 @@
 import { RequestPropsMap, ReceiveDataMap } from './data';
 
 /**
- * Name of the method that can be sent.
+ * Name of a method that can be sent.
  */
 export type RequestMethodName = keyof RequestPropsMap;
 
 /**
- * Name of the method that can be received.
+ * Name of a method that can be received.
  */
 export type ReceiveMethodName = keyof ReceiveDataMap;
 
 /**
- * Name of the method that can be only sent.
+ * Name of a method that can be only sent.
  */
 export type RequestOnlyMethodName = Exclude<RequestMethodName, ReceiveMethodName>;
 
 /**
- * Name of the method that can be only received.
+ * Name of a method that can be only received.
  */
 export type ReceiveOnlyMethodName = Exclude<ReceiveMethodName, RequestMethodName>;
+
+/**
+ * Name of a method which contains properties
+ */
+export type RequestMethodNameWithProps = {
+  [K in keyof RequestPropsMap]: keyof RequestPropsMap[K] extends never ? never : K;
+}[keyof RequestPropsMap];
+
+/**
+ * Name of a method which doesn't contain properties
+ */
+export type RequestMethodNameWithoutProps = Exclude<RequestMethodName, RequestMethodNameWithProps>;
 
 /**
  * Type of any method name.
@@ -125,10 +137,29 @@ export type VKConnectSubscribeHandler = (event: VKConnectEvent<ReceiveMethodName
 /**
  * Type of send function.
  */
-export type VKConnectSend = <K extends IOMethodName = IOMethodName>(
-  method: K,
-  props?: RequestProps<K>
-) => Promise<ReceiveData<K>>;
+export interface VKConnectSend {
+  /**
+   * Type of send function for methods that have no props.
+   *
+   * @param method The method (event) name to send.
+   * @param [props] Method properties.
+   * @returns The Promise object with response data.
+   */
+  <K extends RequestMethodNameWithoutProps>(method: K, props?: {}): Promise<
+    K extends ReceiveMethodName ? ReceiveData<K> : void
+  >;
+
+  /**
+   * Type of send function for methods that have props.
+   *
+   * @param method The method (event) name to send.
+   * @param props Method properties.
+   * @returns The Promise object with response data.
+   */
+  <K extends RequestMethodNameWithProps>(method: K, props: RequestProps<K>): Promise<
+    K extends ReceiveMethodName ? ReceiveData<K> : void
+  >;
+}
 
 /**
  * VK Connect interface.

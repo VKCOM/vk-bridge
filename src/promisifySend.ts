@@ -6,7 +6,8 @@ import {
   ReceiveData,
   ErrorData,
   IOMethodName,
-  VKConnectSend
+  VKConnectSend,
+  ReceiveMethodName
 } from './types/connect';
 
 /**
@@ -83,7 +84,7 @@ function createRequestResolver() {
  * @returns Send function which returns the Promise object.
  */
 export function promisifySend(
-  sendEvent: <K extends RequestMethodName>(method: K, params?: RequestProps<K> & RequestIdProp) => void,
+  sendEvent: <K extends RequestMethodName>(method: K, props?: RequestProps<K> & RequestIdProp) => void,
   subscribe: (fn: VKConnectSubscribeHandler) => void
 ): VKConnectSend {
   const requestResolver = createRequestResolver();
@@ -94,19 +95,22 @@ export function promisifySend(
       return;
     }
 
-    const { request_id: requestId, ...data } = event.detail.data as (ReceiveData | ErrorData) & RequestIdProp;
+    const { request_id: requestId, ...data } = event.detail.data;
 
     if (requestId) {
       requestResolver.resolve(requestId, data, data => !('error_type' in data));
     }
   });
 
-  return function promisifiedSend<K extends IOMethodName>(method: K, props?: RequestProps<K>): Promise<ReceiveData<K>> {
+  return function promisifiedSend<K extends RequestMethodName>(
+    method: K,
+    props: RequestProps<K> = {} as RequestProps<K>
+  ): Promise<K extends ReceiveMethodName ? ReceiveData<K> : void> {
     return new Promise((resolve, reject) => {
       const requestId = requestResolver.add({ resolve, reject });
 
       sendEvent(method, {
-        ...(props as RequestProps<K>),
+        ...props,
         request_id: requestId
       });
     });
