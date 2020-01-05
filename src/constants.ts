@@ -2,11 +2,14 @@
 export const IS_CLIENT_SIDE = typeof window !== 'undefined';
 
 /** Is the runtime environment an Android app */
-export const IS_ANDROID_WEBVIEW = Boolean(IS_CLIENT_SIDE && window.AndroidBridge);
+export const IS_ANDROID_WEBVIEW = Boolean(IS_CLIENT_SIDE && (window as any).AndroidBridge);
 
 /** Is the runtime environment an iOS app */
 export const IS_IOS_WEBVIEW = Boolean(
-  IS_CLIENT_SIDE && window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.VKWebAppClose
+  IS_CLIENT_SIDE &&
+    (window as any).webkit &&
+    (window as any).webkit.messageHandlers &&
+    (window as any).webkit.messageHandlers.VKWebAppClose
 );
 
 /** Is the runtime environment a browser */

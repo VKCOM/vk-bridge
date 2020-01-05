@@ -4,12 +4,12 @@ import { IS_CLIENT_SIDE, IS_IOS_WEBVIEW, IS_ANDROID_WEBVIEW, IS_WEB, DESKTOP_MET
 
 /** Android VK Connect interface. */
 const androidBridge: Record<string, (serializedData: string) => void> | undefined = IS_CLIENT_SIDE
-  ? window.AndroidBridge
+  ? (window as any).AndroidBridge
   : undefined;
 
 /** iOS VK Connect interface. */
 const iosBridge: Record<string, { postMessage?: (data: any) => void }> | undefined = IS_IOS_WEBVIEW
-  ? window.webkit.messageHandlers
+  ? (window as any).webkit.messageHandlers
   : undefined;
 
 /**
