@@ -1,6 +1,57 @@
 import { promisifySend } from './promisifier';
 import { VKConnect, VKConnectSubscribeHandler, RequestMethodName, RequestProps, RequestIdProp } from './types/connect';
-import { IS_CLIENT_SIDE, IS_IOS_WEBVIEW, IS_ANDROID_WEBVIEW, IS_WEB, DESKTOP_METHODS, EVENT_TYPE } from './constants';
+
+/** Is the client side runtime environment */
+export const IS_CLIENT_SIDE = typeof window !== 'undefined';
+
+/** Is the runtime environment an Android app */
+export const IS_ANDROID_WEBVIEW = Boolean(IS_CLIENT_SIDE && (window as any).AndroidBridge);
+
+/** Is the runtime environment an iOS app */
+export const IS_IOS_WEBVIEW = Boolean(
+  IS_CLIENT_SIDE &&
+    (window as any).webkit &&
+    (window as any).webkit.messageHandlers &&
+    (window as any).webkit.messageHandlers.VKWebAppClose
+);
+
+/** Is the runtime environment a browser */
+export const IS_WEB = !IS_ANDROID_WEBVIEW && !IS_IOS_WEBVIEW;
+
+/** Type of subscribe event */
+export const EVENT_TYPE = IS_WEB ? 'message' : 'VKWebAppEvent';
+
+/** Methods supported on the desktop */
+export const DESKTOP_METHODS = [
+  'VKWebAppInit',
+  'VKWebAppGetCommunityAuthToken',
+  'VKWebAppAddToCommunity',
+  'VKWebAppGetUserInfo',
+  'VKWebAppSetLocation',
+  'VKWebAppGetClientVersion',
+  'VKWebAppGetPhoneNumber',
+  'VKWebAppGetEmail',
+  'VKWebAppGetGeodata',
+  'VKWebAppSetTitle',
+  'VKWebAppGetAuthToken',
+  'VKWebAppCallAPIMethod',
+  'VKWebAppJoinGroup',
+  'VKWebAppAllowMessagesFromGroup',
+  'VKWebAppDenyNotifications',
+  'VKWebAppAllowNotifications',
+  'VKWebAppOpenPayForm',
+  'VKWebAppOpenApp',
+  'VKWebAppShare',
+  'VKWebAppShowWallPostBox',
+  'VKWebAppScroll',
+  'VKWebAppResizeWindow',
+  'VKWebAppShowOrderBox',
+  'VKWebAppShowLeaderBoardBox',
+  'VKWebAppShowInviteBox',
+  'VKWebAppShowRequestBox',
+  'VKWebAppAddToFavorites',
+  'VKWebAppShowCommunityWidgetPreviewBox'
+];
 
 /** Android VK Connect interface. */
 const androidBridge: Record<string, (serializedData: string) => void> | undefined = IS_CLIENT_SIDE
