@@ -4,9 +4,6 @@ import {
   RequestProps,
   RequestIdProp,
   ReceiveData,
-  ErrorData,
-  IOMethodName,
-  VKConnectSend,
   ReceiveMethodName
 } from './types/connect';
 
@@ -86,7 +83,7 @@ function createRequestResolver() {
 export function promisifySend(
   sendEvent: <K extends RequestMethodName>(method: K, props?: RequestProps<K> & RequestIdProp) => void,
   subscribe: (fn: VKConnectSubscribeHandler) => void
-): VKConnectSend {
+) {
   const requestResolver = createRequestResolver();
 
   // Subscribe to receive a data
