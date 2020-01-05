@@ -1,8 +1,8 @@
 /**
- * Creates the CustomEvent ponyfill. VK apps use the CustomEvents for transfer
+ * Creates the CustomEvent polyfill. VK apps use the CustomEvent for transfer
  * data.
  */
-const createCustomEventClass = () => {
+export const createCustomEventPolyfill = () => {
   function CustomEvent<T>(typeArg: string, eventInitDict?: CustomEventInit<T>): CustomEvent<T> {
     const params = eventInitDict || { bubbles: false, cancelable: false, detail: undefined };
 
@@ -16,8 +16,3 @@ const createCustomEventClass = () => {
 
   return CustomEvent;
 };
-
-// Applying polyfill
-if (typeof window !== 'undefined' && !window.CustomEvent) {
-  (window as any).CustomEvent = createCustomEventClass();
-}
