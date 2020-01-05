@@ -145,9 +145,7 @@ export interface VKConnectSend {
    * @param [props] Method properties.
    * @returns The Promise object with response data.
    */
-  <K extends RequestMethodNameWithoutProps>(method: K, props?: {}): Promise<
-    K extends ReceiveMethodName ? ReceiveData<K> : void
-  >;
+  <K extends RequestMethodNameWithoutProps>(method: K): Promise<K extends ReceiveMethodName ? ReceiveData<K> : void>;
 
   /**
    * Type of send function for methods that have props.
@@ -156,7 +154,7 @@ export interface VKConnectSend {
    * @param props Method properties.
    * @returns The Promise object with response data.
    */
-  <K extends RequestMethodNameWithProps>(method: K, props: RequestProps<K>): Promise<
+  <K extends RequestMethodName>(method: K, props: RequestProps<K>): Promise<
     K extends ReceiveMethodName ? ReceiveData<K> : void
   >;
 }
