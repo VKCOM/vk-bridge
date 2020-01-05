@@ -69,7 +69,7 @@ const iosBridge: Record<string, { postMessage?: (data: any) => void }> | undefin
  *
  * @param version Version of the package
  */
-export const createVKConnect = (version: string): VKConnect => {
+export function createVKConnect(version: string): VKConnect {
   /** Current frame id. */
   let webFrameId: number | undefined = undefined;
 
@@ -200,4 +200,4 @@ export const createVKConnect = (version: string): VKConnect => {
     supports,
     isWebView
   };
-};
+}

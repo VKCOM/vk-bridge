@@ -42,7 +42,7 @@ function createRequestResolver() {
      * @param reject Reject function.
      * @returns New request id of the added controller.
      */
-    add: (controller: PromiseController): number => {
+    add(controller: PromiseController): number {
       const id = counter.next();
 
       promiseControllers[id] = controller;
@@ -58,7 +58,7 @@ function createRequestResolver() {
      * @param data Data to pass to the resolve- or reject-function.
      * @param isSuccess Predicate to select the desired function.
      */
-    resolve: <T>(requestId: number | string, data: T, isSuccess: (data: T) => boolean) => {
+    resolve<T>(requestId: number | string, data: T, isSuccess: (data: T) => boolean) {
       const requestPromise = promiseControllers[requestId];
 
       if (requestPromise) {

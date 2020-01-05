@@ -2,7 +2,7 @@
  * Creates the CustomEvent polyfill. VK apps use the CustomEvent for transfer
  * data.
  */
-export const createCustomEventPolyfill = () => {
+export function createCustomEventPolyfill() {
   function CustomEvent<T>(typeArg: string, eventInitDict?: CustomEventInit<T>): CustomEvent<T> {
     const params = eventInitDict || { bubbles: false, cancelable: false, detail: undefined };
 
@@ -15,4 +15,4 @@ export const createCustomEventPolyfill = () => {
   CustomEvent.prototype = Event.prototype;
 
   return CustomEvent;
-};
+}
