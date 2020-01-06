@@ -135,29 +135,16 @@ export type VKConnectEvent<T extends ReceiveMethodName> = VKConnectErrorEvent | 
 export type VKConnectSubscribeHandler = (event: VKConnectEvent<ReceiveMethodName>) => void;
 
 /**
- * Type of send function.
+ * Type of send function for methods that have props.
+ *
+ * @param method The method (event) name to send.
+ * @param props Method properties.
+ * @returns The Promise object with response data.
  */
-export interface VKConnectSend {
-  /**
-   * Type of send function for methods that have no props.
-   *
-   * @param method The method (event) name to send.
-   * @param [props] Method properties.
-   * @returns The Promise object with response data.
-   */
-  <K extends RequestMethodNameWithoutProps>(method: K): Promise<K extends ReceiveMethodName ? ReceiveData<K> : void>;
-
-  /**
-   * Type of send function for methods that have props.
-   *
-   * @param method The method (event) name to send.
-   * @param props Method properties.
-   * @returns The Promise object with response data.
-   */
-  <K extends RequestMethodName>(method: K, props: RequestProps<K>): Promise<
-    K extends ReceiveMethodName ? ReceiveData<K> : void
-  >;
-}
+export type VKConnectSend = <K extends RequestMethodName>(
+  method: K,
+  props?: RequestProps<K>
+) => Promise<K extends ReceiveMethodName ? ReceiveData<K> : void>;
 
 /**
  * VK Connect interface.
