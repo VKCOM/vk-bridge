@@ -42,7 +42,7 @@ const DESKTOP_METHODS = [
   'VKWebAppShowInviteBox',
   'VKWebAppShowRequestBox',
   'VKWebAppAddToFavorites',
-  'VKWebAppShowCommunityWidgetPreviewBox',
+  'VKWebAppShowCommunityWidgetPreviewBox'
 ];
 
 /**
@@ -218,7 +218,7 @@ const vkConnect = {
     }
 
     // Web support check
-    if (!iosBridge && !androidBridge && DESKTOP_METHODS.includes(method)) {
+    if (!iosBridge && !androidBridge && DESKTOP_METHODS.indexOf(method) > -1) {
       return true;
     }
 
