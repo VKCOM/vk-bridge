@@ -12,5 +12,8 @@ if (typeof window !== 'undefined' && !window.CustomEvent) {
 export * from './types/data';
 export * from './types/connect';
 
+// Export middleware types and `applyMiddleware` function
+export * from './applyMiddleware';
+
 // Export VK Connect API
 export default createVKConnect(version);
