@@ -71,7 +71,7 @@ const iosBridge: Record<string, { postMessage?: (data: any) => void }> | undefin
  */
 export function createVKConnect(version: string): VKConnect {
   /** Current frame id. */
-  let webFrameId: number | undefined = undefined;
+  let webFrameId: string | undefined = undefined;
 
   /** List of functions that subscribed on events. */
   const subscribers: VKConnectSubscribeHandler[] = [];
@@ -139,18 +139,14 @@ export function createVKConnect(version: string): VKConnect {
    * @returns Result of checking.
    */
   function supports(method: string): boolean {
-    // Android support check
     if (IS_ANDROID_WEBVIEW) {
+      // Android support check
       return !!(androidBridge && typeof androidBridge[method] === 'function');
-    }
-
-    // iOS support check
-    else if (IS_IOS_WEBVIEW) {
+    } else if (IS_IOS_WEBVIEW) {
+      // iOS support check
       return !!(iosBridge && iosBridge[method] && typeof iosBridge[method].postMessage === 'function');
-    }
-
-    // Web support check
-    else if (IS_WEB) {
+    } else if (IS_WEB) {
+      // Web support check
       return DESKTOP_METHODS.includes(method);
     }
 
@@ -169,13 +165,11 @@ export function createVKConnect(version: string): VKConnect {
   // Subscribes to listening messages from a runtime for calling each
   // subscribed event listener.
   window.addEventListener(EVENT_TYPE, (event: any) => {
-    // If it's webview
     if (IS_IOS_WEBVIEW || IS_ANDROID_WEBVIEW) {
+      // If it's webview
       return [...subscribers].map(fn => fn.call(null, event));
-    }
-
-    // If it's web
-    else if (IS_WEB && event && event.data) {
+    } else if (IS_WEB && event && event.data) {
+      // If it's web
       const { type, data, frameId } = event.data;
 
       if (type && type === 'VKWebAppSettings') {
