@@ -173,3 +173,32 @@ Checks if an event is available on the current device
 ### `connect.isWebView()`
 
 Returns `true` if VK Connect is running in mobile app, or `false` if not
+
+## Middleware API
+
+_Middlewares_ are pieces of code that intercept and process data between sending and receiving. Thus, by creating middlewares, you can easily log data, modify data before sending it, talking to an asynchronous API, etc. If you've used Redux, you were also probably already familiar with the concept—a similar is used here.
+
+### `applyMiddleware(middleware1, ..., middlewareN)`
+
+Creates the VK Connect enhancer that applies middleware to the `send`
+method. This is handy for a variety of task such as logging every sent
+event. Returns the VK Connect enhancer applying the middleware.
+
+**Parameters**
+
+- `middlewareN` A middleware to be applied
+
+**Example**
+
+```js
+import connect, { applyMiddleware } from '@vkontakte/vk-connect';
+
+// Logs the result of each sent event
+const logger = () => next => async (method, props) => {
+  const result = await next(method, props);
+  console.log(result);
+  return result;
+};
+
+const enhancedConnect = applyMiddleware(logger)(connect);
+```
