@@ -194,7 +194,7 @@ event. Returns the VK Connect enhancer applying the middleware.
 import connect, { applyMiddleware } from '@vkontakte/vk-connect';
 
 // Logs the result of each sent event
-const logger = () => next => async (method, props) => {
+const logger = ({ send, subscribe }) => next => async (method, props) => {
   const result = await next(method, props);
   console.log(result);
   return result;
