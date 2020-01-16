@@ -6,12 +6,9 @@
   <br>
 
 [![npm][npm]][npm-url]
-[![deps][deps]][deps-url]
 
 [npm]: https://img.shields.io/npm/v/@vkontakte/vk-connect.svg
 [npm-url]: https://npmjs.com/package/@vkontakte/vk-connect
-[deps]: https://img.shields.io/david/vkcom/vk-connect.svg
-[deps-url]: https://david-dm.org/vkcom/vk-connect
 
 </div>
 
