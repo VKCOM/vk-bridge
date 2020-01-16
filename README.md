@@ -41,7 +41,7 @@ For use in a browser, include the file [`dist/index.umd.js`](https://unpkg.com/@
 
 ## API Reference
 
-### `connect.sendPromise(method[, params])`
+### `connect.send(method[, params])`
 
 Sends a message to native client and returns the `Promise` object with response data
 
@@ -75,31 +75,6 @@ try {
   console.log(data.email);
 } catch (error) {
   // Handling an error
-}
-```
-
-### `connect.send(method[, params])`
-
-Sends a message to native client
-
-**Parameters**
-
-- `method` _required_ The VK Connect method
-- `params` _optional_ Message data object
-
-**Example**
-
-```js
-// App initialization
-connect.send('VKWebAppInit');
-
-// Opening images
-connect.send('VKWebAppShowImages', {
-  images: [
-    "https://pp.userapi.com/c639229/v639229113/31b31/KLVUrSZwAM4.jpg",
-    "https://pp.userapi.com/c639229/v639229113/31b94/mWQwkgDjav0.jpg",
-    "https://pp.userapi.com/c639229/v639229113/31b3a/Lw2it6bdISc.jpg"
-  ]
 }
 ```
 
