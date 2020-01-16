@@ -147,7 +147,7 @@ export function createVKConnect(version: string): VKConnect {
       return !!(iosBridge && iosBridge[method] && typeof iosBridge[method].postMessage === 'function');
     } else if (IS_WEB) {
       // Web support check
-      return DESKTOP_METHODS.includes(method);
+      return DESKTOP_METHODS.indexOf(method) > -1;
     }
 
     return false;
