@@ -1,21 +1,5 @@
-import { VKConnect, VKConnectSend, VKConnectSubscribeHandler } from './types/connect';
-
-/**
- * API that can use middleware.
- */
-export interface MiddlewareAPI<
-  S extends VKConnectSend = VKConnectSend,
-  L extends VKConnectSubscribeHandler = VKConnectSubscribeHandler
-> {
-  send: S;
-  subscribe(listener: L): void;
-}
-
-/**
- * A middleware is a higher-order function that composes a dispatch function
- * to return a new `send` function.
- */
-export type Middleware<S extends VKConnectSend = VKConnectSend> = (api: MiddlewareAPI<S>) => (next: S) => S;
+import { VKConnect, VKConnectSend } from './types/connect';
+import { Middleware, MiddlewareAPI } from './types/middleware';
 
 /**
  * Creates the VK Connect enhancer that applies middleware to the `send`
