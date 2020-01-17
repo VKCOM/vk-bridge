@@ -775,4 +775,5 @@ export type ReceiveDataMap = {
   VKWebAppAccelerometerChanged: { x: string; y: string; z: string };
   VKWebAppGyroscopeChanged: { x: string; y: string; z: string };
   VKWebAppDeviceMotionChanged: { alpha: string; beta: string; gamma: string };
+  VKWebAppLocationChanged: { location: string };
 };
