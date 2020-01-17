@@ -756,7 +756,7 @@ export type ReceiveDataMap = {
   VKWebAppGetCommunityToken: { access_token: string };
   /** Web. Deprecated in favor `VKWebAppGetCommunityToken` */
   VKWebAppGetCommunityAuthToken: { access_token: string };
-  /**  iOS. Deprecated in favor `VKWebAppGetCommunityToken` */
+  /** iOS. Deprecated in favor `VKWebAppGetCommunityToken` */
   VKWebAppCommunityAccessToken: { access_token: string };
   /** Android. Deprecated in favor `VKWebAppGetCommunityToken` */
   VKWebAppCommunityToken: { access_token: string };

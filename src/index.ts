@@ -11,6 +11,7 @@ if (typeof window !== 'undefined' && !window.CustomEvent) {
 // Export typings
 export * from './types/data';
 export * from './types/connect';
+export * from './types/middleware';
 
 // Export middleware types and `applyMiddleware` function
 export * from './applyMiddleware';
