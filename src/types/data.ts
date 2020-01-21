@@ -639,6 +639,20 @@ export type ShowStoryBoxOptions = {
 };
 
 /**
+ * Params of method for subscribing to a story updates
+ */
+export type SubscribeStoryAppOptions = {
+  /** Story owner id */
+  story_owner_id: number;
+  /** Story id */
+  story_id: number;
+  /** Clickable sticker id */
+  sticker_id: number;
+  /** Private stories access key */
+  access_key?: string;
+};
+
+/**
  * Map of types of request props of VK Connect methods
  */
 export type RequestPropsMap = {
@@ -704,6 +718,7 @@ export type RequestPropsMap = {
   VKWebAppGyroscopeStop: {};
   VKWebAppDeviceMotionStart: {};
   VKWebAppDeviceMotionStop: {};
+  VKWebAppSubscribeStoryApp: SubscribeStoryAppOptions;
 };
 
 /**
@@ -776,4 +791,5 @@ export type ReceiveDataMap = {
   VKWebAppGyroscopeChanged: { x: string; y: string; z: string };
   VKWebAppDeviceMotionChanged: { alpha: string; beta: string; gamma: string };
   VKWebAppLocationChanged: { location: string };
+  VKWebAppSubscribeStoryApp: { access_key: string };
 };
