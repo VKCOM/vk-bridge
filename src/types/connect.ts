@@ -143,7 +143,7 @@ export type VKConnectSubscribeHandler = (event: VKConnectEvent<ReceiveMethodName
  */
 export type VKConnectSend = <K extends RequestMethodName>(
   method: K,
-  props?: RequestProps<K>
+  props?: RequestProps<K> & RequestIdProp
 ) => Promise<K extends ReceiveMethodName ? ReceiveData<K> : void>;
 
 /**

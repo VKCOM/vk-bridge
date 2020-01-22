@@ -99,10 +99,10 @@ export function promisifySend(
 
   return function promisifiedSend<K extends RequestMethodName>(
     method: K,
-    props: RequestProps<K> = {} as RequestProps<K>
+    props: RequestProps<K> & RequestIdProp = {} as RequestProps<K> & RequestIdProp
   ): Promise<K extends ReceiveMethodName ? ReceiveData<K> : void> {
     return new Promise((resolve, reject) => {
-      const requestId = requestResolver.add({ resolve, reject });
+      const requestId = props.request_id == null ? requestResolver.add({ resolve, reject }) : props.request_id;
 
       sendEvent(method, {
         ...props,

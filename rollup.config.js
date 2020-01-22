@@ -60,4 +60,4 @@ const es = {
   }
 };
 
-export default IS_PROD ? [cjs, umd, es] : cjs;
+export default IS_PROD ? [cjs, umd, es] : umd;
