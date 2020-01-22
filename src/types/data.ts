@@ -660,7 +660,7 @@ export type RequestPropsMap = {
   VKWebAppAddToCommunity: {};
   VKWebAppAllowMessagesFromGroup: { group_id: number; key?: string };
   VKWebAppAllowNotifications: {};
-  VKWebAppCallAPIMethod: { method: string; params: Record<string, string | number> };
+  VKWebAppCallAPIMethod: { method: string; params: Record<string, string | number>; request_id?: string };
   VKWebAppGetAuthToken: { app_id: number; scope: string };
   VKWebAppClose: { status: AppCloseStatus; payload?: any };
   VKWebAppOpenApp: { app_id: number; location?: string };
