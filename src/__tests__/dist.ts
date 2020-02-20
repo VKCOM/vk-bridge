@@ -10,6 +10,7 @@ test('Valid esm export', () => {
   expect(typeof connectEsm.isWebView).toBe('function');
 
   expect(typeof applyMiddlewareEsm).toBe('function');
+  expect(typeof applyMiddlewareEsm()(connectEsm).send).toBe('function');
 });
 
 test('Valid umd export', () => {
@@ -20,6 +21,7 @@ test('Valid umd export', () => {
   expect(typeof connectUmd.isWebView).toBe('function');
 
   expect(typeof applyMiddlewareUmd).toBe('function');
+  expect(typeof applyMiddlewareUmd()(connectUmd).send).toBe('function');
 });
 
 test('Valid commonjs export', () => {
@@ -30,4 +32,5 @@ test('Valid commonjs export', () => {
   expect(typeof connectCmj.isWebView).toBe('function');
 
   expect(typeof applyMiddlewareCmj).toBe('function');
+  expect(typeof applyMiddlewareCmj()(connectCmj).send).toBe('function');
 });
