@@ -164,21 +164,23 @@ export function createVKConnect(version: string): VKConnect {
 
   // Subscribes to listening messages from a runtime for calling each
   // subscribed event listener.
-  window.addEventListener(EVENT_TYPE, (event: any) => {
-    if (IS_IOS_WEBVIEW || IS_ANDROID_WEBVIEW) {
-      // If it's webview
-      return [...subscribers].map(fn => fn.call(null, event));
-    } else if (IS_WEB && event && event.data) {
-      // If it's web
-      const { type, data, frameId } = event.data;
+  if (typeof window !== 'undefined' && 'addEventListener' in window) {
+    window.addEventListener(EVENT_TYPE, (event: any) => {
+      if (IS_IOS_WEBVIEW || IS_ANDROID_WEBVIEW) {
+        // If it's webview
+        return [...subscribers].map(fn => fn.call(null, event));
+      } else if (IS_WEB && event && event.data) {
+        // If it's web
+        const { type, data, frameId } = event.data;
 
-      if (type && type === 'VKWebAppSettings') {
-        webFrameId = frameId;
-      } else {
-        [...subscribers].map(fn => fn({ detail: { type, data } }));
+        if (type && type === 'VKWebAppSettings') {
+          webFrameId = frameId;
+        } else {
+          [...subscribers].map(fn => fn({ detail: { type, data } }));
+        }
       }
-    }
-  });
+    });
+  }
 
   /**
    * Enhanced send functions for the ability to receive response data in
