@@ -789,7 +789,7 @@ export type ReceiveDataMap = {
   VKWebAppInitAds: { init: 'true' | 'false' };
   VKWebAppLoadAds: { load: 'true' | 'false' };
   VKWebAppUpdateConfig: UpdateConfigData;
-  VKWebAppUpdateInsets: Insets;
+  VKWebAppUpdateInsets: { insets: Insets };
   VKWebAppViewHide: {}; // Always empty
   VKWebAppViewRestore: {}; // Always empty
   VKWebAppDisableSwipeBack: {};
