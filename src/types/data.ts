@@ -241,6 +241,16 @@ export type TransactionResult = {
 };
 
 /**
+ * Screen insets.
+ */
+export type Insets = {
+  top: number;
+  left: number;
+  right: number;
+  bottom: number;
+};
+
+/**
  * Update config data
  */
 export type UpdateConfigData = {
@@ -248,12 +258,7 @@ export type UpdateConfigData = {
   app_id: string;
   appearance: AppearanceType;
   scheme: AppearanceSchemeType;
-  insets: {
-    top: number;
-    left: number;
-    right: number;
-    bottom: number;
-  };
+  insets: Insets;
   start_time: number;
 };
 
@@ -661,6 +666,7 @@ export type RequestPropsMap = {
   VKWebAppAllowMessagesFromGroup: { group_id: number; key?: string };
   VKWebAppAllowNotifications: {};
   VKWebAppCallAPIMethod: { method: string; params: Record<string, string | number> };
+  VKWebAppCopyText: { text: string };
   VKWebAppGetAuthToken: { app_id: number; scope: string };
   VKWebAppClose: { status: AppCloseStatus; payload?: any };
   VKWebAppOpenApp: { app_id: number; location?: string };
@@ -729,6 +735,7 @@ export type ReceiveDataMap = {
   VKWebAppAllowMessagesFromGroup: { result: true };
   VKWebAppAllowNotifications: { result: true };
   VKWebAppCallAPIMethod: { response: any };
+  VKWebAppCopyText: { result: true };
   VKWebAppGetAuthToken: { access_token: string; scope: string };
   VKWebAppClose: { payload: any };
   VKWebAppOpenApp: { result: true };
@@ -782,6 +789,7 @@ export type ReceiveDataMap = {
   VKWebAppInitAds: { init: 'true' | 'false' };
   VKWebAppLoadAds: { load: 'true' | 'false' };
   VKWebAppUpdateConfig: UpdateConfigData;
+  VKWebAppUpdateInsets: { insets: Insets };
   VKWebAppViewHide: {}; // Always empty
   VKWebAppViewRestore: {}; // Always empty
   VKWebAppDisableSwipeBack: {};
