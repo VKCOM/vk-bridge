@@ -1,6 +1,5 @@
 [npm-badge]: https://img.shields.io/npm/v/@vkontakte/vk-bridge.svg
 [npm-link]: https://npmjs.com/package/@vkontakte/vk-bridge
-[mini-apps-logo]: https://vk.com/images/apps/mini_apps/vk_mini_apps_logo.svg
 
 [<img width="134" src="https://vk.com/images/apps/mini_apps/vk_mini_apps_logo.svg">](https://vk.com/services)
 
