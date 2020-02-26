@@ -1,5 +1,5 @@
 <div>
-  <a href="https://github.com/VKCOM">
+  <a href="https://vk.com/services">
     <img width="134" src="https://vk.com/images/apps/mini_apps/vk_mini_apps_logo.svg">
   </a>
 </div>
