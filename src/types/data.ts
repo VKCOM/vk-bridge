@@ -658,7 +658,7 @@ export type SubscribeStoryAppOptions = {
 };
 
 /**
- * Map of types of request props of VK Connect methods
+ * Map of types of request props of VK Bridge methods
  */
 export type RequestPropsMap = {
   VKWebAppInit: {};
@@ -728,7 +728,7 @@ export type RequestPropsMap = {
 };
 
 /**
- * Map of types of response data of VK Connect methods
+ * Map of types of response data of VK Bridge methods
  */
 export type ReceiveDataMap = {
   VKWebAppAddToCommunity: { group_id: number };

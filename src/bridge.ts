@@ -1,5 +1,5 @@
 import { promisifySend } from './promisifySend';
-import { VKConnect, VKConnectSubscribeHandler, RequestMethodName, RequestProps, RequestIdProp } from './types/connect';
+import { VKBridge, VKBridgeSubscribeHandler, RequestMethodName, RequestProps, RequestIdProp } from './types/bridge';
 
 /** Is the client side runtime environment */
 export const IS_CLIENT_SIDE = typeof window !== 'undefined';
@@ -53,28 +53,28 @@ export const DESKTOP_METHODS = [
   'VKWebAppShowCommunityWidgetPreviewBox'
 ];
 
-/** Android VK Connect interface. */
+/** Android VK Bridge interface. */
 const androidBridge: Record<string, (serializedData: string) => void> | undefined = IS_CLIENT_SIDE
   ? (window as any).AndroidBridge
   : undefined;
 
-/** iOS VK Connect interface. */
+/** iOS VK Bridge interface. */
 const iosBridge: Record<string, { postMessage?: (data: any) => void }> | undefined = IS_IOS_WEBVIEW
   ? (window as any).webkit.messageHandlers
   : undefined;
 
 /**
- * Creates a VK Connect API that holds functions for interact with runtime
+ * Creates a VK Bridge API that holds functions for interact with runtime
  * environment.
  *
  * @param version Version of the package
  */
-export function createVKConnect(version: string): VKConnect {
+export function createVKBridge(version: string): VKBridge {
   /** Current frame id. */
   let webFrameId: string | undefined = undefined;
 
   /** List of functions that subscribed on events. */
-  const subscribers: VKConnectSubscribeHandler[] = [];
+  const subscribers: VKBridgeSubscribeHandler[] = [];
 
   /**
    * Sends an event to the runtime env. In the case of Android/iOS application
@@ -101,9 +101,9 @@ export function createVKConnect(version: string): VKConnect {
         {
           handler: method,
           params: props,
-          type: 'vk-connect',
+          type: 'vk-bridge',
           webFrameId,
-          connectVersion: version
+          bridgeVersion: version
         },
         '*'
       );
@@ -115,7 +115,7 @@ export function createVKConnect(version: string): VKConnect {
    *
    * @param listener A callback to be invoked on every event receive.
    */
-  function subscribe(listener: VKConnectSubscribeHandler) {
+  function subscribe(listener: VKBridgeSubscribeHandler) {
     subscribers.push(listener);
   }
 
@@ -124,7 +124,7 @@ export function createVKConnect(version: string): VKConnect {
    *
    * @param listener A callback to unsubscribe.
    */
-  function unsubscribe(listener: VKConnectSubscribeHandler) {
+  function unsubscribe(listener: VKBridgeSubscribeHandler) {
     const index = subscribers.indexOf(listener);
 
     if (index > -1) {

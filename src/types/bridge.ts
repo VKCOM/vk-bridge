@@ -107,7 +107,7 @@ export type ErrorData =
 /**
  * Type of error event data
  */
-export type VKConnectErrorEvent = {
+export type VKBridgeErrorEvent = {
   detail: {
     type: string; // TODO
     data: ErrorData;
@@ -117,7 +117,7 @@ export type VKConnectErrorEvent = {
 /**
  * Type of success event data
  */
-export type VKConnectSuccessEvent<T extends ReceiveMethodName> = {
+export type VKBridgeSuccessEvent<T extends ReceiveMethodName> = {
   detail: {
     type: string; // TODO
     data: ReceiveData<T> & RequestIdProp;
@@ -125,14 +125,14 @@ export type VKConnectSuccessEvent<T extends ReceiveMethodName> = {
 };
 
 /**
- * VK Connect event.
+ * VK Bridge event.
  */
-export type VKConnectEvent<T extends ReceiveMethodName> = VKConnectErrorEvent | VKConnectSuccessEvent<T>;
+export type VKBridgeEvent<T extends ReceiveMethodName> = VKBridgeErrorEvent | VKBridgeSuccessEvent<T>;
 
 /**
- * Type of function that will be subscribed to VK Connect events.
+ * Type of function that will be subscribed to VK Bridge events.
  */
-export type VKConnectSubscribeHandler = (event: VKConnectEvent<ReceiveMethodName>) => void;
+export type VKBridgeSubscribeHandler = (event: VKBridgeEvent<ReceiveMethodName>) => void;
 
 /**
  * Type of send function for methods that have props.
@@ -141,15 +141,15 @@ export type VKConnectSubscribeHandler = (event: VKConnectEvent<ReceiveMethodName
  * @param props Method properties.
  * @returns The Promise object with response data.
  */
-export type VKConnectSend = <K extends RequestMethodName>(
+export type VKBridgeSend = <K extends RequestMethodName>(
   method: K,
   props?: RequestProps<K> & RequestIdProp
 ) => Promise<K extends ReceiveMethodName ? ReceiveData<K> : void>;
 
 /**
- * VK Connect interface.
+ * VK Bridge interface.
  */
-export interface VKConnect {
+export interface VKBridge {
   /**
    * Sends an event to the runtime env and returns the Promise object with
    * response data. In the case of Android/iOS application env is the
@@ -160,27 +160,27 @@ export interface VKConnect {
    * @param [props] Method properties.
    * @returns The Promise object with response data.
    */
-  send: VKConnectSend;
+  send: VKBridgeSend;
 
   /**
    * @alias send
    * @deprecated
    */
-  sendPromise: VKConnectSend;
+  sendPromise: VKBridgeSend;
 
   /**
    * Adds an event listener. It will be called any time a data is received.
    *
    * @param listener A callback to be invoked on every event receive.
    */
-  subscribe: (listener: VKConnectSubscribeHandler) => void;
+  subscribe: (listener: VKBridgeSubscribeHandler) => void;
 
   /**
    * Removes an event listener which has been subscribed for event listening.
    *
    * @param listener A callback to unsubscribe.
    */
-  unsubscribe: (listener: VKConnectSubscribeHandler) => void;
+  unsubscribe: (listener: VKBridgeSubscribeHandler) => void;
 
   /**
    * Checks if a method is supported on runtime platform.
