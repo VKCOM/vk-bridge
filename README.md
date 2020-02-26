@@ -1,16 +1,10 @@
-<div>
-  <a href="https://vk.com/services">
-    <img width="134" src="https://vk.com/images/apps/mini_apps/vk_mini_apps_logo.svg">
-  </a>
-</div>
+[npm-badge]: https://img.shields.io/npm/v/@vkontakte/vk-bridge.svg
+[npm-link]: https://npmjs.com/package/@vkontakte/vk-bridge
+[mini-apps-logo]: https://vk.com/images/apps/mini_apps/vk_mini_apps_logo.svg
 
-<div>
-  <h1>VK Bridge
-    <a style="margin-left:20px" href="https://npmjs.com/package/@vkontakte/vk-bridge">
-      <img src="https://img.shields.io/npm/v/@vkontakte/vk-bridge.svg">
-    </a>
-  </h1>
-</div>
+[<img width="134" src="https://vk.com/images/apps/mini_apps/vk_mini_apps_logo.svg">](https://vk.com/services)
+
+# VK Bridge [![NPM][npm-badge]][npm-link]
 
 A package for integrating VK Mini Apps with official VK clients for iOS, Android and Web.
 
