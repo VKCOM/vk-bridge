@@ -1,6 +1,6 @@
 <div>
   <a href="https://github.com/VKCOM">
-    <img width="134" src="https://psv4.userapi.com/c856336/u52826694/docs/d2/5c6843f873df/vk_mini_apps_logo_2x.png?extra=GTwxmtspXSsVWy3BmRrq_YzzJeA8mUM4GrZ-j34bKiFvD2fAO2LoZSoelrA0eTUDZEH_dtSpwcU5yzoznSfVtE7ATVnk7FbEXRDQVlr0b9B4kBhSDfcA2KflV8h6JOdhdvDfDosa3BwTrEOQ">
+    <img width="134" src="https://psv4.userapi.com/c856336/u52826694/docs/d2/5c6843f873df/vk_mini_apps_logo_2x.png">
   </a>
 </div>
 
