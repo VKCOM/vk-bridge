@@ -1,11 +1,11 @@
 {
-  "name": "@vkontakte/vk-connect",
-  "version": "1.9.1",
-  "description": "Connects a VKUI application with VK client",
+  "name": "@vkontakte/vk-bridge",
+  "version": "2.0.0",
+  "description": "Connects a Mini App with VK client",
   "main": "dist/index.js",
   "browser": "dist/index.umd.js",
   "module": "dist/index.es.js",
-  "umdName": "vkConnect",
+  "umdName": "vkBridge",
   "types": "dist/types/src/index.d.ts",
   "scripts": {
     "watch": "rollup -c -w",
@@ -26,8 +26,8 @@
     },
     {
       "name": "Gleb Vorontsov",
-      "email": "gleb.vorontsov@gmail.com",
-      "url": "https://vk.com/gleb.vorontsov"
+      "email": "vorontsov.gleb@gmail.com",
+      "url": "https://vk.com/boy"
     },
     {
       "name": "Danakt Frost",
@@ -36,7 +36,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/VKCOM/vk-connect.git"
+    "url": "git+https://github.com/VKCOM/vk-bridge.git"
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",

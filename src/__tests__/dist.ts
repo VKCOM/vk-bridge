@@ -1,36 +1,36 @@
-import connectEsm, { applyMiddleware as applyMiddlewareEsm } from '../../';
-const { applyMiddleware: applyMiddlewareUmd, ...connectUmd } = require('../../dist/index.umd');
-const { applyMiddleware: applyMiddlewareCmj, ...connectCmj } = require('../../dist/index');
+import bridgeEsm, { applyMiddleware as applyMiddlewareEsm } from '../../';
+const { applyMiddleware: applyMiddlewareUmd, ...bridgeUmd } = require('../../dist/index.umd');
+const { applyMiddleware: applyMiddlewareCmj, ...bridgeCmj } = require('../../dist/index');
 
 test('Valid esm export', () => {
-  expect(typeof connectEsm.send).toBe('function');
-  expect(typeof connectEsm.subscribe).toBe('function');
-  expect(typeof connectEsm.unsubscribe).toBe('function');
-  expect(typeof connectEsm.supports).toBe('function');
-  expect(typeof connectEsm.isWebView).toBe('function');
+  expect(typeof bridgeEsm.send).toBe('function');
+  expect(typeof bridgeEsm.subscribe).toBe('function');
+  expect(typeof bridgeEsm.unsubscribe).toBe('function');
+  expect(typeof bridgeEsm.supports).toBe('function');
+  expect(typeof bridgeEsm.isWebView).toBe('function');
 
   expect(typeof applyMiddlewareEsm).toBe('function');
-  expect(typeof applyMiddlewareEsm()(connectEsm).send).toBe('function');
+  expect(typeof applyMiddlewareEsm()(bridgeEsm).send).toBe('function');
 });
 
 test('Valid umd export', () => {
-  expect(typeof connectUmd.send).toBe('function');
-  expect(typeof connectUmd.subscribe).toBe('function');
-  expect(typeof connectUmd.unsubscribe).toBe('function');
-  expect(typeof connectUmd.supports).toBe('function');
-  expect(typeof connectUmd.isWebView).toBe('function');
+  expect(typeof bridgeUmd.send).toBe('function');
+  expect(typeof bridgeUmd.subscribe).toBe('function');
+  expect(typeof bridgeUmd.unsubscribe).toBe('function');
+  expect(typeof bridgeUmd.supports).toBe('function');
+  expect(typeof bridgeUmd.isWebView).toBe('function');
 
   expect(typeof applyMiddlewareUmd).toBe('function');
-  expect(typeof applyMiddlewareUmd()(connectUmd).send).toBe('function');
+  expect(typeof applyMiddlewareUmd()(bridgeUmd).send).toBe('function');
 });
 
 test('Valid commonjs export', () => {
-  expect(typeof connectCmj.send).toBe('function');
-  expect(typeof connectCmj.subscribe).toBe('function');
-  expect(typeof connectCmj.unsubscribe).toBe('function');
-  expect(typeof connectCmj.supports).toBe('function');
-  expect(typeof connectCmj.isWebView).toBe('function');
+  expect(typeof bridgeCmj.send).toBe('function');
+  expect(typeof bridgeCmj.subscribe).toBe('function');
+  expect(typeof bridgeCmj.unsubscribe).toBe('function');
+  expect(typeof bridgeCmj.supports).toBe('function');
+  expect(typeof bridgeCmj.isWebView).toBe('function');
 
   expect(typeof applyMiddlewareCmj).toBe('function');
-  expect(typeof applyMiddlewareCmj()(connectCmj).send).toBe('function');
+  expect(typeof applyMiddlewareCmj()(bridgeCmj).send).toBe('function');
 });

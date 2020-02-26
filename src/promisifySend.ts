@@ -1,11 +1,11 @@
 import {
-  VKConnectSubscribeHandler,
+  VKBridgeSubscribeHandler,
   RequestMethodName,
   RequestProps,
   RequestIdProp,
   ReceiveData,
   ReceiveMethodName
-} from './types/connect';
+} from './types/bridge';
 
 /**
  * Creates counter interface.
@@ -80,7 +80,7 @@ function createRequestResolver() {
  */
 export function promisifySend(
   sendEvent: <K extends RequestMethodName>(method: K, props?: RequestProps<K> & RequestIdProp) => void,
-  subscribe: (fn: VKConnectSubscribeHandler) => void
+  subscribe: (fn: VKBridgeSubscribeHandler) => void
 ) {
   const requestResolver = createRequestResolver();
 

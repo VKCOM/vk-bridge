@@ -1,60 +1,52 @@
-<div align="center">
-  <a href="https://github.com/VKCOM">
-    <img width="100" height="100" src="https://avatars3.githubusercontent.com/u/1478241?s=200&v=4">
-  </a>
-  <br>
-  <br>
+[npm-badge]: https://img.shields.io/npm/v/@vkontakte/vk-bridge.svg
+[npm-link]: https://npmjs.com/package/@vkontakte/vk-bridge
+[mini-apps-logo]: https://vk.com/images/apps/mini_apps/vk_mini_apps_logo.svg
 
-[![npm][npm]][npm-url]
+[<img width="134" src="https://vk.com/images/apps/mini_apps/vk_mini_apps_logo.svg">](https://vk.com/services)
 
-[npm]: https://img.shields.io/npm/v/@vkontakte/vk-connect.svg
-[npm-url]: https://npmjs.com/package/@vkontakte/vk-connect
-
-</div>
-
-# VK Connect
+# VK Bridge [![NPM][npm-badge]][npm-link]
 
 A package for integrating VK Mini Apps with official VK clients for iOS, Android and Web.
 
 ## Usage
 
 ```js
-import connect from '@vkontakte/vk-connect';
+import bridge from '@vkontakte/vk-bridge';
 
 // Sends event to client
-connect.send('VKWebAppInit');
+bridge.send('VKWebAppInit');
 
 // Subscribes to event, sended by client
-connect.subscribe(e => console.log(e));
+bridge.subscribe(e => console.log(e));
 ```
 
-For use in a browser, include the file [`dist/index.umd.js`](https://unpkg.com/@vkontakte/vk-connect/dist/index.umd.js) and use as follows
+For use in a browser, include the file [`dist/index.umd.js`](https://unpkg.com/@vkontakte/vk-bridge/dist/index.umd.js) and use as follows
 
 ```html
 <script src="dist/index.umd.js"></script>
 
 <script>
   // Sends event to client
-  vkConnect.send('VKWebAppInit');
+  vkBridge.send('VKWebAppInit');
 </script>
 ```
 
 ## API Reference
 
-### `connect.send(method[, params])`
+### `bridge.send(method[, params])`
 
 Sends a message to native client and returns the `Promise` object with response data
 
 **Parameters**
 
-- `method` _required_ The VK Connect method
+- `method` _required_ The VK Bridge method
 - `params` _optional_ Message data object
 
 **Example**
 
 ```js
 // Sending event to client
-connect
+bridge
   .send('VKWebAppGetEmail')
   .then(data => {
     // Handling received data
@@ -69,7 +61,7 @@ You can also use imperative way
 
 ```js
 try {
-  const data = await connect.send('VKWebAppGetEmail');
+  const data = await bridge.send('VKWebAppGetEmail');
 
   // Handling received data
   console.log(data.email);
@@ -78,7 +70,7 @@ try {
 }
 ```
 
-### `connect.subscribe(fn)`
+### `bridge.subscribe(fn)`
 
 Subscribes a function to events listening
 
@@ -90,7 +82,7 @@ Subscribes a function to events listening
 
 ```js
 // Subscribing to receiving events
-connect.subscribe(event => {
+bridge.subscribe(event => {
   if (!event.detail) {
     return;
   }
@@ -109,10 +101,10 @@ connect.subscribe(event => {
 });
 
 // Sending method
-connect.send('VKWebAppOpenCodeReader', {});
+bridge.send('VKWebAppOpenCodeReader', {});
 ```
 
-### `connect.unsubscribe(fn)`
+### `bridge.unsubscribe(fn)`
 
 Unsubscribes a function from events listening
 
@@ -128,23 +120,23 @@ const fn = event => {
 };
 
 // Subscribing
-connect.subscribe(fn);
+bridge.subscribe(fn);
 
 // Unsubscribing
-connect.unsubscribe(fn);
+bridge.unsubscribe(fn);
 ```
 
-### `connect.supports(method)`
+### `bridge.supports(method)`
 
 Checks if an event is available on the current device
 
 **Parameters**
 
-- `method` _required_ The VK Connect method
+- `method` _required_ The VK Bridge method
 
-### `connect.isWebView()`
+### `bridge.isWebView()`
 
-Returns `true` if VK Connect is running in mobile app, or `false` if not
+Returns `true` if VK Bridge is running in mobile app, or `false` if not
 
 ## Middleware API
 
@@ -152,9 +144,9 @@ _Middlewares_ are pieces of code that intercept and process data between sending
 
 ### `applyMiddleware(middleware1, ..., middlewareN)`
 
-Creates the VK Connect enhancer that applies middleware to the `send`
+Creates the VK Bridge enhancer that applies middleware to the `send`
 method. This is handy for a variety of task such as logging every sent
-event. Returns the VK Connect enhancer applying the middleware.
+event. Returns the VK Bridge enhancer applying the middleware.
 
 **Parameters**
 
@@ -163,7 +155,7 @@ event. Returns the VK Connect enhancer applying the middleware.
 **Example**
 
 ```js
-import connect, { applyMiddleware } from '@vkontakte/vk-connect';
+import bridge, { applyMiddleware } from '@vkontakte/vk-bridge';
 
 // Logs the result of each sent event
 const logger = ({ send, subscribe }) => next => async (method, props) => {
@@ -172,5 +164,5 @@ const logger = ({ send, subscribe }) => next => async (method, props) => {
   return result;
 };
 
-const enhancedConnect = applyMiddleware(logger)(connect);
+const enhancedBridge = applyMiddleware(logger)(bridge);
 ```

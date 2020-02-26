@@ -1,27 +1,27 @@
-import { VKConnect, VKConnectSend } from './types/connect';
+import { VKBridge, VKBridgeSend } from './types/bridge';
 import { Middleware, MiddlewareAPI } from './types/middleware';
 
 /**
- * Creates the VK Connect enhancer that applies middleware to the `send`
+ * Creates the VK Bridge enhancer that applies middleware to the `send`
  * method. This is handy for a variety of task such as logging every sent
  * event.
  *
  * @param middlewares The middleware chain to be applied.
- * @returns The VK Connect enhancer applying the middleware.
+ * @returns The VK Bridge enhancer applying the middleware.
  */
 export function applyMiddleware(
   ...middlewares: Array<Middleware | undefined | null>
-): (connect: VKConnect) => VKConnect {
+): (bridge: VKBridge) => VKBridge {
   if (middlewares.includes(undefined) || middlewares.includes(null)) {
     return applyMiddleware(...middlewares.filter((item): item is Middleware => typeof item === 'function'));
   }
 
-  return connect => {
+  return bridge => {
     if (middlewares.length === 0) {
-      return connect;
+      return bridge;
     }
 
-    let send: VKConnectSend = () => {
+    let send: VKBridgeSend = () => {
       throw new Error(
         'Sending events while constructing your middleware is not allowed. ' +
           'Other middleware would not be applied to this send.'
@@ -29,8 +29,8 @@ export function applyMiddleware(
     };
 
     const middlewareAPI: MiddlewareAPI = {
-      subscribe: connect.subscribe,
-      send: (...args) => connect.send(...args)
+      subscribe: bridge.subscribe,
+      send: (...args) => bridge.send(...args)
     };
 
     const chain = middlewares
@@ -38,10 +38,10 @@ export function applyMiddleware(
       .map(middleware => middleware(middlewareAPI)) //
       .reduce((a, b) => send => a(b(send)));
 
-    send = chain(connect.send);
+    send = chain(bridge.send);
 
     return {
-      ...connect,
+      ...bridge,
       send
     };
   };
