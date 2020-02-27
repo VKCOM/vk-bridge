@@ -52,7 +52,7 @@ const es = {
 };
 
 const umd = {
-  plugins: [...getPlugins(), uglify()],
+  plugins: IS_PROD ? [...getPlugins(), uglify()] : getPlugins(),
   input: INPUT_FILE,
   output: {
     exports: 'named',

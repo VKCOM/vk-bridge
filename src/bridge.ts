@@ -101,9 +101,9 @@ export function createVKBridge(version: string): VKBridge {
         {
           handler: method,
           params: props,
-          type: 'vk-bridge',
+          type: 'vk-connect',
           webFrameId,
-          bridgeVersion: version
+          connectVersion: version
         },
         '*'
       );
