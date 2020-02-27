@@ -10,7 +10,6 @@ import pkg from './package.json';
 const IS_PROD = process.env.NODE_ENV === 'production';
 
 const INPUT_FILE = './src/index.ts';
-const INPUT_FILE_BROWSER = './src/browser.ts';
 
 const getPlugins = (tsDeclaration = false) => [
   typescript(
@@ -43,17 +42,6 @@ const cjs = {
   }
 };
 
-const umd = {
-  plugins: [...getPlugins(), uglify()],
-  input: INPUT_FILE_BROWSER,
-  output: {
-    exports: 'auto',
-    // name: pkg.umdName,
-    file: pkg.browser,
-    format: 'umd'
-  }
-};
-
 const es = {
   plugins: getPlugins(),
   input: INPUT_FILE,
@@ -63,4 +51,15 @@ const es = {
   }
 };
 
-export default IS_PROD ? [cjs, umd, es] : umd;
+const umd = {
+  plugins: [...getPlugins(), uglify()],
+  input: INPUT_FILE,
+  output: {
+    exports: 'named',
+    name: pkg.umdName,
+    file: pkg.browser,
+    format: 'umd'
+  }
+};
+
+export default IS_PROD ? [cjs, es, umd] : umd;
