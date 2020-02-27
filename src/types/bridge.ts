@@ -142,7 +142,7 @@ export type VKBridgeSuccessEvent<M extends ReceiveMethodName> = {
 /**
  * VK Bridge event.
  */
-export type VKBridgeEvent<T extends ReceiveMethodName> = VKBridgeErrorEvent | VKBridgeSuccessEvent<T>;
+export type VKBridgeEvent<M extends ReceiveMethodName> = VKBridgeErrorEvent<M> | VKBridgeSuccessEvent<M>;
 
 /**
  * Type of function that will be subscribed to VK Bridge events.
