@@ -1,4 +1,9 @@
-import { RequestPropsMap, ReceiveDataMap } from './data';
+import {
+  RequestPropsMap,
+  ReceiveDataMap,
+  FailedReceiveEventMap,
+  SuccessfulReceiveEventMap,
+} from './data';
 
 /**
  * Name of a method that can be sent.
@@ -9,6 +14,16 @@ export type RequestMethodName = keyof RequestPropsMap;
  * Name of a method that can be received.
  */
 export type ReceiveMethodName = keyof ReceiveDataMap;
+
+/**
+ * Getter of failed event name of a method.
+ */
+export type FailedReceiveEventName<M extends ReceiveMethodName> = FailedReceiveEventMap[M];
+
+/**
+ * Getter of successful event name of a method.
+ */
+export type SuccessfulReceiveEventName<M extends ReceiveMethodName> = SuccessfulReceiveEventMap[M];
 
 /**
  * Name of a method that can be only sent.
@@ -107,9 +122,9 @@ export type ErrorData =
 /**
  * Type of error event data
  */
-export type VKBridgeErrorEvent = {
+export type VKBridgeErrorEvent<M extends ReceiveMethodName> = {
   detail: {
-    type: string; // TODO
+    type: FailedReceiveEventName<M>
     data: ErrorData;
   };
 };
@@ -117,10 +132,10 @@ export type VKBridgeErrorEvent = {
 /**
  * Type of success event data
  */
-export type VKBridgeSuccessEvent<T extends ReceiveMethodName> = {
+export type VKBridgeSuccessEvent<M extends ReceiveMethodName> = {
   detail: {
-    type: string; // TODO
-    data: ReceiveData<T> & RequestIdProp;
+    type: SuccessfulReceiveEventName<M>;
+    data: ReceiveData<M> & RequestIdProp;
   };
 };
 
