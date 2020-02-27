@@ -1,6 +1,6 @@
 import bridgeEsm, { applyMiddleware as applyMiddlewareEsm } from '../../';
-const { applyMiddleware: applyMiddlewareUmd, ...bridgeUmd } = require('../../dist/index.umd');
-const { applyMiddleware: applyMiddlewareCmj, ...bridgeCmj } = require('../../dist/index');
+const { applyMiddleware: applyMiddlewareUmd, default: bridgeUmd } = require('../../dist/index.umd');
+const { applyMiddleware: applyMiddlewareCmj, default: bridgeCmj } = require('../../dist/index');
 
 test('Valid esm export', () => {
   expect(typeof bridgeEsm.send).toBe('function');
