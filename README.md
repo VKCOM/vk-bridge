@@ -19,10 +19,10 @@ bridge.send('VKWebAppInit');
 bridge.subscribe(e => console.log(e));
 ```
 
-For use in a browser, include the file [`dist/index.umd.js`](https://unpkg.com/@vkontakte/vk-bridge/dist/index.umd.js) and use as follows
+For use in a browser, include the file [`dist/browser.min.js`](https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js) and use as follows
 
 ```html
-<script src="dist/index.umd.js"></script>
+<script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
 
 <script>
   // Sends event to client
