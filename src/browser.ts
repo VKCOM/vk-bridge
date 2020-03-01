@@ -1,4 +1,5 @@
-import bridge from './index';
+import bridge, {ExtendedWindow} from './index';
 
-// @ts-ignore
-window.vkBridge = window.vkConnect = bridge;
+const wnd = window as ExtendedWindow;
+
+wnd.vkBridge = wnd.vkConnect = bridge;
