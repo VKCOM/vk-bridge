@@ -36,6 +36,11 @@ export type SuccessfulReceiveEventName<M extends ReceiveMethodName> = ReceiveEve
 export type MethodLikeEventData<E extends MethodLikeEventName> = MethodLikeEventDataMap[E];
 
 /**
+ * Name of a method that could be observed via subscribe method.
+ */
+export type ObservableEvent = ReceiveMethodName | MethodLikeEventName;
+
+/**
  * Name of a method that can be only sent.
  */
 export type RequestOnlyMethodName = Exclude<RequestMethodName, ReceiveMethodName>;
@@ -173,7 +178,11 @@ export type VKBridgeResultEvent<M extends ReceiveMethodName = ReceiveMethodName>
 /**
  * VK Bridge event.
  */
-export type VKBridgeEvent = VKBridgeResultEvent | VKBridgeMethodLikeEvent;
+export type VKBridgeEvent<E extends ObservableEvent = ObservableEvent> = {
+  [K in E]: K extends MethodLikeEventName
+    ? VKBridgeMethodLikeEvent<K>
+    : (K extends ReceiveMethodName ? VKBridgeResultEvent<K> : never);
+}[E];
 
 /**
  * Type of function that will be subscribed to VK Bridge events.
