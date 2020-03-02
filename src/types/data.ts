@@ -251,9 +251,18 @@ export type Insets = {
 };
 
 /**
- * Update config data
+ * Update config type for mvk (mobile browser).
  */
-export type UpdateConfigData = {
+export type MVKUpdateConfigData = {
+  viewport_width: number;
+  viewport_height: number;
+  scheme: AppearanceSchemeType;
+};
+
+/**
+ * Update config type data for mobile clients and desktop.
+ */
+export type DefaultUpdateConfigData = {
   app: 'vkclient' | 'vkme';
   app_id: string;
   appearance: AppearanceType;
@@ -261,6 +270,11 @@ export type UpdateConfigData = {
   insets: Insets;
   start_time: number;
 };
+
+/**
+ * Update config data
+ */
+export type UpdateConfigData = DefaultUpdateConfigData | MVKUpdateConfigData;
 
 export type WidgetPreviewRequestOptions = {
   /** Widget type */
