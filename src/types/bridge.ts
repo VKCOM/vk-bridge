@@ -243,11 +243,3 @@ export interface VKBridge {
    */
   isWebView: () => boolean;
 }
-
-/**
- * Extends window with additional bridge properties.
- */
-export type ExtendedWindow = typeof window & {
-  vkBridge: VKBridge;
-  vkConnect: VKBridge;
-}
