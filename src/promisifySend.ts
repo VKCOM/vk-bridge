@@ -23,6 +23,10 @@ function createCounter() {
  * Creates interface for resolving request promises by request id's (or not).
  */
 function createRequestResolver() {
+  /**
+   * @prop resolve Resolve function.
+   * @prop reject Reject function.
+   */
   type PromiseController = {
     resolve: (value: any) => any;
     reject: (reason: any) => any;
@@ -35,12 +39,13 @@ function createRequestResolver() {
     /**
      * Adds new controller with resolve/reject methods.
      *
+     * @param controller
      * @param resolve Resolve function.
      * @param reject Reject function.
      * @returns New request id of the added controller.
      */
-    add(controller: PromiseController): number {
-      const id = counter.next();
+    add(controller: PromiseController, customId?: number | string): number | string {
+      const id = customId != null ? customId : counter.next();
 
       promiseControllers[id] = controller;
 
@@ -102,7 +107,7 @@ export function promisifySend(
     props: RequestProps<K> & RequestIdProp = {} as RequestProps<K> & RequestIdProp
   ): Promise<K extends ReceiveMethodName ? ReceiveData<K> : void> {
     return new Promise((resolve, reject) => {
-      const requestId = props.request_id == null ? requestResolver.add({ resolve, reject }) : props.request_id;
+      const requestId = requestResolver.add({ resolve, reject }, props.request_id);
 
       sendEvent(method, {
         ...props,
