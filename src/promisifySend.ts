@@ -39,9 +39,8 @@ function createRequestResolver() {
     /**
      * Adds new controller with resolve/reject methods.
      *
-     * @param controller
-     * @param resolve Resolve function.
-     * @param reject Reject function.
+     * @param controller Object with `resolve` and `reject` functions
+     * @param customId Custom `request_id`
      * @returns New request id of the added controller.
      */
     add(controller: PromiseController, customId?: number | string): number | string {
