@@ -94,10 +94,13 @@ export function promisifySend(
       return;
     }
 
-    const { request_id: requestId, ...data } = event.detail.data;
+    // There is no request_id in method-like events, so we check its existence.
+    if ('request_id' in event.detail.data) {
+      const {request_id: requestId, ...data} = event.detail.data;
 
-    if (requestId) {
-      requestResolver.resolve(requestId, data, data => !('error_type' in data));
+      if (requestId) {
+        requestResolver.resolve(requestId, data, data => !('error_type' in data));
+      }
     }
   });
 

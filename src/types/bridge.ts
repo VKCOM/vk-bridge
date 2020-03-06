@@ -1,8 +1,8 @@
 import {
   RequestPropsMap,
   ReceiveDataMap,
-  FailedReceiveEventMap,
-  SuccessfulReceiveEventMap,
+  ReceiveEventMap,
+  MethodLikeEventDataMap,
 } from './data';
 
 /**
@@ -16,14 +16,29 @@ export type RequestMethodName = keyof RequestPropsMap;
 export type ReceiveMethodName = keyof ReceiveDataMap;
 
 /**
+ * Name of method-like events.
+ */
+export type MethodLikeEventName = keyof MethodLikeEventDataMap;
+
+/**
  * Getter of failed event name of a method.
  */
-export type FailedReceiveEventName<M extends ReceiveMethodName> = FailedReceiveEventMap[M];
+export type FailedReceiveEventName<M extends ReceiveMethodName> = ReceiveEventMap[M]['failed'];
 
 /**
  * Getter of successful event name of a method.
  */
-export type SuccessfulReceiveEventName<M extends ReceiveMethodName> = SuccessfulReceiveEventMap[M];
+export type SuccessfulReceiveEventName<M extends ReceiveMethodName> = ReceiveEventMap[M]['result'];
+
+/**
+ * Getter of data type for method-like event.
+ */
+export type MethodLikeEventData<E extends MethodLikeEventName> = MethodLikeEventDataMap[E];
+
+/**
+ * Name of a method that could be observed via subscribe method.
+ */
+export type ObservableEvent = ReceiveMethodName | MethodLikeEventName;
 
 /**
  * Name of a method that can be only sent.
@@ -120,34 +135,59 @@ export type ErrorData =
     };
 
 /**
- * Type of error event data
+ * Generic event type for creating event types.
  */
-export type VKBridgeErrorEvent<M extends ReceiveMethodName> = {
+export type VKBridgeEventBase<Type, Data> = {
   detail: {
-    type: FailedReceiveEventName<M>
-    data: ErrorData;
-  };
+    type: Type;
+    data: Data;
+  },
 };
 
 /**
- * Type of success event data
+ * Type of error event data.
  */
-export type VKBridgeSuccessEvent<M extends ReceiveMethodName> = {
-  detail: {
-    type: SuccessfulReceiveEventName<M>;
-    data: ReceiveData<M> & RequestIdProp;
-  };
-};
+export type VKBridgeErrorEvent<M extends ReceiveMethodName = ReceiveMethodName> = {
+  [Method in M]: VKBridgeEventBase<FailedReceiveEventName<Method>, ErrorData>
+}[M];
+
+/**
+ * Type of success event data.
+ */
+export type VKBridgeSuccessEvent<M extends ReceiveMethodName = ReceiveMethodName> = {
+  [Method in M]: SuccessfulReceiveEventName<Method> extends never
+    ? never
+    : VKBridgeEventBase<SuccessfulReceiveEventName<Method>, ReceiveData<Method> & RequestIdProp>
+}[M];
+
+/**
+ * VK Bridge usual event.
+ */
+export type VKBridgeMethodLikeEvent<M extends MethodLikeEventName = MethodLikeEventName> = {
+  [Method in M]: VKBridgeEventBase<Method, MethodLikeEventData<Method>>
+}[M];
+
+
+/**
+ * VK Bridge event describing a result of some executed method.
+ */
+export type VKBridgeResultEvent<M extends ReceiveMethodName = ReceiveMethodName> =
+  VKBridgeErrorEvent<M> |
+  VKBridgeSuccessEvent<M>;
 
 /**
  * VK Bridge event.
  */
-export type VKBridgeEvent<M extends ReceiveMethodName> = VKBridgeErrorEvent<M> | VKBridgeSuccessEvent<M>;
+export type VKBridgeEvent<E extends ObservableEvent = ObservableEvent> = {
+  [K in E]: K extends MethodLikeEventName
+    ? VKBridgeMethodLikeEvent<K>
+    : (K extends ReceiveMethodName ? VKBridgeResultEvent<K> : never);
+}[E];
 
 /**
  * Type of function that will be subscribed to VK Bridge events.
  */
-export type VKBridgeSubscribeHandler = (event: VKBridgeEvent<ReceiveMethodName>) => void;
+export type VKBridgeSubscribeHandler = (event: VKBridgeEvent) => void;
 
 /**
  * Type of send function for methods that have props.
