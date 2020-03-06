@@ -732,19 +732,20 @@ export type RequestPropsMap = {
   VKWebAppDisableSwipeBack: {};
   VKWebAppEnableSwipeBack: {};
   VKWebAppShowStoryBox: ShowStoryBoxOptions;
+  VKWebAppSubscribeStoryApp: SubscribeStoryAppOptions;
   VKWebAppAccelerometerStart: {};
   VKWebAppAccelerometerStop: {};
   VKWebAppGyroscopeStart: {};
   VKWebAppGyroscopeStop: {};
   VKWebAppDeviceMotionStart: {};
   VKWebAppDeviceMotionStop: {};
-  VKWebAppSubscribeStoryApp: SubscribeStoryAppOptions;
 };
 
 /**
  * Map of types of response data of VK Bridge methods
  */
 export type ReceiveDataMap = {
+  VKWebAppInit: { result: true };
   VKWebAppAddToCommunity: { group_id: number };
   VKWebAppAllowMessagesFromGroup: { result: true };
   VKWebAppAllowNotifications: { result: true };
@@ -796,7 +797,7 @@ export type ReceiveDataMap = {
   VKWebAppCommunityAccessToken: { access_token: string };
   /** Android. Deprecated in favor `VKWebAppGetCommunityToken` */
   VKWebAppCommunityToken: { access_token: string };
-  VKWebAppAudioPaused: { position: number; type: string; id: string };
+  VKWebAppAudioPause: { position: number; type: string; id: string };
   VKWebAppAudioStopped: {}; // Always empty
   VKWebAppAudioTrackChanged: { type: string; id: string };
   VKWebAppAudioUnpaused: { type: string; id: string };
@@ -805,15 +806,21 @@ export type ReceiveDataMap = {
   VKWebAppDisableSwipeBack: {};
   VKWebAppEnableSwipeBack: {};
   VKWebAppShowStoryBox: { result: true };
+  VKWebAppAccelerometerStart: { result: true };
+  VKWebAppAccelerometerStop: { result: true };
+  VKWebAppGyroscopeStart: { result: true };
+  VKWebAppGyroscopeStop: { result: true };
   VKWebAppAccelerometerChanged: { x: string; y: string; z: string };
   VKWebAppGyroscopeChanged: { x: string; y: string; z: string };
+  VKWebAppDeviceMotionStart: {};
   VKWebAppDeviceMotionChanged: { alpha: string; beta: string; gamma: string };
+  VKWebAppDeviceMotionStop: {};
   VKWebAppLocationChanged: { location: string };
   VKWebAppSubscribeStoryApp: { access_key: string };
 };
 
 /**
- * Successful and failed event names of executable event.
+ * Successful and failed event names.
  */
 export type ReceiveEventNames<R extends string, F extends string> = {
   result: R;
@@ -821,11 +828,14 @@ export type ReceiveEventNames<R extends string, F extends string> = {
 };
 
 /**
- * Successful and failed event names for method.
+ * Successful and failed event names.
  */
 export type ReceiveEventMap = {
   VKWebAppAddToCommunity: ReceiveEventNames<'VKWebAppAddToCommunityResult', 'VKWebAppAddToCommunityFailed'>;
-  VKWebAppAllowMessagesFromGroup: ReceiveEventNames<'VKWebAppAllowMessagesFromGroupResult', 'VKWebAppAllowMessagesFromGroupFailed'>;
+  VKWebAppAllowMessagesFromGroup: ReceiveEventNames<
+    'VKWebAppAllowMessagesFromGroupResult',
+    'VKWebAppAllowMessagesFromGroupFailed'
+  >;
   VKWebAppAllowNotifications: ReceiveEventNames<'VKWebAppAllowNotificationsResult', 'VKWebAppAllowNotificationsFailed'>;
   VKWebAppCallAPIMethod: ReceiveEventNames<'VKWebAppCallAPIMethodResult', 'VKWebAppCallAPIMethodFailed'>;
   VKWebAppCopyText: ReceiveEventNames<'VKWebAppCopyTextResult', 'VKWebAppCopyTextFailed'>;
@@ -852,7 +862,10 @@ export type ReceiveEventMap = {
   VKWebAppSetLocation: ReceiveEventNames<'VKWebAppSetLocationResult', 'VKWebAppSetLocationFailed'>;
   VKWebAppSetViewSettings: ReceiveEventNames<'VKWebAppSetViewSettingsResult', 'VKWebAppSetViewSettingsFailed'>;
   VKWebAppShare: ReceiveEventNames<'VKWebAppShareResult', 'VKWebAppShareFailed'>;
-  VKWebAppShowCommunityWidgetPreviewBox: ReceiveEventNames<'VKWebAppShowCommunityWidgetPreviewBoxResult', 'VKWebAppShowCommunityWidgetPreviewBoxFailed'>;
+  VKWebAppShowCommunityWidgetPreviewBox: ReceiveEventNames<
+    'VKWebAppShowCommunityWidgetPreviewBoxResult',
+    'VKWebAppShowCommunityWidgetPreviewBoxFailed'
+  >;
   VKWebAppShowImages: ReceiveEventNames<'VKWebAppShowImagesResult', 'VKWebAppShowImagesFailed'>;
   VKWebAppShowInviteBox: ReceiveEventNames<'VKWebAppShowInviteBoxResult', 'VKWebAppShowInviteBoxFailed'>;
   VKWebAppShowLeaderBoardBox: ReceiveEventNames<'VKWebAppShowLeaderBoardBoxResult', 'VKWebAppShowLeaderBoardBoxFailed'>;
@@ -869,31 +882,27 @@ export type ReceiveEventMap = {
   VKWebAppAddToFavorites: ReceiveEventNames<'VKWebAppAddToFavoritesResult', 'VKWebAppAddToFavoritesFailed'>;
   VKWebAppSendPayload: ReceiveEventNames<'VKWebAppSendPayloadResult', 'VKWebAppSendPayloadFailed'>;
   VKWebAppGetCommunityToken: ReceiveEventNames<'VKWebAppGetCommunityTokenResult', 'VKWebAppGetCommunityTokenFailed'>;
-  VKWebAppGetCommunityAuthToken: ReceiveEventNames<'VKWebAppGetCommunityAuthTokenResult', 'VKWebAppGetCommunityAuthTokenFailed'>;
-  VKWebAppCommunityAccessToken: ReceiveEventNames<'VKWebAppCommunityAccessTokenResult', 'VKWebAppCommunityAccessTokenFailed'>;
+  VKWebAppGetCommunityAuthToken: ReceiveEventNames<
+    'VKWebAppGetCommunityAuthTokenResult',
+    'VKWebAppGetCommunityAuthTokenFailed'
+  >;
+  VKWebAppCommunityAccessToken: ReceiveEventNames<
+    'VKWebAppCommunityAccessTokenResult',
+    'VKWebAppCommunityAccessTokenFailed'
+  >;
   VKWebAppCommunityToken: ReceiveEventNames<'VKWebAppCommunityTokenResult', 'VKWebAppCommunityTokenFailed'>;
-  VKWebAppAudioPaused: ReceiveEventNames<'VKWebAppAudioPausedResult', 'VKWebAppAudioPausedFailed'>;
   VKWebAppAudioStopped: ReceiveEventNames<'VKWebAppAudioStoppedResult', 'VKWebAppAudioStoppedFailed'>;
-  VKWebAppAudioTrackChanged: ReceiveEventNames<'VKWebAppAudioTrackChangedResult', 'VKWebAppAudioTrackChangedFailed'>;
   VKWebAppAudioUnpaused: ReceiveEventNames<'VKWebAppAudioUnpausedResult', 'VKWebAppAudioUnpausedFailed'>;
   VKWebAppInitAds: ReceiveEventNames<'VKWebAppInitAdsResult', 'VKWebAppInitAdsFailed'>;
   VKWebAppLoadAds: ReceiveEventNames<'VKWebAppLoadAdsResult', 'VKWebAppLoadAdsFailed'>;
   VKWebAppDisableSwipeBack: ReceiveEventNames<'VKWebAppDisableSwipeBackResult', 'VKWebAppDisableSwipeBackFailed'>;
   VKWebAppEnableSwipeBack: ReceiveEventNames<'VKWebAppEnableSwipeBackResult', 'VKWebAppEnableSwipeBackFailed'>;
   VKWebAppShowStoryBox: ReceiveEventNames<'VKWebAppShowStoryBoxResult', 'VKWebAppShowStoryBoxFailed'>;
-  VKWebAppAccelerometerChanged: ReceiveEventNames<'VKWebAppAccelerometerChangedResult', 'VKWebAppAccelerometerChangedFailed'>;
-  VKWebAppGyroscopeChanged: ReceiveEventNames<'VKWebAppGyroscopeChangedResult', 'VKWebAppGyroscopeChangedFailed'>;
-  VKWebAppDeviceMotionChanged: ReceiveEventNames<'VKWebAppDeviceMotionChangedResult', 'VKWebAppDeviceMotionChangedFailed'>;
-  VKWebAppLocationChanged: ReceiveEventNames<'VKWebAppLocationChangedResult', 'VKWebAppLocationChangedFailed'>;
   VKWebAppSubscribeStoryApp: ReceiveEventNames<'VKWebAppSubscribeStoryAppResult', 'VKWebAppSubscribeStoryAppFailed'>;
-};
-
-/**
- * Data types for method-like events.
- */
-export type MethodLikeEventDataMap = {
-  VKWebAppUpdateConfig: UpdateConfigData;
-  VKWebAppUpdateInsets: {insets: Insets};
-  VKWebAppViewHide: {};
-  VKWebAppViewRestore: {};
+  VKWebAppAccelerometerStart: ReceiveEventNames<'VKWebAppAccelerometerStartResult', 'VKWebAppAccelerometerStartFailed'>;
+  VKWebAppAccelerometerStop: ReceiveEventNames<'VKWebAppAccelerometerStopResult', 'VKWebAppAccelerometerStopFailed'>;
+  VKWebAppGyroscopeStart: ReceiveEventNames<'VKWebAppGyroscopeStartResult', 'VKWebAppGyroscopeStartFailed'>;
+  VKWebAppGyroscopeStop: ReceiveEventNames<'VKWebAppGyroscopeStopResult', 'VKWebAppGyroscopeStopFailed'>;
+  VKWebAppDeviceMotionStart: ReceiveEventNames<'VKWebAppDeviceMotionStartResult', 'VKWebAppDeviceMotionStartFailed'>;
+  VKWebAppDeviceMotionStop: ReceiveEventNames<'VKWebAppDeviceMotionStopResult', 'VKWebAppDeviceMotionStopFailed'>;
 };

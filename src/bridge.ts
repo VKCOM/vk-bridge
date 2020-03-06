@@ -1,5 +1,5 @@
 import { promisifySend } from './promisifySend';
-import { VKBridge, VKBridgeSubscribeHandler, RequestMethodName, RequestProps, RequestIdProp } from './types/bridge';
+import { VKBridge, VKBridgeSubscribeHandler, AnyRequestMethodName, RequestProps, RequestIdProp } from './types/bridge';
 
 /** Is the client side runtime environment */
 export const IS_CLIENT_SIDE = typeof window !== 'undefined';
@@ -84,7 +84,7 @@ export function createVKBridge(version: string): VKBridge {
    * @param method The method (event) name to send
    * @param [props] Method properties
    */
-  function send<K extends RequestMethodName>(method: K, props?: RequestProps<K> & RequestIdProp) {
+  function send<K extends AnyRequestMethodName>(method: K, props?: RequestProps<K> & RequestIdProp) {
     // Sending data through Android bridge
     if (androidBridge && androidBridge[method]) {
       androidBridge[method](JSON.stringify(props));
