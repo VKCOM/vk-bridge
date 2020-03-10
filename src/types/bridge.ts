@@ -48,9 +48,9 @@ export type AnyIOMethodName = AnyRequestMethodName & AnyReceiveMethodName;
 export type AnyFailedResponseEventName = FailedResponseEventName<AnyRequestMethodName>;
 
 /**
- * Any successful response event method name.
+ * Any result response event method name.
  */
-export type AnySuccessfulResponseEventName = SuccessfulResponseEventName<AnyRequestMethodName>;
+export type AnyResultResponseEventName = ResultResponseEventName<AnyRequestMethodName>;
 
 /**
  * Getter of failed event name of a method.
@@ -58,9 +58,9 @@ export type AnySuccessfulResponseEventName = SuccessfulResponseEventName<AnyRequ
 export type FailedResponseEventName<M extends keyof ReceiveEventMap> = ReceiveEventMap[M]['failed'];
 
 /**
- * Getter of successful event name of a method.
+ * Getter of result event name of a method.
  */
-export type SuccessfulResponseEventName<M extends keyof ReceiveEventMap> = ReceiveEventMap[M]['result'];
+export type ResultResponseEventName<M extends keyof ReceiveEventMap> = ReceiveEventMap[M]['result'];
 
 /**
  * Getter of request properties of a method.
@@ -143,11 +143,11 @@ export type VKBridgeErrorEvent<M extends AnyReceiveMethodName> = VKBridgeEventBa
 >;
 
 /**
- * Type of success event data
+ * Type of result event data
  */
-export type VKBridgeSuccessEvent<M extends AnyReceiveMethodName> = {
+export type VKBridgeResultEvent<M extends AnyReceiveMethodName> = {
   [K in M]: K extends keyof ReceiveEventMap
-    ? VKBridgeEventBase<SuccessfulResponseEventName<K>, ReceiveData<K> & RequestIdProp>
+    ? VKBridgeEventBase<ResultResponseEventName<K>, ReceiveData<K> & RequestIdProp>
     : K extends AnyReceiveOnlyMethodName
     ? VKBridgeEventBase<K, ReceiveData<K>>
     : never;
@@ -156,7 +156,7 @@ export type VKBridgeSuccessEvent<M extends AnyReceiveMethodName> = {
 /**
  * VK Bridge event.
  */
-export type VKBridgeEvent<M extends AnyReceiveMethodName> = VKBridgeErrorEvent<M> | VKBridgeSuccessEvent<M>;
+export type VKBridgeEvent<M extends AnyReceiveMethodName> = VKBridgeErrorEvent<M> | VKBridgeResultEvent<M>;
 
 /**
  * Type of function that will be subscribed to VK Bridge events.
