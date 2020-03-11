@@ -55,12 +55,12 @@ export type AnyResultResponseEventName = ResultResponseEventName<AnyRequestMetho
 /**
  * Getter of failed event name of a method.
  */
-export type FailedResponseEventName<M extends keyof ReceiveEventMap> = ReceiveEventMap[M]['failed'];
+export type FailedResponseEventName<M extends AnyRequestMethodName> = ReceiveEventMap[M]['failed'];
 
 /**
  * Getter of result event name of a method.
  */
-export type ResultResponseEventName<M extends keyof ReceiveEventMap> = ReceiveEventMap[M]['result'];
+export type ResultResponseEventName<M extends AnyRequestMethodName> = ReceiveEventMap[M]['result'];
 
 /**
  * Getter of request properties of a method.
@@ -138,20 +138,32 @@ export type VKBridgeEventBase<Type extends string, Data> = {
  * Type of error event data
  */
 export type VKBridgeErrorEvent<M extends AnyReceiveMethodName> = VKBridgeEventBase<
-  M extends keyof ReceiveEventMap ? FailedResponseEventName<M> : never,
+  M extends AnyRequestMethodName ? FailedResponseEventName<M> : never,
   ErrorData
 >;
 
 /**
+ * Type of event that is a response to a request
+ */
+export type VKBridgeIOEvent<M extends AnyIOMethodName> = {
+  [K in M]: VKBridgeEventBase<ResultResponseEventName<K>, ReceiveData<K> & RequestIdProp>;
+}[M];
+
+/**
+ * Type of event that is not a response to a request
+ */
+export type VKBridgeReceiveOnlyEvent<M extends AnyReceiveOnlyMethodName> = {
+  [K in M]: VKBridgeEventBase<K, ReceiveData<K>>;
+}[M];
+
+/**
  * Type of result event data
  */
-export type VKBridgeResultEvent<M extends AnyReceiveMethodName> = {
-  [K in M]: K extends keyof ReceiveEventMap
-    ? VKBridgeEventBase<ResultResponseEventName<K>, ReceiveData<K> & RequestIdProp>
-    : K extends AnyReceiveOnlyMethodName
-    ? VKBridgeEventBase<K, ReceiveData<K>>
-    : never;
-}[M];
+export type VKBridgeResultEvent<M extends AnyReceiveMethodName> = M extends AnyReceiveOnlyMethodName
+  ? VKBridgeReceiveOnlyEvent<M>
+  : M extends AnyIOMethodName
+  ? VKBridgeIOEvent<M>
+  : never;
 
 /**
  * VK Bridge event.
