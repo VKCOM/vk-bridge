@@ -809,8 +809,8 @@ export type ReceiveDataMap = {
   VKWebAppUpdateInsets: { insets: Insets };
   VKWebAppViewHide: {}; // Always empty
   VKWebAppViewRestore: {}; // Always empty
-  VKWebAppDisableSwipeBack: {};
-  VKWebAppEnableSwipeBack: {};
+  VKWebAppDisableSwipeBack: { result: true };
+  VKWebAppEnableSwipeBack: { result: true };
   VKWebAppShowStoryBox: { result: true };
   VKWebAppAccelerometerStart: { result: true };
   VKWebAppAccelerometerStop: { result: true };
@@ -820,7 +820,7 @@ export type ReceiveDataMap = {
   VKWebAppGyroscopeChanged: { x: string; y: string; z: string };
   VKWebAppDeviceMotionStart: { result: true };
   VKWebAppDeviceMotionChanged: { alpha: string; beta: string; gamma: string };
-  VKWebAppDeviceMotionStop: {};
+  VKWebAppDeviceMotionStop: { result: true };
   VKWebAppLocationChanged: { location: string };
   VKWebAppSubscribeStoryApp: { access_key: string };
 };
