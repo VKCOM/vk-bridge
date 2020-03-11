@@ -1,71 +1,76 @@
-import {
-  RequestPropsMap,
-  ReceiveDataMap,
-  FailedReceiveEventMap,
-  SuccessfulReceiveEventMap,
-} from './data';
+import { RequestPropsMap, ReceiveDataMap, ReceiveEventMap } from './data';
 
 /**
  * Name of a method that can be sent.
  */
-export type RequestMethodName = keyof RequestPropsMap;
+export type AnyRequestMethodName = keyof RequestPropsMap;
 
 /**
  * Name of a method that can be received.
  */
-export type ReceiveMethodName = keyof ReceiveDataMap;
-
-/**
- * Getter of failed event name of a method.
- */
-export type FailedReceiveEventName<M extends ReceiveMethodName> = FailedReceiveEventMap[M];
-
-/**
- * Getter of successful event name of a method.
- */
-export type SuccessfulReceiveEventName<M extends ReceiveMethodName> = SuccessfulReceiveEventMap[M];
+export type AnyReceiveMethodName = keyof ReceiveDataMap;
 
 /**
  * Name of a method that can be only sent.
  */
-export type RequestOnlyMethodName = Exclude<RequestMethodName, ReceiveMethodName>;
+export type AnyRequestOnlyMethodName = Exclude<AnyRequestMethodName, AnyReceiveMethodName>;
 
 /**
  * Name of a method that can be only received.
  */
-export type ReceiveOnlyMethodName = Exclude<ReceiveMethodName, RequestMethodName>;
+export type AnyReceiveOnlyMethodName = Exclude<AnyReceiveMethodName, AnyRequestMethodName>;
 
 /**
  * Name of a method which contains properties
  */
-export type RequestMethodNameWithProps = {
+export type AnyRequestMethodNameWithProps = {
   [K in keyof RequestPropsMap]: keyof RequestPropsMap[K] extends never ? never : K;
 }[keyof RequestPropsMap];
 
 /**
  * Name of a method which doesn't contain properties
  */
-export type RequestMethodNameWithoutProps = Exclude<RequestMethodName, RequestMethodNameWithProps>;
+export type AnyRequestMethodNameWithoutProps = Exclude<AnyRequestMethodName, AnyRequestMethodNameWithProps>;
 
 /**
  * Type of any method name.
  */
-export type MethodName = RequestMethodName | ReceiveMethodName;
+export type AnyMethodName = AnyRequestMethodName | AnyReceiveMethodName;
 
 /**
  * The name of the method that can be both sent and received.
  */
-export type IOMethodName = RequestMethodName & ReceiveMethodName;
+export type AnyIOMethodName = AnyRequestMethodName & AnyReceiveMethodName;
+
+/**
+ * Any failed event method name.
+ */
+export type AnyFailedResponseEventName = FailedResponseEventName<AnyRequestMethodName>;
+
+/**
+ * Any result response event method name.
+ */
+export type AnyResultResponseEventName = ResultResponseEventName<AnyRequestMethodName>;
+
+/**
+ * Getter of failed event name of a method.
+ */
+export type FailedResponseEventName<M extends keyof ReceiveEventMap> = ReceiveEventMap[M]['failed'];
+
+/**
+ * Getter of result event name of a method.
+ */
+export type ResultResponseEventName<M extends keyof ReceiveEventMap> = ReceiveEventMap[M]['result'];
 
 /**
  * Getter of request properties of a method.
  */
-export type RequestProps<M extends RequestMethodName = RequestMethodName> = RequestPropsMap[M];
+export type RequestProps<M extends AnyRequestMethodName = AnyRequestMethodName> = RequestPropsMap[M];
 
 /**
  * Getter of response data of a method.
  */
-export type ReceiveData<M extends ReceiveMethodName = ReceiveMethodName> = ReceiveDataMap[M];
+export type ReceiveData<M extends AnyReceiveMethodName> = ReceiveDataMap[M];
 
 /**
  * Property for matching sent request and received message.
@@ -120,34 +125,43 @@ export type ErrorData =
     };
 
 /**
- * Type of error event data
+ * Generic event type for creating event types.
  */
-export type VKBridgeErrorEvent<M extends ReceiveMethodName> = {
+export type VKBridgeEventBase<Type extends string, Data> = {
   detail: {
-    type: FailedReceiveEventName<M>
-    data: ErrorData;
+    type: Type;
+    data: Data;
   };
 };
 
 /**
- * Type of success event data
+ * Type of error event data
  */
-export type VKBridgeSuccessEvent<M extends ReceiveMethodName> = {
-  detail: {
-    type: SuccessfulReceiveEventName<M>;
-    data: ReceiveData<M> & RequestIdProp;
-  };
-};
+export type VKBridgeErrorEvent<M extends AnyReceiveMethodName> = VKBridgeEventBase<
+  M extends keyof ReceiveEventMap ? FailedResponseEventName<M> : never,
+  ErrorData
+>;
+
+/**
+ * Type of result event data
+ */
+export type VKBridgeResultEvent<M extends AnyReceiveMethodName> = {
+  [K in M]: K extends keyof ReceiveEventMap
+    ? VKBridgeEventBase<ResultResponseEventName<K>, ReceiveData<K> & RequestIdProp>
+    : K extends AnyReceiveOnlyMethodName
+    ? VKBridgeEventBase<K, ReceiveData<K>>
+    : never;
+}[M];
 
 /**
  * VK Bridge event.
  */
-export type VKBridgeEvent<M extends ReceiveMethodName> = VKBridgeErrorEvent<M> | VKBridgeSuccessEvent<M>;
+export type VKBridgeEvent<M extends AnyReceiveMethodName> = VKBridgeErrorEvent<M> | VKBridgeResultEvent<M>;
 
 /**
  * Type of function that will be subscribed to VK Bridge events.
  */
-export type VKBridgeSubscribeHandler = (event: VKBridgeEvent<ReceiveMethodName>) => void;
+export type VKBridgeSubscribeHandler = (event: VKBridgeEvent<AnyReceiveMethodName>) => void;
 
 /**
  * Type of send function for methods that have props.
@@ -156,10 +170,10 @@ export type VKBridgeSubscribeHandler = (event: VKBridgeEvent<ReceiveMethodName>)
  * @param props Method properties.
  * @returns The Promise object with response data.
  */
-export type VKBridgeSend = <K extends RequestMethodName>(
+export type VKBridgeSend = <K extends AnyRequestMethodName>(
   method: K,
   props?: RequestProps<K> & RequestIdProp
-) => Promise<K extends ReceiveMethodName ? ReceiveData<K> : void>;
+) => Promise<K extends AnyReceiveMethodName ? ReceiveData<K> : void>;
 
 /**
  * VK Bridge interface.

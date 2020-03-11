@@ -15,6 +15,7 @@ const bridge = createVKBridge(version);
 export * from './types/data';
 export * from './types/bridge';
 export * from './types/middleware';
+export * from './types/deprecated';
 
 export { applyMiddleware } from './applyMiddleware';
 export { bridge as default };

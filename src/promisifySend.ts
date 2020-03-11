@@ -1,10 +1,10 @@
 import {
   VKBridgeSubscribeHandler,
-  RequestMethodName,
+  AnyRequestMethodName,
   RequestProps,
   RequestIdProp,
   ReceiveData,
-  ReceiveMethodName
+  AnyReceiveMethodName
 } from './types/bridge';
 
 /**
@@ -83,7 +83,7 @@ function createRequestResolver() {
  * @returns Send function which returns the Promise object.
  */
 export function promisifySend(
-  sendEvent: <K extends RequestMethodName>(method: K, props?: RequestProps<K> & RequestIdProp) => void,
+  sendEvent: <K extends AnyRequestMethodName>(method: K, props?: RequestProps<K> & RequestIdProp) => void,
   subscribe: (fn: VKBridgeSubscribeHandler) => void
 ) {
   const requestResolver = createRequestResolver();
@@ -94,17 +94,20 @@ export function promisifySend(
       return;
     }
 
-    const { request_id: requestId, ...data } = event.detail.data;
+    // There is no request_id in receive-only events, so we check its existence.
+    if ('request_id' in event.detail.data) {
+      const { request_id: requestId, ...data } = event.detail.data;
 
-    if (requestId) {
-      requestResolver.resolve(requestId, data, data => !('error_type' in data));
+      if (requestId) {
+        requestResolver.resolve(requestId, data, data => !('error_type' in data));
+      }
     }
   });
 
-  return function promisifiedSend<K extends RequestMethodName>(
+  return function promisifiedSend<K extends AnyRequestMethodName>(
     method: K,
     props: RequestProps<K> & RequestIdProp = {} as RequestProps<K> & RequestIdProp
-  ): Promise<K extends ReceiveMethodName ? ReceiveData<K> : void> {
+  ): Promise<K extends AnyReceiveMethodName ? ReceiveData<K> : void> {
     return new Promise((resolve, reject) => {
       const requestId = requestResolver.add({ resolve, reject }, props.request_id);
 
