@@ -50,7 +50,8 @@ export const DESKTOP_METHODS = [
   'VKWebAppShowInviteBox',
   'VKWebAppShowRequestBox',
   'VKWebAppAddToFavorites',
-  'VKWebAppShowCommunityWidgetPreviewBox'
+  'VKWebAppShowCommunityWidgetPreviewBox',
+  'VKWebAppShowStoryBox'
 ];
 
 /** Android VK Bridge interface. */
