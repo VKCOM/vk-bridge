@@ -698,7 +698,7 @@ export type RequestPropsMap = {
   VKWebAppGetGeodata: {};
   VKWebAppGetPersonalCard: { type: PersonalCardType[] };
   VKWebAppGetPhoneNumber: {};
-  VKWebAppGetUserInfo: {};
+  VKWebAppGetUserInfo: { user_id?: number };
   VKWebAppJoinGroup: { group_id: number };
   VKWebAppOpenCodeReader: {};
   VKWebAppOpenContacts: {};
