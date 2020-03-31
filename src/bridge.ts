@@ -19,8 +19,7 @@ export const IS_IOS_WEBVIEW = Boolean(
 export const IS_WEB = IS_CLIENT_SIDE && !IS_ANDROID_WEBVIEW && !IS_IOS_WEBVIEW;
 
 /** Is the runtime environment m.vk.com */
-export const IS_MVK =
-  IS_CLIENT_SIDE && IS_WEB && new URLSearchParams(location.search).get('vk_platform') === 'mobile_web';
+export const IS_MVK = IS_WEB && new URLSearchParams(location.search).get('vk_platform') === 'mobile_web';
 
 /** Is the runtime environment vk.com */
 export const IS_DESKTOP_VK = IS_WEB && !IS_MVK;
