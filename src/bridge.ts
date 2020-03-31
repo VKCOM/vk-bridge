@@ -16,7 +16,14 @@ export const IS_IOS_WEBVIEW = Boolean(
 );
 
 /** Is the runtime environment a browser */
-export const IS_WEB = !IS_ANDROID_WEBVIEW && !IS_IOS_WEBVIEW;
+export const IS_WEB = IS_CLIENT_SIDE && !IS_ANDROID_WEBVIEW && !IS_IOS_WEBVIEW;
+
+/** Is the runtime environment m.vk.com */
+export const IS_MVK =
+  IS_CLIENT_SIDE && IS_WEB && new URLSearchParams(location.search).get('vk_platform') === 'mobile_web';
+
+/** Is the runtime environment vk.com */
+export const IS_DESKTOP_VK = IS_WEB && !IS_MVK;
 
 /** Type of subscribe event */
 export const EVENT_TYPE = IS_WEB ? 'message' : 'VKWebAppEvent';
@@ -50,7 +57,10 @@ export const DESKTOP_METHODS = [
   'VKWebAppShowInviteBox',
   'VKWebAppShowRequestBox',
   'VKWebAppAddToFavorites',
-  'VKWebAppShowCommunityWidgetPreviewBox'
+  'VKWebAppShowCommunityWidgetPreviewBox',
+
+  // Desktop web specific events
+  ...(IS_DESKTOP_VK ? ['VKWebAppShowStoryBox'] : [])
 ];
 
 /** Android VK Bridge interface. */
