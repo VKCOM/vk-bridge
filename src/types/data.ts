@@ -269,6 +269,7 @@ export type DefaultUpdateConfigData = {
   scheme: AppearanceSchemeType;
   insets: Insets;
   start_time: number;
+  api_host: string;
 };
 
 /**
@@ -287,6 +288,15 @@ export type WidgetPreviewRequestOptions = {
    */
   code: string;
 };
+
+export type VKWebAppLibverifyOnFailedCode =
+  'GENERAL_ERROR' |
+  'UNSUPPORTED_NUMBER' |
+  'INCORRECT_PHONE_NUMBER' |
+  'INCORRECT_SMS_CODE' |
+  'RATELIMIT' |
+  'NETWORK_ERROR' |
+  'NO_NETWORK';
 
 /**
  * App close status
@@ -681,7 +691,7 @@ export type RequestPropsMap = {
   VKWebAppAllowNotifications: {};
   VKWebAppCallAPIMethod: { method: string; params: Record<string, string | number> };
   VKWebAppCopyText: { text: string };
-  VKWebAppGetAuthToken: { app_id: number; scope: string };
+  VKWebAppGetAuthToken: { app_id: number; scope: string; force?: boolean; use_cache?: boolean };
   VKWebAppClose: { status: AppCloseStatus; payload?: any };
   VKWebAppOpenApp: { app_id: number; location?: string };
   VKWebAppDenyNotifications: {};
@@ -740,6 +750,8 @@ export type RequestPropsMap = {
   VKWebAppDeviceMotionStart: {};
   VKWebAppDeviceMotionStop: {};
   VKWebAppSubscribeStoryApp: SubscribeStoryAppOptions;
+  VKWebAppLibverifyRequest: { phone: string };
+  VKWebAppLibverifyCheck: { code: string };
 };
 
 /**
@@ -823,6 +835,8 @@ export type ReceiveDataMap = {
   VKWebAppDeviceMotionStop: { result: true };
   VKWebAppLocationChanged: { location: string };
   VKWebAppSubscribeStoryApp: { access_key: string };
+  VKWebAppLibverifyOnConfirmed: { validate_session: string; validate_token: string };
+  VKWebAppLibverifyOnFailed: { code: VKWebAppLibverifyOnFailedCode };
 };
 
 type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F extends string> = Record<
@@ -933,4 +947,6 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppGyroscopeStop', 'VKWebAppGyroscopeStopResult', 'VKWebAppGyroscopeStopFailed'> &
   EventReceiveNames<'VKWebAppDeviceMotionStart', 'VKWebAppDeviceMotionStartResult', 'VKWebAppDeviceMotionStartFailed'> &
   EventReceiveNames<'VKWebAppDeviceMotionStop', 'VKWebAppDeviceMotionStopResult', 'VKWebAppDeviceMotionStopFailed'> &
-  EventReceiveNames<'VKWebAppSubscribeStoryApp', 'VKWebAppSubscribeStoryAppResult', 'VKWebAppSubscribeStoryAppFailed'>;
+  EventReceiveNames<'VKWebAppSubscribeStoryApp', 'VKWebAppSubscribeStoryAppResult', 'VKWebAppSubscribeStoryAppFailed'> &
+  EventReceiveNames<'VKWebAppLibverifyRequest', 'VKWebAppLibverifyRequest', 'VKWebAppLibverifyRequest'> &
+  EventReceiveNames<'VKWebAppLibverifyCheck', 'VKWebAppLibverifyCheck', 'VKWebAppLibverifyCheck'>;
