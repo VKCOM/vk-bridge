@@ -681,6 +681,7 @@ export type RequestPropsMap = {
   VKWebAppAllowNotifications: {};
   VKWebAppCallAPIMethod: { method: string; params: Record<string, string | number> };
   VKWebAppCopyText: { text: string };
+  VKWebAppDownloadFile: { url: string; filename: string };
   VKWebAppGetAuthToken: { app_id: number; scope: string };
   VKWebAppClose: { status: AppCloseStatus; payload?: any };
   VKWebAppOpenApp: { app_id: number; location?: string };
@@ -752,6 +753,7 @@ export type ReceiveDataMap = {
   VKWebAppAllowNotifications: { result: true };
   VKWebAppCallAPIMethod: { response: any };
   VKWebAppCopyText: { result: true };
+  VKWebAppDownloadFile: { result: true };
   VKWebAppGetAuthToken: { access_token: string; scope: string };
   VKWebAppClose: { payload: any };
   VKWebAppOpenApp: { result: true };
@@ -847,6 +849,7 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   > &
   EventReceiveNames<'VKWebAppCallAPIMethod', 'VKWebAppCallAPIMethodResult', 'VKWebAppCallAPIMethodFailed'> &
   EventReceiveNames<'VKWebAppCopyText', 'VKWebAppCopyTextResult', 'VKWebAppCopyTextFailed'> &
+  EventReceiveNames<'VKWebAppDownloadFile', 'VKWebAppDownloadFileResult', 'VKWebAppDownloadFileFailed'> &
   // NOTE: Different request/response events
   EventReceiveNames<'VKWebAppGetAuthToken', 'VKWebAppAccessTokenReceived', 'VKWebAppAccessTokenFailed'> &
   EventReceiveNames<'VKWebAppClose', 'VKWebAppCloseResult', 'VKWebAppCloseFailed'> &
