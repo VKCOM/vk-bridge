@@ -440,7 +440,7 @@ export type StoryActionLink = {
    * The value of the string that will be displayed on the client when
    * clicking on the tooltip.
    */
-  tooltip_text_key: string;
+  tooltip_text_key: 'tooltip_open_post' | 'tooltip_open_photo' | 'tooltip_open_page' | 'tooltip_open_default';
 };
 
 export type StoryActionTime = {
