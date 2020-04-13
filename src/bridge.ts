@@ -50,7 +50,6 @@ export const DESKTOP_METHODS = [
   'VKWebAppShare',
   'VKWebAppShowWallPostBox',
   'VKWebAppScroll',
-  'VKWebAppResizeWindow',
   'VKWebAppShowOrderBox',
   'VKWebAppShowLeaderBoardBox',
   'VKWebAppShowInviteBox',
@@ -59,7 +58,7 @@ export const DESKTOP_METHODS = [
   'VKWebAppShowCommunityWidgetPreviewBox',
 
   // Desktop web specific events
-  ...(IS_DESKTOP_VK ? ['VKWebAppShowStoryBox'] : []),
+  ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppShowStoryBox'] : []),
 ];
 
 /** Android VK Bridge interface. */
