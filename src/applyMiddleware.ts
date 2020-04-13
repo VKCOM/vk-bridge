@@ -9,14 +9,12 @@ import { Middleware, MiddlewareAPI } from './types/middleware';
  * @param middlewares The middleware chain to be applied.
  * @returns The VK Bridge enhancer applying the middleware.
  */
-export function applyMiddleware(
-  ...middlewares: Array<Middleware | undefined | null>
-): (bridge: VKBridge) => VKBridge {
+export function applyMiddleware(...middlewares: Array<Middleware | undefined | null>): (bridge: VKBridge) => VKBridge {
   if (middlewares.includes(undefined) || middlewares.includes(null)) {
     return applyMiddleware(...middlewares.filter((item): item is Middleware => typeof item === 'function'));
   }
 
-  return bridge => {
+  return (bridge) => {
     if (middlewares.length === 0) {
       return bridge;
     }
@@ -30,19 +28,19 @@ export function applyMiddleware(
 
     const middlewareAPI: MiddlewareAPI = {
       subscribe: bridge.subscribe,
-      send: (...args) => bridge.send(...args)
+      send: (...args) => bridge.send(...args),
     };
 
     const chain = middlewares
       .filter((item): item is Middleware => typeof item === 'function')
-      .map(middleware => middleware(middlewareAPI)) //
-      .reduce((a, b) => send => a(b(send)));
+      .map((middleware) => middleware(middlewareAPI)) //
+      .reduce((a, b) => (send) => a(b(send)));
 
     send = chain(bridge.send);
 
     return {
       ...bridge,
-      send
+      send,
     };
   };
 }

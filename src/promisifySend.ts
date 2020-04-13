@@ -4,7 +4,7 @@ import {
   RequestProps,
   RequestIdProp,
   ReceiveData,
-  AnyReceiveMethodName
+  AnyReceiveMethodName,
 } from './types/bridge';
 
 /**
@@ -15,7 +15,7 @@ function createCounter() {
     current: 0,
     next() {
       return ++this.current;
-    }
+    },
   };
 }
 
@@ -71,7 +71,7 @@ function createRequestResolver() {
 
         promiseControllers[requestId] = null;
       }
-    }
+    },
   };
 }
 
@@ -89,7 +89,7 @@ export function promisifySend(
   const requestResolver = createRequestResolver();
 
   // Subscribe to receive a data
-  subscribe(event => {
+  subscribe((event) => {
     if (!event.detail || !event.detail.data) {
       return;
     }
@@ -99,7 +99,7 @@ export function promisifySend(
       const { request_id: requestId, ...data } = event.detail.data;
 
       if (requestId) {
-        requestResolver.resolve(requestId, data, data => !('error_type' in data));
+        requestResolver.resolve(requestId, data, (data) => !('error_type' in data));
       }
     }
   });
@@ -113,7 +113,7 @@ export function promisifySend(
 
       sendEvent(method, {
         ...props,
-        request_id: requestId
+        request_id: requestId,
       });
     });
   };
