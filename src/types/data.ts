@@ -672,6 +672,22 @@ export type SubscribeStoryAppOptions = {
 };
 
 /**
+ * Group info
+ */
+export type GroupInfo = {
+  id: number;
+  name: string;
+  screen_name: string;
+  is_closed: number;
+  type: string;
+  is_member: number;
+  description: string;
+  photo_50: string;
+  photo_100: string;
+  photo_200: string;
+};
+
+/**
  * Map of types of request props of VK Bridge methods
  */
 export type RequestPropsMap = {
@@ -741,6 +757,7 @@ export type RequestPropsMap = {
   VKWebAppDeviceMotionStart: {};
   VKWebAppDeviceMotionStop: {};
   VKWebAppSubscribeStoryApp: SubscribeStoryAppOptions;
+  VKWebAppGetGroupInfo: { groupId: number };
 };
 
 /**
@@ -825,6 +842,7 @@ export type ReceiveDataMap = {
   VKWebAppDeviceMotionStop: { result: true };
   VKWebAppLocationChanged: { location: string };
   VKWebAppSubscribeStoryApp: { access_key: string };
+  VKWebAppGetGroupInfo: GroupInfo;
 };
 
 type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F extends string> = Record<
@@ -936,4 +954,5 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppGyroscopeStop', 'VKWebAppGyroscopeStopResult', 'VKWebAppGyroscopeStopFailed'> &
   EventReceiveNames<'VKWebAppDeviceMotionStart', 'VKWebAppDeviceMotionStartResult', 'VKWebAppDeviceMotionStartFailed'> &
   EventReceiveNames<'VKWebAppDeviceMotionStop', 'VKWebAppDeviceMotionStopResult', 'VKWebAppDeviceMotionStopFailed'> &
-  EventReceiveNames<'VKWebAppSubscribeStoryApp', 'VKWebAppSubscribeStoryAppResult', 'VKWebAppSubscribeStoryAppFailed'>;
+  EventReceiveNames<'VKWebAppSubscribeStoryApp', 'VKWebAppSubscribeStoryAppResult', 'VKWebAppSubscribeStoryAppFailed'> &
+  EventReceiveNames<'VKWebAppGetGroupInfo', 'VKWebAppGetGroupInfoResult', 'VKWebAppGetGroupInfoFailed'>;
