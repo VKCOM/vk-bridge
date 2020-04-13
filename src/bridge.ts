@@ -19,7 +19,7 @@ export const IS_IOS_WEBVIEW = Boolean(
 export const IS_WEB = IS_CLIENT_SIDE && !IS_ANDROID_WEBVIEW && !IS_IOS_WEBVIEW;
 
 /** Is the runtime environment m.vk.com */
-export const IS_MVK = IS_WEB && new URLSearchParams(location.search).get('vk_platform') === 'mobile_web';
+export const IS_MVK = IS_WEB && /(^\?|&)vk_platform=mobile_web(&|$)/.test(location.search);
 
 /** Is the runtime environment vk.com */
 export const IS_DESKTOP_VK = IS_WEB && !IS_MVK;
@@ -59,7 +59,7 @@ export const DESKTOP_METHODS = [
   'VKWebAppShowCommunityWidgetPreviewBox',
 
   // Desktop web specific events
-  ...(IS_DESKTOP_VK ? ['VKWebAppShowStoryBox'] : [])
+  ...(IS_DESKTOP_VK ? ['VKWebAppShowStoryBox'] : []),
 ];
 
 /** Android VK Bridge interface. */
@@ -112,7 +112,7 @@ export function createVKBridge(version: string): VKBridge {
           params: props,
           type: 'vk-connect',
           webFrameId,
-          connectVersion: version
+          connectVersion: version,
         },
         '*'
       );
@@ -177,7 +177,7 @@ export function createVKBridge(version: string): VKBridge {
     window.addEventListener(EVENT_TYPE, (event: any) => {
       if (IS_IOS_WEBVIEW || IS_ANDROID_WEBVIEW) {
         // If it's webview
-        return [...subscribers].map(fn => fn.call(null, event));
+        return [...subscribers].map((fn) => fn.call(null, event));
       } else if (IS_WEB && event && event.data) {
         // If it's web
         const { type, data, frameId } = event.data;
@@ -185,7 +185,7 @@ export function createVKBridge(version: string): VKBridge {
         if (type && type === 'VKWebAppSettings') {
           webFrameId = frameId;
         } else {
-          [...subscribers].map(fn => fn({ detail: { type, data } }));
+          [...subscribers].map((fn) => fn({ detail: { type, data } }));
         }
       }
     });
@@ -203,6 +203,6 @@ export function createVKBridge(version: string): VKBridge {
     subscribe,
     unsubscribe,
     supports,
-    isWebView
+    isWebView,
   };
 }
