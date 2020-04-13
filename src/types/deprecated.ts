@@ -6,7 +6,7 @@ import {
   AnyMethodName,
   AnyIOMethodName,
   AnyRequestOnlyMethodName,
-  AnyReceiveOnlyMethodName
+  AnyReceiveOnlyMethodName,
 } from './bridge';
 
 /**
