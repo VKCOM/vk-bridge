@@ -195,9 +195,18 @@ export type TapticNotificationType = 'error' | 'success' | 'warning';
 export type OrderBoxShowingStatus = 'cancel' | 'success' | 'fail';
 
 /**
- * Widget type
+ * Community widget type
  */
-export type WidgetType = 'text' | 'list' | 'table' | 'tiles' | 'compact_list' | 'cover_list' | 'match' | 'matches';
+export type CommunityWidgetType =
+  | 'text'
+  | 'list'
+  | 'table'
+  | 'tiles'
+  | 'compact_list'
+  | 'cover_list'
+  | 'match'
+  | 'matches'
+  | 'donation';
 
 /**
  * Output data from code reader
@@ -278,7 +287,7 @@ export type UpdateConfigData = DefaultUpdateConfigData | MVKUpdateConfigData;
 
 export type WidgetPreviewRequestOptions = {
   /** Widget type */
-  type: WidgetType;
+  type: CommunityWidgetType;
   /** Community ID */
   group_id: number;
   /**
