@@ -268,8 +268,6 @@ export type DefaultUpdateConfigData = {
   appearance: AppearanceType;
   scheme: AppearanceSchemeType;
   insets: Insets;
-  start_time: number;
-  api_host: string;
 };
 
 /**
@@ -290,13 +288,13 @@ export type WidgetPreviewRequestOptions = {
 };
 
 export type VKWebAppLibverifyOnFailedCode =
-  'GENERAL_ERROR' |
-  'UNSUPPORTED_NUMBER' |
-  'INCORRECT_PHONE_NUMBER' |
-  'INCORRECT_SMS_CODE' |
-  'RATELIMIT' |
-  'NETWORK_ERROR' |
-  'NO_NETWORK';
+  | 'GENERAL_ERROR'
+  | 'UNSUPPORTED_NUMBER'
+  | 'INCORRECT_PHONE_NUMBER'
+  | 'INCORRECT_SMS_CODE'
+  | 'RATELIMIT'
+  | 'NETWORK_ERROR'
+  | 'NO_NETWORK';
 
 /**
  * App close status
@@ -691,7 +689,7 @@ export type RequestPropsMap = {
   VKWebAppAllowNotifications: {};
   VKWebAppCallAPIMethod: { method: string; params: Record<string, string | number> };
   VKWebAppCopyText: { text: string };
-  VKWebAppGetAuthToken: { app_id: number; scope: string; force?: boolean; use_cache?: boolean };
+  VKWebAppGetAuthToken: { app_id: number; scope: string };
   VKWebAppClose: { status: AppCloseStatus; payload?: any };
   VKWebAppOpenApp: { app_id: number; location?: string };
   VKWebAppDenyNotifications: {};
@@ -947,6 +945,4 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppGyroscopeStop', 'VKWebAppGyroscopeStopResult', 'VKWebAppGyroscopeStopFailed'> &
   EventReceiveNames<'VKWebAppDeviceMotionStart', 'VKWebAppDeviceMotionStartResult', 'VKWebAppDeviceMotionStartFailed'> &
   EventReceiveNames<'VKWebAppDeviceMotionStop', 'VKWebAppDeviceMotionStopResult', 'VKWebAppDeviceMotionStopFailed'> &
-  EventReceiveNames<'VKWebAppSubscribeStoryApp', 'VKWebAppSubscribeStoryAppResult', 'VKWebAppSubscribeStoryAppFailed'> &
-  EventReceiveNames<'VKWebAppLibverifyRequest', 'VKWebAppLibverifyRequest', 'VKWebAppLibverifyRequest'> &
-  EventReceiveNames<'VKWebAppLibverifyCheck', 'VKWebAppLibverifyCheck', 'VKWebAppLibverifyCheck'>;
+  EventReceiveNames<'VKWebAppSubscribeStoryApp', 'VKWebAppSubscribeStoryAppResult', 'VKWebAppSubscribeStoryAppFailed'>;
