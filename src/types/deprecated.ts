@@ -8,6 +8,7 @@ import {
   AnyRequestOnlyMethodName,
   AnyReceiveOnlyMethodName,
 } from './bridge';
+import { CommunityWidgetType } from './data';
 
 /**
  * Name of a method that can be sent.
@@ -64,3 +65,10 @@ export type MethodName = AnyMethodName;
  * @deprecated
  */
 export type IOMethodName = AnyIOMethodName;
+
+/**
+ * Community widget type
+ * @alias CommunityWidgetType
+ * @deprecated
+ */
+export type WidgetType = CommunityWidgetType;
