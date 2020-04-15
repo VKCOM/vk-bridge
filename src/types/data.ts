@@ -277,7 +277,6 @@ export type DefaultUpdateConfigData = {
   appearance: AppearanceType;
   scheme: AppearanceSchemeType;
   insets: Insets;
-  start_time: number;
 };
 
 /**
@@ -296,6 +295,15 @@ export type WidgetPreviewRequestOptions = {
    */
   code: string;
 };
+
+export type VKWebAppLibverifyOnFailedCode =
+  | 'GENERAL_ERROR'
+  | 'UNSUPPORTED_NUMBER'
+  | 'INCORRECT_PHONE_NUMBER'
+  | 'INCORRECT_SMS_CODE'
+  | 'RATELIMIT'
+  | 'NETWORK_ERROR'
+  | 'NO_NETWORK';
 
 /**
  * App close status
@@ -681,6 +689,22 @@ export type SubscribeStoryAppOptions = {
 };
 
 /**
+ * Group info
+ */
+export type GroupInfo = {
+  id: number;
+  name: string;
+  screen_name: string;
+  is_closed: number;
+  type: string;
+  is_member: number;
+  description: string;
+  photo_50: string;
+  photo_100: string;
+  photo_200: string;
+};
+
+/*
  * Options for request to adding a user to an audience with a retargeting pixel
  */
 export type RetargetingPixelOptions = {
@@ -690,7 +714,7 @@ export type RetargetingPixelOptions = {
   event: string;
   /** ID of the retargeting group to which the current user should be added */
   target_group_id: string;
-};
+}
 
 /**
  * Map of types of request props of VK Bridge methods
@@ -762,6 +786,9 @@ export type RequestPropsMap = {
   VKWebAppDeviceMotionStart: {};
   VKWebAppDeviceMotionStop: {};
   VKWebAppSubscribeStoryApp: SubscribeStoryAppOptions;
+  VKWebAppGetGroupInfo: { groupId: number };
+  VKWebAppLibverifyRequest: { phone: string };
+  VKWebAppLibverifyCheck: { code: string };
   VKWebAppRetargetingPixel: RetargetingPixelOptions;
 };
 
@@ -847,6 +874,9 @@ export type ReceiveDataMap = {
   VKWebAppDeviceMotionStop: { result: true };
   VKWebAppLocationChanged: { location: string };
   VKWebAppSubscribeStoryApp: { access_key: string };
+  VKWebAppGetGroupInfo: GroupInfo;
+  VKWebAppLibverifyOnConfirmed: { validate_session: string; validate_token: string };
+  VKWebAppLibverifyOnFailed: { code: VKWebAppLibverifyOnFailedCode };
   VKWebAppRetargetingPixel: { result: true };
 };
 
@@ -960,4 +990,5 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppDeviceMotionStart', 'VKWebAppDeviceMotionStartResult', 'VKWebAppDeviceMotionStartFailed'> &
   EventReceiveNames<'VKWebAppDeviceMotionStop', 'VKWebAppDeviceMotionStopResult', 'VKWebAppDeviceMotionStopFailed'> &
   EventReceiveNames<'VKWebAppSubscribeStoryApp', 'VKWebAppSubscribeStoryAppResult', 'VKWebAppSubscribeStoryAppFailed'> &
+  EventReceiveNames<'VKWebAppGetGroupInfo', 'VKWebAppGetGroupInfoResult', 'VKWebAppGetGroupInfoFailed'> &
   EventReceiveNames<'VKWebAppRetargetingPixel', 'VKWebAppRetargetingPixelResult', 'VKWebAppRetargetingPixelFailed'>;
