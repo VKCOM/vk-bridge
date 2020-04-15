@@ -195,9 +195,18 @@ export type TapticNotificationType = 'error' | 'success' | 'warning';
 export type OrderBoxShowingStatus = 'cancel' | 'success' | 'fail';
 
 /**
- * Widget type
+ * Community widget type
  */
-export type WidgetType = 'text' | 'list' | 'table' | 'tiles' | 'compact_list' | 'cover_list' | 'match' | 'matches';
+export type CommunityWidgetType =
+  | 'text'
+  | 'list'
+  | 'table'
+  | 'tiles'
+  | 'compact_list'
+  | 'cover_list'
+  | 'match'
+  | 'matches'
+  | 'donation';
 
 /**
  * Output data from code reader
@@ -268,7 +277,6 @@ export type DefaultUpdateConfigData = {
   appearance: AppearanceType;
   scheme: AppearanceSchemeType;
   insets: Insets;
-  start_time: number;
 };
 
 /**
@@ -278,7 +286,7 @@ export type UpdateConfigData = DefaultUpdateConfigData | MVKUpdateConfigData;
 
 export type WidgetPreviewRequestOptions = {
   /** Widget type */
-  type: WidgetType;
+  type: CommunityWidgetType;
   /** Community ID */
   group_id: number;
   /**
@@ -287,6 +295,15 @@ export type WidgetPreviewRequestOptions = {
    */
   code: string;
 };
+
+export type VKWebAppLibverifyOnFailedCode =
+  | 'GENERAL_ERROR'
+  | 'UNSUPPORTED_NUMBER'
+  | 'INCORRECT_PHONE_NUMBER'
+  | 'INCORRECT_SMS_CODE'
+  | 'RATELIMIT'
+  | 'NETWORK_ERROR'
+  | 'NO_NETWORK';
 
 /**
  * App close status
@@ -758,6 +775,8 @@ export type RequestPropsMap = {
   VKWebAppDeviceMotionStop: {};
   VKWebAppSubscribeStoryApp: SubscribeStoryAppOptions;
   VKWebAppGetGroupInfo: { groupId: number };
+  VKWebAppLibverifyRequest: { phone: string };
+  VKWebAppLibverifyCheck: { code: string };
 };
 
 /**
@@ -843,6 +862,8 @@ export type ReceiveDataMap = {
   VKWebAppLocationChanged: { location: string };
   VKWebAppSubscribeStoryApp: { access_key: string };
   VKWebAppGetGroupInfo: GroupInfo;
+  VKWebAppLibverifyOnConfirmed: { validate_session: string; validate_token: string };
+  VKWebAppLibverifyOnFailed: { code: VKWebAppLibverifyOnFailedCode };
 };
 
 type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F extends string> = Record<
