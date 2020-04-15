@@ -277,7 +277,6 @@ export type DefaultUpdateConfigData = {
   appearance: AppearanceType;
   scheme: AppearanceSchemeType;
   insets: Insets;
-  start_time: number;
 };
 
 /**
@@ -296,6 +295,15 @@ export type WidgetPreviewRequestOptions = {
    */
   code: string;
 };
+
+export type VKWebAppLibverifyOnFailedCode =
+  | 'GENERAL_ERROR'
+  | 'UNSUPPORTED_NUMBER'
+  | 'INCORRECT_PHONE_NUMBER'
+  | 'INCORRECT_SMS_CODE'
+  | 'RATELIMIT'
+  | 'NETWORK_ERROR'
+  | 'NO_NETWORK';
 
 /**
  * App close status
@@ -750,6 +758,8 @@ export type RequestPropsMap = {
   VKWebAppDeviceMotionStart: {};
   VKWebAppDeviceMotionStop: {};
   VKWebAppSubscribeStoryApp: SubscribeStoryAppOptions;
+  VKWebAppLibverifyRequest: { phone: string };
+  VKWebAppLibverifyCheck: { code: string };
 };
 
 /**
@@ -834,6 +844,8 @@ export type ReceiveDataMap = {
   VKWebAppDeviceMotionStop: { result: true };
   VKWebAppLocationChanged: { location: string };
   VKWebAppSubscribeStoryApp: { access_key: string };
+  VKWebAppLibverifyOnConfirmed: { validate_session: string; validate_token: string };
+  VKWebAppLibverifyOnFailed: { code: VKWebAppLibverifyOnFailedCode };
 };
 
 type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F extends string> = Record<
