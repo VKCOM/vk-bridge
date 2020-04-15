@@ -56,14 +56,14 @@ export type AnyResultResponseEventName = ResultResponseEventName<AnyRequestMetho
  * Getter of failed event name of a method.
  */
 export type FailedResponseEventName<M extends AnyRequestMethodName> = M extends keyof ReceiveEventMap
-  ? ReceiveEventMap[M]['result']
+  ? ReceiveEventMap[M]['failed']
   : never;
 
 /**
  * Getter of result event name of a method.
  */
 export type ResultResponseEventName<M extends AnyRequestMethodName> = M extends keyof ReceiveEventMap
-  ? ReceiveEventMap[M]['failed']
+  ? ReceiveEventMap[M]['result']
   : never;
 
 /**
