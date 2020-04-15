@@ -704,6 +704,18 @@ export type GroupInfo = {
   photo_200: string;
 };
 
+/*
+ * Options for request to adding a user to an audience with a retargeting pixel
+ */
+export type RetargetingPixelOptions = {
+  /** Pixel code, e.g. `VK-RTRG-447253-dUuM` */
+  pixel_code: string;
+  /** Event id, pixel rule */
+  event: string;
+  /** ID of the retargeting group to which the current user should be added */
+  target_group_id: string;
+};
+
 /**
  * Map of types of request props of VK Bridge methods
  */
@@ -777,6 +789,7 @@ export type RequestPropsMap = {
   VKWebAppGetGroupInfo: { groupId: number };
   VKWebAppLibverifyRequest: { phone: string };
   VKWebAppLibverifyCheck: { code: string };
+  VKWebAppRetargetingPixel: RetargetingPixelOptions;
 };
 
 /**
@@ -864,6 +877,7 @@ export type ReceiveDataMap = {
   VKWebAppGetGroupInfo: GroupInfo;
   VKWebAppLibverifyOnConfirmed: { validate_session: string; validate_token: string };
   VKWebAppLibverifyOnFailed: { code: VKWebAppLibverifyOnFailedCode };
+  VKWebAppRetargetingPixel: { result: true };
 };
 
 type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F extends string> = Record<
@@ -976,4 +990,5 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppDeviceMotionStart', 'VKWebAppDeviceMotionStartResult', 'VKWebAppDeviceMotionStartFailed'> &
   EventReceiveNames<'VKWebAppDeviceMotionStop', 'VKWebAppDeviceMotionStopResult', 'VKWebAppDeviceMotionStopFailed'> &
   EventReceiveNames<'VKWebAppSubscribeStoryApp', 'VKWebAppSubscribeStoryAppResult', 'VKWebAppSubscribeStoryAppFailed'> &
-  EventReceiveNames<'VKWebAppGetGroupInfo', 'VKWebAppGetGroupInfoResult', 'VKWebAppGetGroupInfoFailed'>;
+  EventReceiveNames<'VKWebAppGetGroupInfo', 'VKWebAppGetGroupInfoResult', 'VKWebAppGetGroupInfoFailed'> &
+  EventReceiveNames<'VKWebAppRetargetingPixel', 'VKWebAppRetargetingPixelResult', 'VKWebAppRetargetingPixelFailed'>;
