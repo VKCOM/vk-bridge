@@ -681,6 +681,18 @@ export type SubscribeStoryAppOptions = {
 };
 
 /**
+ * Options for request to adding a user to an audience with a retargeting pixel
+ */
+export type RetargetingPixelOptions = {
+  /** Pixel code, e.g. `VK-RTRG-447253-dUuM` */
+  pixel_code: string;
+  /** Event id, pixel rule */
+  event: string;
+  /** ID of the retargeting group to which the current user should be added */
+  target_group_id: string;
+};
+
+/**
  * Map of types of request props of VK Bridge methods
  */
 export type RequestPropsMap = {
@@ -750,6 +762,7 @@ export type RequestPropsMap = {
   VKWebAppDeviceMotionStart: {};
   VKWebAppDeviceMotionStop: {};
   VKWebAppSubscribeStoryApp: SubscribeStoryAppOptions;
+  VKWebAppRetargetingPixel: RetargetingPixelOptions;
 };
 
 /**
@@ -834,6 +847,7 @@ export type ReceiveDataMap = {
   VKWebAppDeviceMotionStop: { result: true };
   VKWebAppLocationChanged: { location: string };
   VKWebAppSubscribeStoryApp: { access_key: string };
+  VKWebAppRetargetingPixel: { result: true };
 };
 
 type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F extends string> = Record<
@@ -945,4 +959,5 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppGyroscopeStop', 'VKWebAppGyroscopeStopResult', 'VKWebAppGyroscopeStopFailed'> &
   EventReceiveNames<'VKWebAppDeviceMotionStart', 'VKWebAppDeviceMotionStartResult', 'VKWebAppDeviceMotionStartFailed'> &
   EventReceiveNames<'VKWebAppDeviceMotionStop', 'VKWebAppDeviceMotionStopResult', 'VKWebAppDeviceMotionStopFailed'> &
-  EventReceiveNames<'VKWebAppSubscribeStoryApp', 'VKWebAppSubscribeStoryAppResult', 'VKWebAppSubscribeStoryAppFailed'>;
+  EventReceiveNames<'VKWebAppSubscribeStoryApp', 'VKWebAppSubscribeStoryAppResult', 'VKWebAppSubscribeStoryAppFailed'> &
+  EventReceiveNames<'VKWebAppRetargetingPixel', 'VKWebAppRetargetingPixelResult', 'VKWebAppRetargetingPixelFailed'>;
