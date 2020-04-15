@@ -714,7 +714,7 @@ export type RetargetingPixelOptions = {
   event: string;
   /** ID of the retargeting group to which the current user should be added */
   target_group_id: string;
-}
+};
 
 /**
  * Map of types of request props of VK Bridge methods
