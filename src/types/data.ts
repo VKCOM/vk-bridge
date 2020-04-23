@@ -833,7 +833,7 @@ export type ReceiveDataMap = {
   VKWebAppShowMessageBox: { result: true };
   VKWebAppShowOrderBox: { status: OrderBoxShowingStatus };
   VKWebAppShowRequestBox: RequestResult;
-  VKWebAppShowWallPostBox: { post_id: number };
+  VKWebAppShowWallPostBox: { post_id: number | string };
   VKWebAppStorageGet: { keys: { key: string; value: string }[] };
   VKWebAppStorageGetKeys: { keys: string[] };
   VKWebAppStorageSet: { result: true };
