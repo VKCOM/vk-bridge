@@ -746,6 +746,8 @@ export type RequestPropsMap = {
   VKWebAppGetPhoneNumber: {};
   VKWebAppGetUserInfo: { user_id?: number };
   VKWebAppJoinGroup: { group_id: number };
+  VKWebAppLeaveGroup: { group_id: number };
+  VKWebAppAddToMenu: {};
   VKWebAppOpenCodeReader: {};
   VKWebAppOpenContacts: {};
   VKWebAppOpenPayForm: VKPayProps<VKPayActionType>;
@@ -817,6 +819,8 @@ export type ReceiveDataMap = {
   VKWebAppGetPhoneNumber: { phone_number: string; sign: string; is_verified: boolean };
   VKWebAppGetUserInfo: UserInfo;
   VKWebAppJoinGroup: { result: true };
+  VKWebAppLeaveGroup: { result: true };
+  VKWebAppAddToMenu: { result: true };
   VKWebAppOpenCodeReader: CodeReaderOutput;
   VKWebAppOpenQR: CodeReaderOutput;
   VKWebAppOpenContacts: SelectedContact;
@@ -931,6 +935,8 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppGetPhoneNumber', 'VKWebAppGetPhoneNumberResult', 'VKWebAppGetPhoneNumberFailed'> &
   EventReceiveNames<'VKWebAppGetUserInfo', 'VKWebAppGetUserInfoResult', 'VKWebAppGetUserInfoFailed'> &
   EventReceiveNames<'VKWebAppJoinGroup', 'VKWebAppJoinGroupResult', 'VKWebAppJoinGroupFailed'> &
+  EventReceiveNames<'VKWebAppLeaveGroup', 'VKWebAppLeaveGroupResult', 'VKWebAppLeaveGroupFailed'> &
+  EventReceiveNames<'VKWebAppAddToMenu', 'VKWebAppAddToMenuResult', 'VKWebAppAddToMenuFailed'> &
   EventReceiveNames<'VKWebAppOpenCodeReader', 'VKWebAppOpenCodeReaderResult', 'VKWebAppOpenCodeReaderFailed'> &
   EventReceiveNames<'VKWebAppOpenContacts', 'VKWebAppOpenContactsResult', 'VKWebAppOpenContactsFailed'> &
   EventReceiveNames<'VKWebAppOpenPayForm', 'VKWebAppOpenPayFormResult', 'VKWebAppOpenPayFormFailed'> &

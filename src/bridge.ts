@@ -42,6 +42,7 @@ export const DESKTOP_METHODS = [
   'VKWebAppGetAuthToken',
   'VKWebAppCallAPIMethod',
   'VKWebAppJoinGroup',
+  'VKWebAppLeaveGroup',
   'VKWebAppAllowMessagesFromGroup',
   'VKWebAppDenyNotifications',
   'VKWebAppAllowNotifications',
@@ -58,7 +59,9 @@ export const DESKTOP_METHODS = [
   'VKWebAppShowCommunityWidgetPreviewBox',
 
   // Desktop web specific events
-  ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppShowStoryBox'] : []),
+  ...(IS_DESKTOP_VK
+    ? ['VKWebAppResizeWindow', 'VKWebAppShowStoryBox', 'VKWebAppAddToMenu']
+    : [])
 ];
 
 /** Android VK Bridge interface. */
