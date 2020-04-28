@@ -42,6 +42,7 @@ export const DESKTOP_METHODS = [
   'VKWebAppGetAuthToken',
   'VKWebAppCallAPIMethod',
   'VKWebAppJoinGroup',
+  'VKWebAppLeaveGroup',
   'VKWebAppAllowMessagesFromGroup',
   'VKWebAppDenyNotifications',
   'VKWebAppAllowNotifications',
