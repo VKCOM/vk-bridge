@@ -374,11 +374,12 @@ export type WallPostRequestOptions = {
   /** The place ID where the user is marked */
   place_id?: number;
   /**
-   * `true` — post will be available to friends only
-   * `false` — post will be available to all users (default)
+   * `true` - post will be available to friends only
+   * `false` - post will be available to all users (default)
    */
   friends_only?: boolean
-  /** "List of services or websites the update will be exported to, if the user has so requested.
+  /**
+   * List of services or websites the update will be exported to, if the user has so requested.
    * Sample values: 'twitter', 'facebook'
    */
   services?: 'twitter' | 'facebook' | string
