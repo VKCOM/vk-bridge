@@ -58,6 +58,9 @@ export const DESKTOP_METHODS = [
   'VKWebAppAddToFavorites',
   'VKWebAppShowCommunityWidgetPreviewBox',
   'VKWebAppShowStoryBox',
+  'VKWebAppStorageGet',
+  'VKWebAppStorageGetKeys',
+  'VKWebAppStorageSet',
 
   // Desktop web specific events
   ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppAddToMenu'] : []),
