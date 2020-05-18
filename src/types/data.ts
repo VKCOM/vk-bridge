@@ -369,10 +369,29 @@ export type WallPostRequestOptions = {
   signed?: boolean;
   /** Latitude, specified in degrees (from -90 to 90) */
   lat?: number;
-  /** Longitude, specified in degrees (от -180 до 180) */
+  /** Longitude, specified in degrees (from -180 to 180) */
   long?: number;
   /** The place ID where the user is marked */
   place_id?: number;
+  /**
+   * `true` - post will be available to friends only
+   * `false` - post will be available to all users (default)
+   */
+  friends_only?: boolean
+  /**
+   * List of services or websites the update will be exported to, if the user has so requested.
+   * Sample values: 'twitter', 'facebook'
+   */
+  services?: 'twitter' | 'facebook' | string
+  /** Publication date (in Unix time). If used, posting will be delayed until the set time */
+  publish_date?: number
+  /**
+   * `true` - post comments will be closed
+   * `false` - permission to leave post comments will be up to user's settings (default)
+   */
+  close_comments?: boolean
+  /** Source of the post. Internal and external links supported */
+  copyright?: string
 } & (
   | {
       message?: string;
@@ -607,7 +626,7 @@ export type StoryNativeSticker = {
 };
 
 /**
- * Sticket container
+ * Sticker container
  */
 export type StickerContainer =
   | {
