@@ -811,6 +811,7 @@ export type RequestPropsMap = {
   VKWebAppLibverifyRequest: { phone: string };
   VKWebAppLibverifyCheck: { code: string };
   VKWebAppRetargetingPixel: RetargetingPixelOptions;
+  VKWebAppAuthByExchangeToken: { exchange_token: string, keep_alive: boolean };
 };
 
 /**
