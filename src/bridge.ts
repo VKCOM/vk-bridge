@@ -63,7 +63,7 @@ export const DESKTOP_METHODS = [
   'VKWebAppStorageSet',
 
   // Desktop web specific events
-  ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppAddToMenu'] : []),
+  ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppAddToMenu', 'VkWebAppShowSubscriptionBox', 'VkWebAppShowInstallPushBox'] : []),
 ];
 
 /** Android VK Bridge interface. */
