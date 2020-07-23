@@ -807,7 +807,7 @@ export type RequestPropsMap = {
   VKWebAppDeviceMotionStart: {};
   VKWebAppDeviceMotionStop: {};
   VKWebAppSubscribeStoryApp: SubscribeStoryAppOptions;
-  VKWebAppGetGroupInfo: { groupId: number };
+  VKWebAppGetGroupInfo: { group_id: number };
   VKWebAppLibverifyRequest: { phone: string };
   VKWebAppLibverifyCheck: { code: string };
   VKWebAppRetargetingPixel: RetargetingPixelOptions;
