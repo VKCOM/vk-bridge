@@ -741,6 +741,8 @@ export type RetargetingPixelOptions = {
 export type RequestPropsMap = {
   VKWebAppInit: {};
   VKWebAppAddToCommunity: {};
+  VKWebAppAddToHomeScreen: {};
+  VKWebAppAddToHomeScreenInfo: {},
   VKWebAppAllowMessagesFromGroup: { group_id: number; key?: string };
   VKWebAppAllowNotifications: {};
   VKWebAppCallAPIMethod: { method: string; params: Record<string, string | number> };
@@ -754,9 +756,6 @@ export type RequestPropsMap = {
   VKWebAppFlashSetLevel: { level: number };
   VKWebAppGetClientVersion: {};
   VKWebAppGetCommunityToken: CommunityTokenRequestOptions;
-  VKWebAppGetCommunityAuthToken: CommunityTokenRequestOptions; // Web. Deprecated in favor `VKWebAppGetCommunityToken`
-  VKWebAppCommunityAccessToken: CommunityTokenRequestOptions; // iOS. Deprecated in favor `VKWebAppGetCommunityToken`
-  VKWebAppCommunityToken: CommunityTokenRequestOptions; // Android. Deprecated in favor `VKWebAppGetCommunityToken`
   VKWebAppAudioPause: {};
   VKWebAppGetEmail: {};
   VKWebAppGetFriends: { multi?: boolean };
@@ -777,8 +776,6 @@ export type RequestPropsMap = {
   VKWebAppSetViewSettings: {
     status_bar_style: AppearanceType;
     action_bar_color?: string;
-    /** Only for android */
-    navigation_bar_color?: string;
   };
   VKWebAppShare: { link: string };
   VKWebAppShowCommunityWidgetPreviewBox: WidgetPreviewRequestOptions;
@@ -819,6 +816,8 @@ export type RequestPropsMap = {
 export type ReceiveDataMap = {
   VKWebAppInit: { result: true };
   VKWebAppAddToCommunity: { group_id: number };
+  VKWebAppAddToHomeScreen: { result: true };
+  VKWebAppAddToHomeScreenInfo: { is_feature_supported: boolean, is_added_to_home_screen: boolean },
   VKWebAppAllowMessagesFromGroup: { result: true };
   VKWebAppAllowNotifications: { result: true };
   VKWebAppCallAPIMethod: { response: any };
@@ -833,7 +832,7 @@ export type ReceiveDataMap = {
   VKWebAppGetClientVersion: { platform: string; version: string };
   VKWebAppGetEmail: { email: string; sign: string };
   VKWebAppGetFriends: { users: Array<{ id: number; first_name: string; last_name: string }> };
-  VKWebAppGetGeodata: { available: boolean | number; lat: string; long: string };
+  VKWebAppGetGeodata: { available: 0 } | { available: 1; lat: number; long: number };
   VKWebAppGetPersonalCard: PersonalCardData;
   VKWebAppGetPhoneNumber: { phone_number: string; sign: string; is_verified: boolean };
   VKWebAppGetUserInfo: UserInfo;
@@ -866,12 +865,6 @@ export type ReceiveDataMap = {
   VKWebAppAddToFavorites: { result: true };
   VKWebAppSendPayload: { result: true };
   VKWebAppGetCommunityToken: { access_token: string };
-  /** Web. Deprecated in favor `VKWebAppGetCommunityToken` */
-  VKWebAppGetCommunityAuthToken: { access_token: string };
-  /** iOS. Deprecated in favor `VKWebAppGetCommunityToken` */
-  VKWebAppCommunityAccessToken: { access_token: string };
-  /** Android. Deprecated in favor `VKWebAppGetCommunityToken` */
-  VKWebAppCommunityToken: { access_token: string };
   VKWebAppAudioPause: { result: true };
   VKWebAppAudioPaused: { position: number; type: string; id: string };
   VKWebAppAudioStopped: {}; // Always empty
@@ -913,6 +906,8 @@ type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F exte
  */
 export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitResult', 'VKWebAppInitFailed'> &
   EventReceiveNames<'VKWebAppAddToCommunity', 'VKWebAppAddToCommunityResult', 'VKWebAppAddToCommunityFailed'> &
+  EventReceiveNames<'VKWebAppAddToHomeScreen', 'VKWebAppAddToHomeScreenResult', 'VKWebAppAddToHomeScreenFailed'> &
+  EventReceiveNames<'VKWebAppAddToHomeScreenInfo', 'VKWebAppAddToHomeScreenInfoResult', 'VKWebAppAddToHomeScreenInfoFailed'> &
   EventReceiveNames<
     'VKWebAppAllowMessagesFromGroup',
     'VKWebAppAllowMessagesFromGroupResult',
@@ -935,17 +930,6 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppFlashSetLevel', 'VKWebAppFlashSetLevelResult', 'VKWebAppFlashSetLevelFailed'> &
   EventReceiveNames<'VKWebAppGetClientVersion', 'VKWebAppGetClientVersionResult', 'VKWebAppGetClientVersionFailed'> &
   EventReceiveNames<'VKWebAppGetCommunityToken', 'VKWebAppGetCommunityTokenResult', 'VKWebAppGetCommunityTokenFailed'> &
-  EventReceiveNames<
-    'VKWebAppGetCommunityAuthToken',
-    'VKWebAppGetCommunityAuthTokenResult',
-    'VKWebAppGetCommunityAuthTokenFailed'
-  > &
-  EventReceiveNames<
-    'VKWebAppCommunityAccessToken',
-    'VKWebAppCommunityAccessTokenResult',
-    'VKWebAppCommunityAccessTokenFailed'
-  > &
-  EventReceiveNames<'VKWebAppCommunityToken', 'VKWebAppCommunityTokenResult', 'VKWebAppCommunityTokenFailed'> &
   EventReceiveNames<'VKWebAppAudioPause', 'VKWebAppAudioPauseResult', 'VKWebAppAudioPauseFailed'> &
   EventReceiveNames<'VKWebAppGetEmail', 'VKWebAppGetEmailResult', 'VKWebAppGetEmailFailed'> &
   EventReceiveNames<'VKWebAppGetFriends', 'VKWebAppGetFriendsResult', 'VKWebAppGetFriendsFailed'> &
