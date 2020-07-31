@@ -756,9 +756,6 @@ export type RequestPropsMap = {
   VKWebAppFlashSetLevel: { level: number };
   VKWebAppGetClientVersion: {};
   VKWebAppGetCommunityToken: CommunityTokenRequestOptions;
-  VKWebAppGetCommunityAuthToken: CommunityTokenRequestOptions; // Web. Deprecated in favor `VKWebAppGetCommunityToken`
-  VKWebAppCommunityAccessToken: CommunityTokenRequestOptions; // iOS. Deprecated in favor `VKWebAppGetCommunityToken`
-  VKWebAppCommunityToken: CommunityTokenRequestOptions; // Android. Deprecated in favor `VKWebAppGetCommunityToken`
   VKWebAppAudioPause: {};
   VKWebAppGetEmail: {};
   VKWebAppGetFriends: { multi?: boolean };
@@ -868,12 +865,6 @@ export type ReceiveDataMap = {
   VKWebAppAddToFavorites: { result: true };
   VKWebAppSendPayload: { result: true };
   VKWebAppGetCommunityToken: { access_token: string };
-  /** Web. Deprecated in favor `VKWebAppGetCommunityToken` */
-  VKWebAppGetCommunityAuthToken: { access_token: string };
-  /** iOS. Deprecated in favor `VKWebAppGetCommunityToken` */
-  VKWebAppCommunityAccessToken: { access_token: string };
-  /** Android. Deprecated in favor `VKWebAppGetCommunityToken` */
-  VKWebAppCommunityToken: { access_token: string };
   VKWebAppAudioPause: { result: true };
   VKWebAppAudioPaused: { position: number; type: string; id: string };
   VKWebAppAudioStopped: {}; // Always empty
@@ -939,17 +930,6 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppFlashSetLevel', 'VKWebAppFlashSetLevelResult', 'VKWebAppFlashSetLevelFailed'> &
   EventReceiveNames<'VKWebAppGetClientVersion', 'VKWebAppGetClientVersionResult', 'VKWebAppGetClientVersionFailed'> &
   EventReceiveNames<'VKWebAppGetCommunityToken', 'VKWebAppGetCommunityTokenResult', 'VKWebAppGetCommunityTokenFailed'> &
-  EventReceiveNames<
-    'VKWebAppGetCommunityAuthToken',
-    'VKWebAppGetCommunityAuthTokenResult',
-    'VKWebAppGetCommunityAuthTokenFailed'
-  > &
-  EventReceiveNames<
-    'VKWebAppCommunityAccessToken',
-    'VKWebAppCommunityAccessTokenResult',
-    'VKWebAppCommunityAccessTokenFailed'
-  > &
-  EventReceiveNames<'VKWebAppCommunityToken', 'VKWebAppCommunityTokenResult', 'VKWebAppCommunityTokenFailed'> &
   EventReceiveNames<'VKWebAppAudioPause', 'VKWebAppAudioPauseResult', 'VKWebAppAudioPauseFailed'> &
   EventReceiveNames<'VKWebAppGetEmail', 'VKWebAppGetEmailResult', 'VKWebAppGetEmailFailed'> &
   EventReceiveNames<'VKWebAppGetFriends', 'VKWebAppGetFriendsResult', 'VKWebAppGetFriendsFailed'> &
