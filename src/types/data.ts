@@ -777,8 +777,6 @@ export type RequestPropsMap = {
   VKWebAppSetViewSettings: {
     status_bar_style: AppearanceType;
     action_bar_color?: string;
-    /** Only for android */
-    navigation_bar_color?: string;
   };
   VKWebAppShare: { link: string };
   VKWebAppShowCommunityWidgetPreviewBox: WidgetPreviewRequestOptions;
