@@ -741,6 +741,8 @@ export type RetargetingPixelOptions = {
 export type RequestPropsMap = {
   VKWebAppInit: {};
   VKWebAppAddToCommunity: {};
+  VKWebAppAddToHomeScreen: {};
+  VKWebAppAddToHomeScreenInfo: {},
   VKWebAppAllowMessagesFromGroup: { group_id: number; key?: string };
   VKWebAppAllowNotifications: {};
   VKWebAppCallAPIMethod: { method: string; params: Record<string, string | number> };
@@ -817,6 +819,8 @@ export type RequestPropsMap = {
 export type ReceiveDataMap = {
   VKWebAppInit: { result: true };
   VKWebAppAddToCommunity: { group_id: number };
+  VKWebAppAddToHomeScreen: { result: true };
+  VKWebAppAddToHomeScreenInfo: { is_feature_supported: boolean, is_added_to_home_screen: boolean },
   VKWebAppAllowMessagesFromGroup: { result: true };
   VKWebAppAllowNotifications: { result: true };
   VKWebAppCallAPIMethod: { response: any };
@@ -911,6 +915,8 @@ type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F exte
  */
 export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitResult', 'VKWebAppInitFailed'> &
   EventReceiveNames<'VKWebAppAddToCommunity', 'VKWebAppAddToCommunityResult', 'VKWebAppAddToCommunityFailed'> &
+  EventReceiveNames<'VKWebAppAddToHomeScreen', 'VKWebAppAddToHomeScreenResult', 'VKWebAppAddToHomeScreenFailed'> &
+  EventReceiveNames<'VKWebAppAddToHomeScreenInfo', 'VKWebAppAddToHomeScreenInfoResult', 'VKWebAppAddToHomeScreenInfoFailed'> &
   EventReceiveNames<
     'VKWebAppAllowMessagesFromGroup',
     'VKWebAppAllowMessagesFromGroupResult',
