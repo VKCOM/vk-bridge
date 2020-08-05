@@ -733,6 +733,12 @@ export type RetargetingPixelOptions = {
   event: string;
   /** ID of the retargeting group to which the current user should be added */
   target_group_id: string;
+  /** ID of the price list */
+  price_list_id: number;
+  /** Type of product event */
+  products_event: string;
+  /** Product params */
+  products_params: string;
 };
 
 /**
