@@ -263,7 +263,17 @@ export type Insets = {
  * Update config type for mvk (mobile browser).
  */
 export type MVKUpdateConfigData = {
+  /** Server API host for direct requests. */
+  api_host: string;
+  scheme: AppearanceSchemeType;
+};
+
+export type VKUpdateConfigData = {
+  /** Server API host for direct requests. */
+  api_host: string;
+  /** window.innerWidth of the parent window */
   viewport_width: number;
+  /** window.innerHeight of the parent window */
   viewport_height: number;
   scheme: AppearanceSchemeType;
 };
@@ -282,7 +292,7 @@ export type DefaultUpdateConfigData = {
 /**
  * Update config data
  */
-export type UpdateConfigData = DefaultUpdateConfigData | MVKUpdateConfigData;
+export type UpdateConfigData = DefaultUpdateConfigData | MVKUpdateConfigData | VKUpdateConfigData;
 
 export type WidgetPreviewRequestOptions = {
   /** Widget type */
@@ -404,12 +414,29 @@ export type WallPostRequestOptions = {
 );
 
 /**
+ * Result data user in Share
+ */
+export type ShareUserInfo = {
+  /** User id */
+  id: number;
+  /** User name */
+  first_name: string;
+  /** User surname */
+  last_name: string;
+  /** User sex: 0 - not specified, 1 - female, 2 - male */
+  sex: 0 | 1 | 2;
+  /** User profile photo */
+  photo: string;
+};
+
+/**
  * Result data of link share
  */
 export type LinkShareResult =
-  | { type: 'message' | 'qr' | 'other' }
+  | { type: 'message', users: ShareUserInfo[] }
   | { type: 'post'; post_id: string }
-  | { type: 'story'; story_id: string };
+  | { type: 'story'; story_id: string }
+  | { type: 'qr' | 'link' | 'other' };
 
 export type StoryObjectTransform = {
   /** Rotation, from 0 to 359 deg. Counterclockwise rotation. */
@@ -778,10 +805,14 @@ export type RequestPropsMap = {
   VKWebAppOpenQR: {};
   VKWebAppResizeWindow: { width?: number; height: number };
   VKWebAppScroll: { top: number; speed?: number };
+  VKWebAppSendToClient: {};
   VKWebAppSetLocation: { location: string };
   VKWebAppSetViewSettings: {
     status_bar_style: AppearanceType;
+    /** Android only */
     action_bar_color?: string;
+    /** Android only */
+    navigation_bar_color?: string;
   };
   VKWebAppShare: { link: string };
   VKWebAppShowCommunityWidgetPreviewBox: WidgetPreviewRequestOptions;
@@ -851,6 +882,7 @@ export type ReceiveDataMap = {
   VKWebAppOpenPayForm: TransactionResult | { result: TransactionResult };
   VKWebAppResizeWindow: { width: number; height: number };
   VKWebAppScroll: { top: number; height: number };
+  VKWebAppSendToClient: { result: true };
   VKWebAppSetLocation: { result: true };
   VKWebAppSetViewSettings: { result: true };
   VKWebAppShare: LinkShareResult;
@@ -952,6 +984,7 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppOpenQR', 'VKWebAppOpenQRResult', 'VKWebAppOpenQRFailed'> &
   EventReceiveNames<'VKWebAppResizeWindow', 'VKWebAppResizeWindowResult', 'VKWebAppResizeWindowFailed'> &
   EventReceiveNames<'VKWebAppScroll', 'VKWebAppScrollResult', 'VKWebAppScrollFailed'> &
+  EventReceiveNames<'VKWebAppSendToClient', 'VKWebAppSendToClientResult', 'VKWebAppSendToClientFailed'> &
   EventReceiveNames<'VKWebAppSetLocation', 'VKWebAppSetLocationResult', 'VKWebAppSetLocationFailed'> &
   EventReceiveNames<'VKWebAppSetViewSettings', 'VKWebAppSetViewSettingsResult', 'VKWebAppSetViewSettingsFailed'> &
   EventReceiveNames<'VKWebAppShare', 'VKWebAppShareResult', 'VKWebAppShareFailed'> &
