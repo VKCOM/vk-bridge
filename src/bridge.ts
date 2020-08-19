@@ -32,12 +32,18 @@ export const DESKTOP_METHODS = [
   'VKWebAppInit',
   'VKWebAppGetCommunityAuthToken',
   'VKWebAppAddToCommunity',
+  'VKWebAppAddToHomeScreenInfo',
+  'VKWebAppClose',
+  'VKWebAppCopyText',
   'VKWebAppGetUserInfo',
   'VKWebAppSetLocation',
+  'VKWebAppSendToClient',
   'VKWebAppGetClientVersion',
   'VKWebAppGetPhoneNumber',
   'VKWebAppGetEmail',
+  'VKWebAppGetGroupInfo',
   'VKWebAppGetGeodata',
+  'VKWebAppGetCommunityToken',
   'VKWebAppSetTitle',
   'VKWebAppGetAuthToken',
   'VKWebAppCallAPIMethod',
@@ -58,12 +64,15 @@ export const DESKTOP_METHODS = [
   'VKWebAppAddToFavorites',
   'VKWebAppShowCommunityWidgetPreviewBox',
   'VKWebAppShowStoryBox',
+  'VKWebAppSendToClient',
   'VKWebAppStorageGet',
   'VKWebAppStorageGetKeys',
   'VKWebAppStorageSet',
+  'VKWebAppFlashGetInfo',
+  'VKWebAppSubscribeStoryApp',
 
   // Desktop web specific events
-  ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppAddToMenu', 'VkWebAppShowSubscriptionBox', 'VkWebAppShowInstallPushBox'] : []),
+  ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppAddToMenu', 'VKWebAppShowSubscriptionBox', 'VKWebAppShowInstallPushBox', 'VKWebAppGetFriends'] : []),
 ];
 
 /** Android VK Bridge interface. */
