@@ -22,7 +22,7 @@ export const IS_WEB = IS_CLIENT_SIDE && !IS_ANDROID_WEBVIEW && !IS_IOS_WEBVIEW;
 export const IS_MVK = IS_WEB && /(^\?|&)vk_platform=mobile_web(&|$)/.test(location.search);
 
 /** Is the runtime environment vk.com */
-export const IS_DESKTOP_VK = IS_WEB && !IS_MVK;
+export const IS_DESKTOP_VK = IS_WEB && /(^\?|&)vk_platform=desktop_web(&|$)/.test(location.search);
 
 /** Type of subscribe event */
 export const EVENT_TYPE = IS_WEB ? 'message' : 'VKWebAppEvent';
@@ -183,6 +183,16 @@ export function createVKBridge(version: string): VKBridge {
   function isWebView(): boolean {
     return IS_IOS_WEBVIEW || IS_ANDROID_WEBVIEW;
   }
+
+  /**
+   * Checks whether the runtime is vk.
+   *
+   * @returns Result of checking.
+   */
+  function isVK(): boolean {
+    return IS_IOS_WEBVIEW || IS_ANDROID_WEBVIEW || IS_MVK || IS_DESKTOP_VK;
+  }
+
 
   // Subscribes to listening messages from a runtime for calling each
   // subscribed event listener.
