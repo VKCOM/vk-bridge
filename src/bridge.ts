@@ -227,5 +227,6 @@ export function createVKBridge(version: string): VKBridge {
     unsubscribe,
     supports,
     isWebView,
+    isVK,
   };
 }
