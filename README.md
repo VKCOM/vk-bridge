@@ -137,6 +137,18 @@ Checks if an event is available on the current device
 
 Returns `true` if VK Bridge is running in mobile app, or `false` if not
 
+### `bridge.isIframe()`
+
+Returns `true` if VK Bridge is running in iframe, or `false` if not
+
+### `bridge.isEmbedded()`
+
+Returns `true` if VK Bridge is running in embedded app, or `false` if not
+
+### `bridge.isStandalone()`
+
+Returns `true` if VK Bridge is running in standalone app, or `false` if not
+
 ## Middleware API
 
 _Middlewares_ are pieces of code that intercept and process data between sending and receiving. Thus, by creating middlewares, you can easily log data, modify data before sending it, talking to an asynchronous API, etc. If you've used Redux, you were also probably already familiar with the concept—a similar is used here.
