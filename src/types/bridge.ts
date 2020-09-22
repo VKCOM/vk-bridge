@@ -241,4 +241,10 @@ export interface VKBridge {
    * @returns Result of checking.
    */
   isWebView: () => boolean;
+
+  isIframe: () => boolean;
+
+  isEmbedded: () => boolean;
+
+  isStandalone: () => boolean;
 }

@@ -184,6 +184,33 @@ export function createVKBridge(version: string): VKBridge {
     return IS_IOS_WEBVIEW || IS_ANDROID_WEBVIEW;
   }
 
+  /**
+   * Checks whether the runtime is an iframe.abs
+   *
+   * @returns Result of checking.
+   */
+  function isIframe(): boolean {
+    return IS_WEB && window.parent !== window;
+  }
+
+  /**
+   * Checks whether the runtime is embedded.
+   *
+   * @returns Result of checking.
+   */
+  function isEmbedded(): boolean {
+    return isWebView() || isIframe();
+  }
+
+  /**
+   * Checks whether the runtime is standalone.
+   *
+   * @returns Result of checking.
+   */
+  function isStandalone(): boolean {
+    return !isEmbedded();
+  }
+
   // Subscribes to listening messages from a runtime for calling each
   // subscribed event listener.
   if (typeof window !== 'undefined' && 'addEventListener' in window) {
@@ -217,5 +244,8 @@ export function createVKBridge(version: string): VKBridge {
     unsubscribe,
     supports,
     isWebView,
+    isIframe,
+    isEmbedded,
+    isStandalone,
   };
 }
