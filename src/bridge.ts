@@ -185,7 +185,7 @@ export function createVKBridge(version: string): VKBridge {
   }
 
   /**
-   * Checks whether the runtime is an iframe.abs
+   * Checks whether the runtime is an iframe.
    *
    * @returns Result of checking.
    */
