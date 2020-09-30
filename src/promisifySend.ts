@@ -90,7 +90,7 @@ export function promisifySend(
 
   // Subscribe to receive a data
   subscribe((event) => {
-    if (!event.detail || !event.detail.data) {
+    if (!event.detail || !event.detail.data || typeof event.detail.data !== 'object') {
       return;
     }
 
