@@ -129,6 +129,11 @@ export function createVKBridge(version: string): VKBridge {
         },
         '*'
       );
+    } else {
+      console.error('VKBridgeError',
+          "Can't use VK Bridge out of context iFrame or WebView.",
+          "Read state vk.com/@vkappsdev-debag-vk-apps"
+      );
     }
   }
 
