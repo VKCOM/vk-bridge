@@ -134,8 +134,8 @@ export function createVKBridge(version: string): VKBridge {
     // Sending error for developer
     else {
       console.error('VKBridgeError',
-          "Can't use VK Bridge out of context iFrame or WebView.",
-          "Read state vk.com/@vkappsdev-debag-vk-apps"
+          "VKBridge is not allowed outside VK Clients",
+          "More info — vk.com/@vkappsdev-debag-vk-apps"
       );
     }
   }
