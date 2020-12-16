@@ -1,6 +1,30 @@
 /** Type of the Personal Card */
 export type PersonalCardType = 'phone' | 'email' | 'address';
 
+/** Access Permissions for User Token */
+export type PersonalAuthScope =
+  | 'friends'
+  | 'photos'
+  | 'video'
+  | 'stories'
+  | 'pages'
+  | 'status'
+  | 'notes'
+  | 'wall'
+  | 'docs'
+  | 'groups'
+  | 'stats'
+  | 'market';
+
+/** Access Permissions for Community Token */
+export type CommunityAuthScope =
+  | 'stories'
+  | 'photos'
+  | 'app_widget'
+  | 'messages'
+  | 'docs'
+  | 'manage';
+
 /**
  * Type of user info object
  */
@@ -109,7 +133,7 @@ export type VKPayActionParamsMap = {
   };
   /**
    * Payment in favor of the merchant
-   * @see {@link https://vk.com/@devpay-vk-pay-how-to}
+   * @see {@link https://vk.com/@devpay-vk-pay-how-to VK Pay How To}
    */
   'pay-to-service': {
     /**
@@ -301,7 +325,7 @@ export type WidgetPreviewRequestOptions = {
   group_id: number;
   /**
    * Widget code
-   * @see {@link https://vk.com/dev/execute | Execute method}
+   * @see {@link https://vk.com/dev/execute Execute method}
    */
   code: string;
 };
@@ -323,7 +347,7 @@ export type AppCloseStatus = 'success' | 'failed';
 export type CommunityTokenRequestOptions = {
   app_id: number;
   group_id: number;
-  scope: string;
+  scope: CommunityAuthScope | string;
 };
 
 export type MessageRequestOptions = {
@@ -757,15 +781,15 @@ export type RetargetingPixelOptions = {
   /** Pixel code, e.g. `VK-RTRG-447253-dUuM` */
   pixel_code: string;
   /** Event id, pixel rule */
-  event: string;
+  event?: string;
   /** ID of the retargeting group to which the current user should be added */
-  target_group_id: string;
+  target_group_id?: number;
   /** ID of the price list */
-  price_list_id: number;
+  price_list_id?: number;
   /** Type of product event */
-  products_event: string;
+  products_event?: string;
   /** Product params */
-  products_params: string;
+  products_params?: string;
 };
 
 /**
@@ -778,10 +802,10 @@ export type RequestPropsMap = {
   VKWebAppAddToHomeScreenInfo: {},
   VKWebAppAllowMessagesFromGroup: { group_id: number; key?: string };
   VKWebAppAllowNotifications: {};
-  VKWebAppCallAPIMethod: { method: string; params: Record<string, string | number> };
+  VKWebAppCallAPIMethod: { method: string; params: Record<'access_token' | 'v', string> & Record<string, string | number> };
   VKWebAppCopyText: { text: string };
   VKWebAppDownloadFile: { url: string; filename: string };
-  VKWebAppGetAuthToken: { app_id: number; scope: string };
+  VKWebAppGetAuthToken: { app_id: number; scope: PersonalAuthScope | string };
   VKWebAppClose: { status: AppCloseStatus; payload?: any };
   VKWebAppOpenApp: { app_id: number; location?: string };
   VKWebAppDenyNotifications: {};
@@ -803,18 +827,18 @@ export type RequestPropsMap = {
   VKWebAppOpenContacts: {};
   VKWebAppOpenPayForm: VKPayProps<VKPayActionType>;
   VKWebAppOpenQR: {};
-  VKWebAppResizeWindow: { width?: number; height: number };
+  VKWebAppResizeWindow: { width: number; height?: number };
   VKWebAppScroll: { top: number; speed?: number };
-  VKWebAppSendToClient: {};
+  VKWebAppSendToClient: { fragment?: string };
   VKWebAppSetLocation: { location: string };
   VKWebAppSetViewSettings: {
     status_bar_style: AppearanceType;
     /** Android only */
-    action_bar_color?: string;
+    action_bar_color?: 'none' | string;
     /** Android only */
     navigation_bar_color?: string;
   };
-  VKWebAppShare: { link: string };
+  VKWebAppShare: { link?: string };
   VKWebAppShowCommunityWidgetPreviewBox: WidgetPreviewRequestOptions;
   VKWebAppShowImages: { images: string[]; start_index?: number };
   VKWebAppShowInviteBox: {};
@@ -834,6 +858,7 @@ export type RequestPropsMap = {
   VKWebAppSendPayload: { group_id: number; payload: any };
   VKWebAppDisableSwipeBack: {};
   VKWebAppEnableSwipeBack: {};
+  VKWebAppSetSwipeSettings: { history: boolean };
   VKWebAppShowStoryBox: ShowStoryBoxOptions;
   VKWebAppAccelerometerStart: {};
   VKWebAppAccelerometerStop: {};
@@ -918,6 +943,7 @@ export type ReceiveDataMap = {
   VKWebAppViewRestore: {}; // Always empty
   VKWebAppDisableSwipeBack: { result: true };
   VKWebAppEnableSwipeBack: { result: true };
+  VKWebAppSetSwipeSettings: { result: true };
   VKWebAppShowStoryBox: { result: true };
   VKWebAppAccelerometerStart: { result: true };
   VKWebAppAccelerometerStop: { result: true };
@@ -1029,6 +1055,7 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppSendPayload', 'VKWebAppSendPayloadResult', 'VKWebAppSendPayloadFailed'> &
   EventReceiveNames<'VKWebAppDisableSwipeBack', 'VKWebAppDisableSwipeBackResult', 'VKWebAppDisableSwipeBackFailed'> &
   EventReceiveNames<'VKWebAppEnableSwipeBack', 'VKWebAppEnableSwipeBackResult', 'VKWebAppEnableSwipeBackFailed'> &
+  EventReceiveNames<'VKWebAppSetSwipeSettings', 'VKWebAppSetSwipeSettingsResult', 'VKWebAppSetSwipeSettingsFailed'> &
   EventReceiveNames<'VKWebAppShowStoryBox', 'VKWebAppShowStoryBoxResult', 'VKWebAppShowStoryBoxFailed'> &
   EventReceiveNames<
     'VKWebAppAccelerometerStart',
