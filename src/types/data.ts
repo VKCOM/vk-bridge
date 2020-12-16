@@ -823,6 +823,7 @@ export type RequestPropsMap = {
   VKWebAppShowOrderBox: OrderRequestOptions;
   VKWebAppShowRequestBox: RequestForRequestOptions;
   VKWebAppShowWallPostBox: WallPostRequestOptions;
+  VKWebAppOpenWallPost: { post_id: number, owner_id: number };
   VKWebAppStorageGet: { keys: string[] };
   VKWebAppStorageGetKeys: { count: number; offset: number };
   VKWebAppStorageSet: { key: string; value: string };
@@ -894,6 +895,7 @@ export type ReceiveDataMap = {
   VKWebAppShowOrderBox: { status: OrderBoxShowingStatus };
   VKWebAppShowRequestBox: RequestResult;
   VKWebAppShowWallPostBox: { post_id: number | string };
+  VKWebAppOpenWallPost: { result: true };
   VKWebAppStorageGet: { keys: { key: string; value: string }[] };
   VKWebAppStorageGetKeys: { keys: string[] };
   VKWebAppStorageSet: { result: true };
@@ -1004,6 +1006,7 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppShowOrderBox', 'VKWebAppShowOrderBoxResult', 'VKWebAppShowOrderBoxFailed'> &
   EventReceiveNames<'VKWebAppShowRequestBox', 'VKWebAppShowRequestBoxResult', 'VKWebAppShowRequestBoxFailed'> &
   EventReceiveNames<'VKWebAppShowWallPostBox', 'VKWebAppShowWallPostBoxResult', 'VKWebAppShowWallPostBoxFailed'> &
+  EventReceiveNames<'VKWebAppOpenWallPost', 'VKWebAppOpenWallPostResult', 'VKWebAppOpenWallPostFailed'> &
   EventReceiveNames<'VKWebAppStorageGet', 'VKWebAppStorageGetResult', 'VKWebAppStorageGetFailed'> &
   EventReceiveNames<'VKWebAppStorageGetKeys', 'VKWebAppStorageGetKeysResult', 'VKWebAppStorageGetKeysFailed'> &
   EventReceiveNames<'VKWebAppStorageSet', 'VKWebAppStorageSetResult', 'VKWebAppStorageSetFailed'> &
