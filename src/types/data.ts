@@ -1,6 +1,7 @@
 /** Type of the Personal Card */
 export type PersonalCardType = 'phone' | 'email' | 'address';
 
+/** Access Permissions for User Token */
 export type PersonalAuthScope =
   | 'friends'
   | 'photos'
@@ -13,15 +14,16 @@ export type PersonalAuthScope =
   | 'docs'
   | 'groups'
   | 'stats'
-  | 'market'
+  | 'market';
 
+/** Access Permissions for Community Token */
 export type CommunityAuthScope =
   | 'stories'
   | 'photos'
   | 'app_widget'
   | 'messages'
   | 'docs'
-  | 'manage'
+  | 'manage';
 
 /**
  * Type of user info object
@@ -790,50 +792,6 @@ export type RetargetingPixelOptions = {
   products_params?: string;
 };
 
-export type GetAdsResult = Partial<{
-  bannerId: string
-  type: 'promo' | string
-  advertisingLabel: 'Реклама' | string
-  title: string
-  description: string
-  /**
-   * @description Android only
-   */
-  category: string
-  ageRestrictions: string
-  url_types: string
-
-  imageLink: string
-  imageWidth: number
-  imageHeight: number
-
-  iconLink: string
-  iconWidth: number
-  iconHeight: number
-
-  trackingLink: string
-  /**
-   * @description IOS only
-   */
-  domain: string
-  /**
-   * @description Android only
-   */
-  bundle_id: string
-  statistics: any[]
-  directLink: boolean
-  openInBrowser: boolean
-  navigationType: 'web' | 'store' | string
-  /**
-   * @description Android only
-   */
-  rating: number
-  /**
-   * @description Android only
-   */
-  votes: number
-}>
-
 /**
  * Map of types of request props of VK Bridge methods
  */
@@ -912,7 +870,6 @@ export type RequestPropsMap = {
   VKWebAppLibverifyRequest: { phone: string };
   VKWebAppLibverifyCheck: { code: string };
   VKWebAppRetargetingPixel: RetargetingPixelOptions;
-  VKWebAppGetAds: {};
 };
 
 /**
@@ -1001,7 +958,6 @@ export type ReceiveDataMap = {
   VKWebAppLibverifyOnConfirmed: { validate_session: string; validate_token: string };
   VKWebAppLibverifyOnFailed: { code: VKWebAppLibverifyOnFailedCode };
   VKWebAppRetargetingPixel: { result: true };
-  VKWebAppGetAds: GetAdsResult;
 };
 
 type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F extends string> = Record<
@@ -1110,5 +1066,4 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppDeviceMotionStop', 'VKWebAppDeviceMotionStopResult', 'VKWebAppDeviceMotionStopFailed'> &
   EventReceiveNames<'VKWebAppSubscribeStoryApp', 'VKWebAppSubscribeStoryAppResult', 'VKWebAppSubscribeStoryAppFailed'> &
   EventReceiveNames<'VKWebAppGetGroupInfo', 'VKWebAppGetGroupInfoResult', 'VKWebAppGetGroupInfoFailed'> &
-  EventReceiveNames<'VKWebAppRetargetingPixel', 'VKWebAppRetargetingPixelResult', 'VKWebAppRetargetingPixelFailed'> &
-  EventReceiveNames<'VKWebAppGetAds', 'VKWebAppGetAdsResult', 'VKWebAppGetAdsFailed'>;
+  EventReceiveNames<'VKWebAppRetargetingPixel', 'VKWebAppRetargetingPixelResult', 'VKWebAppRetargetingPixelFailed'>;
