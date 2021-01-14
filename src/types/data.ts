@@ -871,6 +871,8 @@ export type RequestPropsMap = {
   VKWebAppLibverifyRequest: { phone: string };
   VKWebAppLibverifyCheck: { code: string };
   VKWebAppRetargetingPixel: RetargetingPixelOptions;
+  VKWebAppAuthRestore: { keep_alive: boolean; user_id: string; };
+  VKWebAppForceLogout: {};
 };
 
 /**
@@ -960,6 +962,8 @@ export type ReceiveDataMap = {
   VKWebAppLibverifyOnConfirmed: { validate_session: string; validate_token: string };
   VKWebAppLibverifyOnFailed: { code: VKWebAppLibverifyOnFailedCode };
   VKWebAppRetargetingPixel: { result: true };
+  VKWebAppAuthRestore: { result: true };
+  VKWebAppForceLogout: { result: true };
 };
 
 type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F extends string> = Record<
@@ -1069,4 +1073,6 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppDeviceMotionStop', 'VKWebAppDeviceMotionStopResult', 'VKWebAppDeviceMotionStopFailed'> &
   EventReceiveNames<'VKWebAppSubscribeStoryApp', 'VKWebAppSubscribeStoryAppResult', 'VKWebAppSubscribeStoryAppFailed'> &
   EventReceiveNames<'VKWebAppGetGroupInfo', 'VKWebAppGetGroupInfoResult', 'VKWebAppGetGroupInfoFailed'> &
-  EventReceiveNames<'VKWebAppRetargetingPixel', 'VKWebAppRetargetingPixelResult', 'VKWebAppRetargetingPixelFailed'>;
+  EventReceiveNames<'VKWebAppRetargetingPixel', 'VKWebAppRetargetingPixelResult', 'VKWebAppRetargetingPixelFailed'> &
+  EventReceiveNames<'VKWebAppAuthRestore', 'VKWebAppAuthRestoreResult', 'VKWebAppAuthRestoreFailed'> &
+  EventReceiveNames<'VKWebAppForceLogout', 'VKWebAppForceLogoutResult', 'VKWebAppForceLogoutFailed'>;
