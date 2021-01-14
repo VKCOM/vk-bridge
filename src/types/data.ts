@@ -872,6 +872,7 @@ export type RequestPropsMap = {
   VKWebAppLibverifyCheck: { code: string };
   VKWebAppRetargetingPixel: RetargetingPixelOptions;
   VKWebAppAuthRestore: { keep_alive: boolean; user_id: string; };
+  VKWebAppAuthByExchangeToken: { keep_alive: boolean; exchange_token: string; };
   VKWebAppForceLogout: {};
 };
 
@@ -963,6 +964,7 @@ export type ReceiveDataMap = {
   VKWebAppLibverifyOnFailed: { code: VKWebAppLibverifyOnFailedCode };
   VKWebAppRetargetingPixel: { result: true };
   VKWebAppAuthRestore: { result: true };
+  VKWebAppAuthByExchangeToken: { result: true };
   VKWebAppForceLogout: { result: true };
 };
 
@@ -1075,4 +1077,5 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppGetGroupInfo', 'VKWebAppGetGroupInfoResult', 'VKWebAppGetGroupInfoFailed'> &
   EventReceiveNames<'VKWebAppRetargetingPixel', 'VKWebAppRetargetingPixelResult', 'VKWebAppRetargetingPixelFailed'> &
   EventReceiveNames<'VKWebAppAuthRestore', 'VKWebAppAuthRestoreResult', 'VKWebAppAuthRestoreFailed'> &
+  EventReceiveNames<'VKWebAppAuthByExchangeToken', 'VKWebAppAuthByExchangeTokenResult', 'VKWebAppAuthByExchangeTokenFailed'> &
   EventReceiveNames<'VKWebAppForceLogout', 'VKWebAppForceLogoutResult', 'VKWebAppForceLogoutFailed'>;
