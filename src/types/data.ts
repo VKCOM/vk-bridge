@@ -895,7 +895,7 @@ export type ReceiveDataMap = {
   VKWebAppGetClientVersion: { platform: string; version: string };
   VKWebAppGetEmail: { email: string; sign: string };
   VKWebAppGetFriends: { users: Array<{ id: number; first_name: string; last_name: string }> };
-  VKWebAppGetGeodata: { available: 0 } | { available: 1; lat: number; long: number };
+  VKWebAppGetGeodata: { available: 0 } | { available: 1; lat: number; long: number; accuracy: number; };
   VKWebAppGetPersonalCard: PersonalCardData;
   VKWebAppGetPhoneNumber: { phone_number: string; sign: string; is_verified: boolean };
   VKWebAppGetUserInfo: UserInfo;
