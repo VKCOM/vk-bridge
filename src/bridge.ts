@@ -107,16 +107,8 @@ export function createVKBridge(version: string): VKBridge {
    * @param [props] Method properties
    */
   function send<K extends AnyRequestMethodName>(method: K, props?: RequestProps<K> & RequestIdProp) {
-    // Sending error for developer
-    if (!isEmbedded()) {
-      console.error('VKBridgeError',
-          "VKBridge is not allowed outside VK Clients",
-          "More info — vk.com/@vkappsdev-debag-vk-apps"
-      );
-    }
-
     // Sending data through Android bridge
-    else if (androidBridge && androidBridge[method]) {
+    if (androidBridge && androidBridge[method]) {
       androidBridge[method](JSON.stringify(props));
     }
 
