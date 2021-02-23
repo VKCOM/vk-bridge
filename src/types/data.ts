@@ -26,6 +26,30 @@ export type CommunityAuthScope =
   | 'manage';
 
 /**
+ * Type of VKWebAppGetFriendsResult user
+ */
+export type UserGetFriendsFriend = {
+  /** User id */
+  id: number;
+  /** User name */
+  first_name: string;
+  /** User surname */
+  last_name: string;
+  /** User sex: 0 - not specified, 1 - female, 2 - male */
+  sex: 0 | 1 | 2;
+  /**
+   * URL of the square user's photo with 200px width.
+   * https://vk.com/images/camera_200.png will be returned if the photo
+   * is not set.
+   */
+  photo_200: string;
+  /**
+   * New fields may appear in future
+   */
+  [key: string]: any
+}
+
+/**
  * Type of user info object
  */
 export type UserInfo = {
@@ -894,7 +918,7 @@ export type ReceiveDataMap = {
   VKWebAppFlashSetLevel: { result: true };
   VKWebAppGetClientVersion: { platform: string; version: string };
   VKWebAppGetEmail: { email: string; sign: string };
-  VKWebAppGetFriends: { users: Array<{ id: number; first_name: string; last_name: string }> };
+  VKWebAppGetFriends: { users: Array<UserGetFriendsFriend> };
   VKWebAppGetGeodata: { available: 0 } | { available: 1; lat: number; long: number; accuracy: number; };
   VKWebAppGetPersonalCard: PersonalCardData;
   VKWebAppGetPhoneNumber: { phone_number: string; sign: string; is_verified: boolean };
