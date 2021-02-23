@@ -46,7 +46,7 @@ export type UserGetFriendsFriend = {
   /**
    * New fields may appear in future
    */
-  [key: string]: any
+  [key: string]: any;
 }
 
 /**
