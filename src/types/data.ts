@@ -43,10 +43,6 @@ export type UserGetFriendsFriend = {
    * is not set.
    */
   photo_200: string;
-  /**
-   * New fields may appear in future
-   */
-  [key: string]: any;
 }
 
 /**
