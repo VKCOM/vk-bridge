@@ -813,6 +813,20 @@ export type RetargetingPixelOptions = {
 };
 
 /**
+ * Type for params field in OKWebAppCallAPIMethod
+ */
+export type OKCallApiParams = {
+  application_key: string
+  sig: string
+  session_key?: string
+  access_token?: string
+  format?: string
+  call_id?: number
+
+  [key: string]: any
+};
+
+/**
  * Map of types of request props of VK Bridge methods
  */
 export type RequestPropsMap = {
@@ -822,6 +836,7 @@ export type RequestPropsMap = {
   VKWebAppAddToHomeScreenInfo: {},
   VKWebAppAllowMessagesFromGroup: { group_id: number; key?: string };
   VKWebAppAllowNotifications: {};
+  OKWebAppCallAPIMethod: { method: string; params: OKCallApiParams };
   VKWebAppCallAPIMethod: { method: string; params: Record<'access_token' | 'v', string> & Record<string, string | number> };
   VKWebAppCopyText: { text: string };
   VKWebAppDownloadFile: { url: string; filename: string };
@@ -903,6 +918,7 @@ export type ReceiveDataMap = {
   VKWebAppAddToHomeScreenInfo: { is_feature_supported: boolean, is_added_to_home_screen: boolean },
   VKWebAppAllowMessagesFromGroup: { result: true };
   VKWebAppAllowNotifications: { result: true };
+  OKWebAppCallAPIMethod: { response: any };
   VKWebAppCallAPIMethod: { response: any };
   VKWebAppCopyText: { result: true };
   VKWebAppDownloadFile: { result: true };
@@ -1004,6 +1020,7 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
     'VKWebAppAllowNotificationsResult',
     'VKWebAppAllowNotificationsFailed'
   > &
+  EventReceiveNames<'OKWebAppCallAPIMethod', 'OKWebAppCallAPIMethodResult', 'OKWebAppCallAPIMethodFailed'> &
   EventReceiveNames<'VKWebAppCallAPIMethod', 'VKWebAppCallAPIMethodResult', 'VKWebAppCallAPIMethodFailed'> &
   EventReceiveNames<'VKWebAppCopyText', 'VKWebAppCopyTextResult', 'VKWebAppCopyTextFailed'> &
   EventReceiveNames<'VKWebAppDownloadFile', 'VKWebAppDownloadFileResult', 'VKWebAppDownloadFileFailed'> &
