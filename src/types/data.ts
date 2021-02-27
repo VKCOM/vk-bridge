@@ -817,11 +817,8 @@ export type RetargetingPixelOptions = {
  */
 export type OKCallApiParams = {
   application_key: string
-  sig: string
-  session_key?: string
-  access_token?: string
+  access_token: string
   format?: string
-  call_id?: number
 
   [key: string]: any
 };
