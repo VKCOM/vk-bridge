@@ -331,6 +331,9 @@ export type DefaultUpdateConfigData = {
   appearance: AppearanceType;
   scheme: AppearanceSchemeType;
   insets: Insets;
+  integration?: 'fullscreen' | 'content' | 'popup' | 'popup_fullscreen';
+  adaptivity?: 'auto' | 'adaptive' | 'force_mobile';
+  back_button?: 'back' | 'close' | 'none';
 };
 
 /**
