@@ -824,6 +824,14 @@ export type OKCallApiParams = {
 };
 
 /**
+ * Type for VKWebAppCheckAllowedScopes method results
+ */
+export type VKWebAppCheckAllowedScopesResponseEntry = {
+  scope: string;
+  allowed: boolean;
+};
+
+/**
  * Map of types of request props of VK Bridge methods
  */
 export type RequestPropsMap = {
@@ -903,6 +911,7 @@ export type RequestPropsMap = {
   VKWebAppLibverifyRequest: { phone: string };
   VKWebAppLibverifyCheck: { code: string };
   VKWebAppRetargetingPixel: RetargetingPixelOptions;
+  VKWebAppCheckAllowedScopes: { scopes: string };
 };
 
 /**
@@ -993,6 +1002,7 @@ export type ReceiveDataMap = {
   VKWebAppLibverifyOnConfirmed: { validate_session: string; validate_token: string };
   VKWebAppLibverifyOnFailed: { code: VKWebAppLibverifyOnFailedCode };
   VKWebAppRetargetingPixel: { result: true };
+  VKWebAppCheckAllowedScopes: { result: VKWebAppCheckAllowedScopesResponseEntry[] }
 };
 
 type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F extends string> = Record<
@@ -1103,4 +1113,5 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppDeviceMotionStop', 'VKWebAppDeviceMotionStopResult', 'VKWebAppDeviceMotionStopFailed'> &
   EventReceiveNames<'VKWebAppSubscribeStoryApp', 'VKWebAppSubscribeStoryAppResult', 'VKWebAppSubscribeStoryAppFailed'> &
   EventReceiveNames<'VKWebAppGetGroupInfo', 'VKWebAppGetGroupInfoResult', 'VKWebAppGetGroupInfoFailed'> &
-  EventReceiveNames<'VKWebAppRetargetingPixel', 'VKWebAppRetargetingPixelResult', 'VKWebAppRetargetingPixelFailed'>;
+  EventReceiveNames<'VKWebAppRetargetingPixel', 'VKWebAppRetargetingPixelResult', 'VKWebAppRetargetingPixelFailed'> &
+  EventReceiveNames<'VKWebAppCheckAllowedScopes', 'VKWebAppCheckAllowedScopesResult', 'VKWebAppCheckAllowedScopesFailed'>;
