@@ -71,6 +71,7 @@ export const DESKTOP_METHODS = [
   'VKWebAppFlashGetInfo',
   'VKWebAppSubscribeStoryApp',
   'VKWebAppOpenWallPost',
+  'VKWebAppCheckAllowedScopes',
 
   // Desktop web specific events
   ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppAddToMenu', 'VKWebAppShowSubscriptionBox', 'VKWebAppShowInstallPushBox', 'VKWebAppGetFriends'] : []),
