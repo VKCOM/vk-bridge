@@ -64,7 +64,6 @@ export const DESKTOP_METHODS = [
   'VKWebAppAddToFavorites',
   'VKWebAppShowCommunityWidgetPreviewBox',
   'VKWebAppShowStoryBox',
-  'VKWebAppSendToClient',
   'VKWebAppStorageGet',
   'VKWebAppStorageGetKeys',
   'VKWebAppStorageSet',
