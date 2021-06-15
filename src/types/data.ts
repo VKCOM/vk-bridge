@@ -599,10 +599,6 @@ export type StoryActionText = {
 };
 
 export type StoryActionEmoji = {
-  /**
-   * Supported emoji:
-   * https://pastebin.mvk.com/u3JQHc6W3eajdS8jpMfryNVF2IrGmcaCwAtgs4JANy895zip4LqgumiVg5hjZj6ie9hpGDotVLpi4QAG
-   */
   emoji: string;
 };
 
