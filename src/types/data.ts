@@ -896,7 +896,7 @@ export type RequestPropsMap = {
   VKWebAppEnableSwipeBack: {};
   VKWebAppSetSwipeSettings: { history: boolean };
   VKWebAppShowStoryBox: ShowStoryBoxOptions;
-  VKWebAppAccelerometerStart: {};
+  VKWebAppAccelerometerStart: { refresh_rate?: string };
   VKWebAppAccelerometerStop: {};
   VKWebAppGyroscopeStart: {};
   VKWebAppGyroscopeStop: {};
