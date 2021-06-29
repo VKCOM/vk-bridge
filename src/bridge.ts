@@ -73,7 +73,7 @@ export const DESKTOP_METHODS = [
   'VKWebAppCheckAllowedScopes',
 
   // Desktop web specific events
-  ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppAddToMenu', 'VKWebAppShowSubscriptionBox', 'VKWebAppShowInstallPushBox', 'VKWebAppGetFriends'] : []),
+  ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppAddToMenu', 'VKWebAppShowSubscriptionBox', 'VKWebAppShowInstallPushBox', 'VKWebAppGetFriends'] : ['VKWebAppShowImages']),
 ];
 
 /** Android VK Bridge interface. */
@@ -161,7 +161,7 @@ export function createVKBridge(version: string): VKBridge {
    * @param method Method (event) name to check.
    * @returns Result of checking.
    */
-  function supports(method: string): boolean {
+  function supports<K extends AnyRequestMethodName>(method: K): boolean {
     if (IS_ANDROID_WEBVIEW) {
       // Android support check
       return !!(androidBridge && typeof androidBridge[method] === 'function');

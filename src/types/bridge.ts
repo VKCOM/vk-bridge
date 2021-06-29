@@ -233,7 +233,7 @@ export interface VKBridge {
    * @param method Method (event) name to check.
    * @returns Result of checking.
    */
-  supports: (method: string) => boolean;
+  supports: <K extends AnyRequestMethodName>(method: K) => boolean;
 
   /**
    * Checks whether the runtime is a WebView.
