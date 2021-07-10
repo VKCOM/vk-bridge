@@ -86,6 +86,8 @@ const iosBridge: Record<string, { postMessage?: (data: any) => void }> | undefin
   ? (window as any).webkit.messageHandlers
   : undefined;
 
+let webSdkHandlers: string[] | undefined = undefined;
+
 /**
  * Creates a VK Bridge API that holds functions for interact with runtime
  * environment.
@@ -170,6 +172,9 @@ export function createVKBridge(version: string): VKBridge {
       return !!(iosBridge && iosBridge[method] && typeof iosBridge[method].postMessage === 'function');
     } else if (IS_WEB) {
       // Web support check
+      if (webSdkHandlers) {
+        return webSdkHandlers.includes(method);
+      }
       return DESKTOP_METHODS.indexOf(method) > -1;
     }
 
@@ -222,8 +227,9 @@ export function createVKBridge(version: string): VKBridge {
       } else if (IS_WEB && event && event.data) {
         // If it's web
         const { type, data, frameId } = event.data;
-
-        if (type && type === 'VKWebAppSettings') {
+        if (type && type === 'SetSupportedHandlers') {
+          webSdkHandlers = data.supportedHandlers;
+        } else if (type && type === 'VKWebAppSettings') {
           webFrameId = frameId;
         } else {
           [...subscribers].map((fn) => fn({ detail: { type, data } }));
