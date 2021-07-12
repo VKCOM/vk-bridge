@@ -71,6 +71,7 @@ export const DESKTOP_METHODS = [
   'VKWebAppSubscribeStoryApp',
   'VKWebAppOpenWallPost',
   'VKWebAppCheckAllowedScopes',
+  'VKWebAppShowNativeAds',
 
   // Desktop web specific events
   ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppAddToMenu', 'VKWebAppShowSubscriptionBox', 'VKWebAppShowInstallPushBox', 'VKWebAppGetFriends'] : ['VKWebAppShowImages']),
