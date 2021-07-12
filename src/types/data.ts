@@ -383,6 +383,10 @@ export type MessageRequestOptions = {
   lng?: number;
 };
 
+export type NativeAdsOptions = {
+  ad_format: 'preloader' | 'reward' | 'interstitial';
+};
+
 export type OrderRequestOptions = {
   /** Always `item` */
   type: 'item';
@@ -880,6 +884,7 @@ export type RequestPropsMap = {
   VKWebAppShowInviteBox: {};
   VKWebAppShowLeaderBoardBox: { user_result: number };
   VKWebAppShowMessageBox: MessageRequestOptions;
+  VKWebAppShowNativeAds: NativeAdsOptions;
   VKWebAppShowOrderBox: OrderRequestOptions;
   VKWebAppShowRequestBox: RequestForRequestOptions;
   VKWebAppShowWallPostBox: WallPostRequestOptions;
@@ -955,6 +960,7 @@ export type ReceiveDataMap = {
   VKWebAppShowInviteBox: { success: true };
   VKWebAppShowLeaderBoardBox: { success: boolean };
   VKWebAppShowMessageBox: { result: true };
+  VKWebAppShowNativeAds: { result: true };
   VKWebAppShowOrderBox: { status: OrderBoxShowingStatus };
   VKWebAppShowRequestBox: RequestResult;
   VKWebAppShowWallPostBox: { post_id: number | string };
@@ -1069,6 +1075,7 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
     'VKWebAppShowLeaderBoardBoxFailed'
   > &
   EventReceiveNames<'VKWebAppShowMessageBox', 'VKWebAppShowMessageBoxResult', 'VKWebAppShowMessageBoxFailed'> &
+  EventReceiveNames<'VKWebAppShowNativeAds', 'VKWebAppShowNativeAdsResult', 'VKWebAppShowNativeAdsFailed'> &
   EventReceiveNames<'VKWebAppShowOrderBox', 'VKWebAppShowOrderBoxResult', 'VKWebAppShowOrderBoxFailed'> &
   EventReceiveNames<'VKWebAppShowRequestBox', 'VKWebAppShowRequestBoxResult', 'VKWebAppShowRequestBoxFailed'> &
   EventReceiveNames<'VKWebAppShowWallPostBox', 'VKWebAppShowWallPostBoxResult', 'VKWebAppShowWallPostBoxFailed'> &
