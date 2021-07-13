@@ -38,6 +38,7 @@ const cjs = {
   plugins: IS_PROD ? [...getPlugins(true), uglify()] : getPlugins(true),
   input: INPUT_FILE,
   output: {
+    sourcemap: true,
     exports: 'named',
     file: pkg.main,
     format: 'cjs'
@@ -48,6 +49,7 @@ const es = {
   plugins: getPlugins(),
   input: INPUT_FILE,
   output: {
+    sourcemap: true,
     file: pkg.module,
     format: 'es'
   }
@@ -57,6 +59,7 @@ const umd = {
   plugins: IS_PROD ? [...getPlugins(), uglify()] : getPlugins(),
   input: INPUT_FILE,
   output: {
+    sourcemap: true,
     exports: 'named',
     name: pkg.umdName,
     file: pkg.browser,
@@ -68,6 +71,7 @@ const browser = {
   plugins: [...getPlugins(), uglify()],
   input: INPUT_FILE_BROWSER,
   output: {
+    sourcemap: true,
     file: OUTPUT_FILE_BROWSER,
     format: 'iife'
   }
