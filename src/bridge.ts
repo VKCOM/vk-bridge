@@ -31,7 +31,7 @@ const iosBridge: Record<string, { postMessage?: (data: any) => void }> | undefin
   ? (window as any).webkit.messageHandlers
   : undefined;
 
-let webSdkHandlers: string[] | undefined = undefined;
+let webSdkHandlers: string[] | undefined;
 
 /**
  * Creates a VK Bridge API that holds functions for interact with runtime
