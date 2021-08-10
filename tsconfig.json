@@ -5,7 +5,8 @@
     "module": "esnext",
     "strict": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "sourceMap": true,
   },
   "exclude": ["./dist"]
 }
