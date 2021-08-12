@@ -18,8 +18,64 @@ export const IS_IOS_WEBVIEW = Boolean(
 /** Is the runtime environment a browser */
 export const IS_WEB = IS_CLIENT_SIDE && !IS_ANDROID_WEBVIEW && !IS_IOS_WEBVIEW;
 
+/** Is the runtime environment m.vk.com */
+export const IS_MVK = IS_WEB && /(^\?|&)vk_platform=mobile_web(&|$)/.test(location.search);
+
+/** Is the runtime environment vk.com */
+export const IS_DESKTOP_VK = IS_WEB && !IS_MVK;
+
 /** Type of subscribe event */
 export const EVENT_TYPE = IS_WEB ? 'message' : 'VKWebAppEvent';
+
+/** Methods supported on the desktop */
+export const DESKTOP_METHODS = [
+  'VKWebAppInit',
+  'VKWebAppGetCommunityAuthToken',
+  'VKWebAppAddToCommunity',
+  'VKWebAppAddToHomeScreenInfo',
+  'VKWebAppClose',
+  'VKWebAppCopyText',
+  'VKWebAppGetUserInfo',
+  'VKWebAppSetLocation',
+  'VKWebAppSendToClient',
+  'VKWebAppGetClientVersion',
+  'VKWebAppGetPhoneNumber',
+  'VKWebAppGetEmail',
+  'VKWebAppGetGroupInfo',
+  'VKWebAppGetGeodata',
+  'VKWebAppGetCommunityToken',
+  'VKWebAppSetTitle',
+  'VKWebAppGetAuthToken',
+  'VKWebAppCallAPIMethod',
+  'VKWebAppJoinGroup',
+  'VKWebAppLeaveGroup',
+  'VKWebAppAllowMessagesFromGroup',
+  'VKWebAppDenyNotifications',
+  'VKWebAppAllowNotifications',
+  'VKWebAppOpenPayForm',
+  'VKWebAppOpenApp',
+  'VKWebAppShare',
+  'VKWebAppShowWallPostBox',
+  'VKWebAppScroll',
+  'VKWebAppShowOrderBox',
+  'VKWebAppShowLeaderBoardBox',
+  'VKWebAppShowInviteBox',
+  'VKWebAppShowRequestBox',
+  'VKWebAppAddToFavorites',
+  'VKWebAppShowCommunityWidgetPreviewBox',
+  'VKWebAppShowStoryBox',
+  'VKWebAppStorageGet',
+  'VKWebAppStorageGetKeys',
+  'VKWebAppStorageSet',
+  'VKWebAppFlashGetInfo',
+  'VKWebAppSubscribeStoryApp',
+  'VKWebAppOpenWallPost',
+  'VKWebAppCheckAllowedScopes',
+  'VKWebAppShowNativeAds',
+
+  // Desktop web specific events
+  ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppAddToMenu', 'VKWebAppShowSubscriptionBox', 'VKWebAppShowInstallPushBox', 'VKWebAppGetFriends'] : ['VKWebAppShowImages']),
+];
 
 /** Android VK Bridge interface. */
 const androidBridge: Record<string, (serializedData: string) => void> | undefined = IS_CLIENT_SIDE
@@ -117,11 +173,12 @@ export function createVKBridge(version: string): VKBridge {
       return !!(iosBridge && iosBridge[method] && typeof iosBridge[method].postMessage === 'function');
     } else if (IS_WEB) {
       // Web support check
-      if (!webSdkHandlers) {
-        console.error('You should call bridge.send("VKWebAppInit") first');
-        return false;
-      }
-      return webSdkHandlers.includes(method);
+      return DESKTOP_METHODS.indexOf(method) > -1;
+      // if (!webSdkHandlers) {
+      //   console.error('You should call bridge.send("VKWebAppInit") first');
+      //   return false;
+      // }
+      // return webSdkHandlers.includes(method);
     }
 
     return false;
