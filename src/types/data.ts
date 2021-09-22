@@ -831,6 +831,26 @@ export type VKWebAppCheckAllowedScopesResponseEntry = {
   allowed: boolean;
 };
 
+export enum EGrantedPermission {
+  CAMERA = 'camera',
+  LOCATION = 'location',
+  PHOTO = 'photo',
+}
+
+export type GetGrantedPermissionsResponse = {
+  permissions: EGrantedPermission[];
+};
+
+export type CreateHashRequest = {
+  request_id?: string;
+};
+
+export type CreateHashResponse = {
+  ts: number;
+  hash: string;
+  request_id?: string;
+};
+
 /**
  * Map of types of request props of VK Bridge methods
  */
@@ -844,6 +864,7 @@ export type RequestPropsMap = {
   OKWebAppCallAPIMethod: { method: string; params: OKCallApiParams };
   VKWebAppCallAPIMethod: { method: string; params: Record<'access_token' | 'v', string> & Record<string, string | number> };
   VKWebAppCopyText: { text: string };
+  VKWebAppCreateHash: CreateHashRequest;
   VKWebAppDownloadFile: { url: string; filename: string };
   VKWebAppGetAuthToken: { app_id: number; scope: PersonalAuthScope | string };
   VKWebAppClose: { status: AppCloseStatus; payload?: any };
@@ -857,6 +878,7 @@ export type RequestPropsMap = {
   VKWebAppGetEmail: {};
   VKWebAppGetFriends: { multi?: boolean };
   VKWebAppGetGeodata: {};
+  VKWebAppGetGrantedPermissions: {};
   VKWebAppGetPersonalCard: { type: PersonalCardType[] };
   VKWebAppGetPhoneNumber: {};
   VKWebAppGetUserInfo: { user_id?: number };
@@ -928,6 +950,7 @@ export type ReceiveDataMap = {
   OKWebAppCallAPIMethod: { response: any };
   VKWebAppCallAPIMethod: { response: any };
   VKWebAppCopyText: { result: true };
+  VKWebAppCreateHash: CreateHashResponse;
   VKWebAppDownloadFile: { result: true };
   VKWebAppGetAuthToken: { access_token: string; scope: string };
   VKWebAppClose: { payload: any };
@@ -939,6 +962,7 @@ export type ReceiveDataMap = {
   VKWebAppGetEmail: { email: string; sign: string };
   VKWebAppGetFriends: { users: UserGetFriendsFriend[] };
   VKWebAppGetGeodata: { available: 0 } | { available: 1; lat: number; long: number; accuracy: number; };
+  VKWebAppGetGrantedPermissions: GetGrantedPermissionsResponse;
   VKWebAppGetPersonalCard: PersonalCardData;
   VKWebAppGetPhoneNumber: { phone_number: string; sign: string; is_verified: boolean };
   VKWebAppGetUserInfo: UserInfo;
@@ -1032,6 +1056,7 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'OKWebAppCallAPIMethod', 'OKWebAppCallAPIMethodResult', 'OKWebAppCallAPIMethodFailed'> &
   EventReceiveNames<'VKWebAppCallAPIMethod', 'VKWebAppCallAPIMethodResult', 'VKWebAppCallAPIMethodFailed'> &
   EventReceiveNames<'VKWebAppCopyText', 'VKWebAppCopyTextResult', 'VKWebAppCopyTextFailed'> &
+  EventReceiveNames<'VKWebAppCreateHash', 'VKWebAppCreateHashResult', 'VKWebAppCreateHashFailed'> &
   EventReceiveNames<'VKWebAppDownloadFile', 'VKWebAppDownloadFileResult', 'VKWebAppDownloadFileFailed'> &
   // NOTE: Different request/response events
   EventReceiveNames<'VKWebAppGetAuthToken', 'VKWebAppAccessTokenReceived', 'VKWebAppAccessTokenFailed'> &
@@ -1046,6 +1071,7 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppGetEmail', 'VKWebAppGetEmailResult', 'VKWebAppGetEmailFailed'> &
   EventReceiveNames<'VKWebAppGetFriends', 'VKWebAppGetFriendsResult', 'VKWebAppGetFriendsFailed'> &
   EventReceiveNames<'VKWebAppGetGeodata', 'VKWebAppGetGeodataResult', 'VKWebAppGetGeodataFailed'> &
+  EventReceiveNames<'VKWebAppGetGrantedPermissions', 'VKWebAppGetGrantedPermissionsResult', 'VKWebAppGetGrantedPermissionsFailed'> &
   EventReceiveNames<'VKWebAppGetPersonalCard', 'VKWebAppGetPersonalCardResult', 'VKWebAppGetPersonalCardFailed'> &
   EventReceiveNames<'VKWebAppGetPhoneNumber', 'VKWebAppGetPhoneNumberResult', 'VKWebAppGetPhoneNumberFailed'> &
   EventReceiveNames<'VKWebAppGetUserInfo', 'VKWebAppGetUserInfoResult', 'VKWebAppGetUserInfoFailed'> &
