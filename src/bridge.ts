@@ -35,6 +35,7 @@ export const DESKTOP_METHODS = [
   'VKWebAppAddToHomeScreenInfo',
   'VKWebAppClose',
   'VKWebAppCopyText',
+  'VKWebAppCreateHash',
   'VKWebAppGetUserInfo',
   'VKWebAppSetLocation',
   'VKWebAppSendToClient',
