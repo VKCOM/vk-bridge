@@ -851,6 +851,10 @@ export type CreateHashResponse = {
   request_id?: string;
 };
 
+export type ChangeFragmentResponse = {
+  location: string;
+};
+
 /**
  * Map of types of request props of VK Bridge methods
  */
@@ -1028,7 +1032,8 @@ export type ReceiveDataMap = {
   VKWebAppLibverifyOnConfirmed: { validate_session: string; validate_token: string };
   VKWebAppLibverifyOnFailed: { code: VKWebAppLibverifyOnFailedCode };
   VKWebAppRetargetingPixel: { result: true };
-  VKWebAppCheckAllowedScopes: { result: VKWebAppCheckAllowedScopesResponseEntry[] }
+  VKWebAppCheckAllowedScopes: { result: VKWebAppCheckAllowedScopesResponseEntry[] };
+  VKWebAppChangeFragment: ChangeFragmentResponse;
 };
 
 type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F extends string> = Record<
