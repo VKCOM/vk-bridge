@@ -336,7 +336,7 @@ export type DefaultUpdateConfigData = {
 /**
  * Update config data
  */
-export type UpdateConfigData = DefaultUpdateConfigData | MVKUpdateConfigData | VKUpdateConfigData;
+export type ParentConfigData = DefaultUpdateConfigData | MVKUpdateConfigData | VKUpdateConfigData;
 
 export type WidgetPreviewRequestOptions = {
   /** Widget type */
@@ -842,17 +842,72 @@ export type GetGrantedPermissionsResponse = {
 };
 
 export type CreateHashRequest = {
-  request_id?: string;
+  payload?: string;
 };
 
 export type CreateHashResponse = {
   ts: number;
   hash: string;
-  request_id?: string;
+  payload?: string;
 };
 
 export type ChangeFragmentResponse = {
   location: string;
+};
+
+export enum  EGetLaunchParamsResponseLanguages {
+  RU = 'ru',
+  UK = 'uk',
+  UA = 'ua',
+  EN = 'en',
+  BE = 'be',
+  KZ = 'kz',
+  PT = 'pt',
+  ES = 'es',
+}
+
+export enum EGetLaunchParamsResponseGroupRole {
+  ADMIN = 'admin',
+  EDITOR = 'editor',
+  MEMBER = 'member',
+  MODER = 'moder',
+  NONE = 'none',
+}
+
+export enum EGetLaunchParamsResponsePlatforms {
+  DESKTOP_WEB = 'desktop_web',
+  MOBILE_WEB = 'mobile_web',
+  MOBILE_ANDROID = 'mobile_android',
+  MOBILE_ANDROID_MESSENGER = 'mobile_android_messenger',
+  MOBILE_IPHONE = 'mobile_iphone',
+  MOBILE_IPHONE_MESSENGER = 'mobile_iphone_messenger',
+  MOBILE_IPAD = 'mobile_ipad',
+}
+
+export type GetLaunchParamsResponse = {
+  vk_user_id: number;
+  vk_app_id: number;
+  vk_is_app_user: 0 | 1;
+  vk_are_notifications_enabled: 0 | 1;
+  vk_language: EGetLaunchParamsResponseLanguages;
+  vk_ref: string;
+  vk_access_token_settings: string;
+  vk_group_id?: number;
+  vk_viewer_group_role?: EGetLaunchParamsResponseGroupRole;
+  vk_platform: EGetLaunchParamsResponsePlatforms;
+  vk_is_favorite: 0 | 1;
+  vk_ts: number;
+  sign: string;
+};
+
+export type ConversionHitRequest = {
+  pixel_code: string;
+  conversion_event: string;
+  conversion_value: number;
+};
+
+export type ConversionHitResponse = {
+  result: true;
 };
 
 /**
@@ -878,6 +933,8 @@ export type RequestPropsMap = {
   VKWebAppFlashSetLevel: { level: number };
   VKWebAppGetClientVersion: {};
   VKWebAppGetCommunityToken: CommunityTokenRequestOptions;
+  VKWebAppGetConfig: {},
+  VKWebAppGetLaunchParams: {},
   VKWebAppAudioPause: {};
   VKWebAppGetEmail: {};
   VKWebAppGetFriends: { multi?: boolean };
@@ -939,6 +996,7 @@ export type RequestPropsMap = {
   VKWebAppLibverifyCheck: { code: string };
   VKWebAppRetargetingPixel: RetargetingPixelOptions;
   VKWebAppCheckAllowedScopes: { scopes: string };
+  VKWebAppConversionHit: ConversionHitRequest;
 };
 
 /**
@@ -1009,7 +1067,9 @@ export type ReceiveDataMap = {
   VKWebAppAudioUnpaused: { type: string; id: string };
   VKWebAppInitAds: { init: 'true' | 'false' };
   VKWebAppLoadAds: { load: 'true' | 'false' };
-  VKWebAppUpdateConfig: UpdateConfigData;
+  VKWebAppUpdateConfig: ParentConfigData;
+  VKWebAppGetConfig: ParentConfigData;
+  VKWebAppGetLaunchParams: GetLaunchParamsResponse;
   VKWebAppUpdateInsets: { insets: Insets };
   VKWebAppViewHide: {}; // Always empty
   VKWebAppViewRestore: {}; // Always empty
@@ -1034,6 +1094,7 @@ export type ReceiveDataMap = {
   VKWebAppRetargetingPixel: { result: true };
   VKWebAppCheckAllowedScopes: { result: VKWebAppCheckAllowedScopesResponseEntry[] };
   VKWebAppChangeFragment: ChangeFragmentResponse;
+  VKWebAppConversionHit: ConversionHitResponse;
 };
 
 type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F extends string> = Record<
@@ -1072,6 +1133,8 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppFlashSetLevel', 'VKWebAppFlashSetLevelResult', 'VKWebAppFlashSetLevelFailed'> &
   EventReceiveNames<'VKWebAppGetClientVersion', 'VKWebAppGetClientVersionResult', 'VKWebAppGetClientVersionFailed'> &
   EventReceiveNames<'VKWebAppGetCommunityToken', 'VKWebAppGetCommunityTokenResult', 'VKWebAppGetCommunityTokenFailed'> &
+  EventReceiveNames<'VKWebAppGetConfig', 'VKWebAppGetConfigResult', 'VKWebAppGetConfigFailed'> &
+  EventReceiveNames<'VKWebAppGetLaunchParams', 'VKWebAppGetLaunchParamsResult', 'VKWebAppGetLaunchParamsFailed'> &
   EventReceiveNames<'VKWebAppAudioPause', 'VKWebAppAudioPauseResult', 'VKWebAppAudioPauseFailed'> &
   EventReceiveNames<'VKWebAppGetEmail', 'VKWebAppGetEmailResult', 'VKWebAppGetEmailFailed'> &
   EventReceiveNames<'VKWebAppGetFriends', 'VKWebAppGetFriendsResult', 'VKWebAppGetFriendsFailed'> &
@@ -1148,4 +1211,5 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppSubscribeStoryApp', 'VKWebAppSubscribeStoryAppResult', 'VKWebAppSubscribeStoryAppFailed'> &
   EventReceiveNames<'VKWebAppGetGroupInfo', 'VKWebAppGetGroupInfoResult', 'VKWebAppGetGroupInfoFailed'> &
   EventReceiveNames<'VKWebAppRetargetingPixel', 'VKWebAppRetargetingPixelResult', 'VKWebAppRetargetingPixelFailed'> &
-  EventReceiveNames<'VKWebAppCheckAllowedScopes', 'VKWebAppCheckAllowedScopesResult', 'VKWebAppCheckAllowedScopesFailed'>;
+  EventReceiveNames<'VKWebAppCheckAllowedScopes', 'VKWebAppCheckAllowedScopesResult', 'VKWebAppCheckAllowedScopesFailed'> &
+  EventReceiveNames<'VKWebAppConversionHit', 'VKWebAppConversionHitResult', 'VKWebAppConversionHitFailed'>;
