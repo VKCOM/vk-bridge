@@ -45,6 +45,8 @@ export const DESKTOP_METHODS = [
   'VKWebAppGetGroupInfo',
   'VKWebAppGetGeodata',
   'VKWebAppGetCommunityToken',
+  'VKWebAppGetConfig',
+  'VKWebAppGetLaunchParams',
   'VKWebAppSetTitle',
   'VKWebAppGetAuthToken',
   'VKWebAppCallAPIMethod',
@@ -73,6 +75,8 @@ export const DESKTOP_METHODS = [
   'VKWebAppOpenWallPost',
   'VKWebAppCheckAllowedScopes',
   'VKWebAppShowNativeAds',
+  'VKWebAppRetargetingPixel',
+  'VKWebAppConversionHit',
 
   // Desktop web specific events
   ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppAddToMenu', 'VKWebAppShowSubscriptionBox', 'VKWebAppShowInstallPushBox', 'VKWebAppGetFriends'] : ['VKWebAppShowImages']),
