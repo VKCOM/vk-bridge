@@ -953,7 +953,7 @@ export type RequestPropsMap = {
   VKWebAppResizeWindow: { width: number; height?: number };
   VKWebAppScroll: { top: number; speed?: number };
   VKWebAppSendToClient: { fragment?: string };
-  VKWebAppSetLocation: { location: string };
+  VKWebAppSetLocation: { location: string; replace_state?: boolean };
   VKWebAppSetViewSettings: {
     status_bar_style: AppearanceType;
     /** Android only */
