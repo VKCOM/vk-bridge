@@ -238,17 +238,35 @@ export function createVKBridge(version: string): VKBridge {
       if (IS_IOS_WEBVIEW || IS_ANDROID_WEBVIEW) {
         // If it's webview
         return [...subscribers].map((fn) => fn.call(null, event));
-      } else if (IS_WEB && event && event.data) {
-        // If it's web
-        const { type, data, frameId } = event.data;
-        if (type && type === 'SetSupportedHandlers') {
-          webSdkHandlers = data.supportedHandlers;
-        } else if (type && type === 'VKWebAppSettings') {
-          webFrameId = frameId;
-        } else {
-          [...subscribers].map((fn) => fn({ detail: { type, data } }));
-        }
       }
+
+      let bridgeEventData = event?.data;
+      if (!IS_WEB || !bridgeEventData) {
+        return;
+      }
+
+      if (typeof bridgeEventData === 'string') {
+        try {
+          bridgeEventData = JSON.parse(bridgeEventData);
+        } catch {}
+      }
+
+      const { type, data, frameId } = bridgeEventData;
+      if (!type) {
+        return;
+      }
+
+      if (type && type === 'SetSupportedHandlers') {
+        webSdkHandlers = data.supportedHandlers;
+        return;
+      }
+
+      if (type && type === 'VKWebAppSettings') {
+        webFrameId = frameId;
+        return;
+      }
+
+      [...subscribers].map((fn) => fn({ detail: { type, data } }));
     });
   }
 
