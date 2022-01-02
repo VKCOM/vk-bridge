@@ -266,12 +266,12 @@ export function createVKBridge(version: string): VKBridge {
       return;
     }
 
-    if (type && type === 'SetSupportedHandlers') {
+    if (type === 'SetSupportedHandlers') {
       webSdkHandlers = data.supportedHandlers;
       return;
     }
 
-    if (type && type === 'VKWebAppSettings') {
+    if (type === 'VKWebAppSettings') {
       webFrameId = frameId;
       return;
     }
@@ -281,12 +281,10 @@ export function createVKBridge(version: string): VKBridge {
 
   // Subscribes to listening messages from a runtime for calling each
   // subscribed event listener.
-  if (typeof window !== 'undefined' && 'addEventListener' in window) {
-    window.addEventListener(EVENT_TYPE, handleEvent);
-  }
-
   if (IS_REACT_NATIVE_WEBVIEW && /(android)/i.test(navigator.userAgent)) {
     document.addEventListener(EVENT_TYPE, handleEvent);
+  } else if (typeof window !== 'undefined' && 'addEventListener' in window) {
+    window.addEventListener(EVENT_TYPE, handleEvent);
   }
 
   /**
