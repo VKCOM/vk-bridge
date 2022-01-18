@@ -74,6 +74,7 @@ export const DESKTOP_METHODS = [
   'VKWebAppSubscribeStoryApp',
   'VKWebAppOpenWallPost',
   'VKWebAppCheckAllowedScopes',
+  'VKWebAppCheckNativeAds',
   'VKWebAppShowNativeAds',
   'VKWebAppRetargetingPixel',
   'VKWebAppConversionHit',
