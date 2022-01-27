@@ -129,16 +129,20 @@ export function createVKBridge(version: string): VKBridge {
 
     // Sending data through web bridge
     else if (IS_WEB) {
-      parent.postMessage(
-        {
-          handler: method,
-          params: props,
-          type: 'vk-connect',
-          webFrameId,
-          connectVersion: version,
-        },
-        '*'
-      );
+      const method = 'postMessage';
+      const postMsg = parent[method];
+      if(typeof postMsg === 'function') {
+        postMsg(
+          {
+            handler: method,
+            params: props,
+            type: 'vk-connect',
+            webFrameId,
+            connectVersion: version,
+          },
+          '*'
+        );
+      }
     }
   }
 
