@@ -1040,7 +1040,7 @@ export type ReceiveDataMap = {
   VKWebAppSendToClient: { result: true };
   VKWebAppSetLocation: { result: true };
   VKWebAppSetViewSettings: { result: true };
-  VKWebAppShare: LinkShareResult;
+  VKWebAppShare: LinkShareResult[];
   VKWebAppShowCommunityWidgetPreviewBox: { result: true };
   VKWebAppShowImages: { result: true };
   VKWebAppShowInviteBox: { success: true };
