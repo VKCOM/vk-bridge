@@ -93,6 +93,11 @@ const iosBridge: Record<string, { postMessage?: (data: any) => void }> | undefin
   ? (window as any).webkit.messageHandlers
   : undefined;
 
+/** Web VK Bridge interface. */
+const webBridge: { postMessage?: (message: any, targetOrigin:string) => void } | undefined = IS_WEB
+  ? parent
+  : undefined;
+
 let webSdkHandlers: string[] | undefined;
 
 /**
@@ -128,8 +133,8 @@ export function createVKBridge(version: string): VKBridge {
     }
 
     // Sending data through web bridge
-    else if (IS_WEB) {
-      parent.postMessage(
+    else if (webBridge && typeof webBridge.postMessage === 'function') {
+      webBridge.postMessage(
         {
           handler: method,
           params: props,
