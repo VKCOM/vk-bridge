@@ -910,6 +910,11 @@ export type ConversionHitResponse = {
   result: true;
 };
 
+export type VKWebAppShowOrderBoxResponse = {
+  status: OrderBoxShowingStatus;
+  order_id: string;
+};
+
 /**
  * Map of types of request props of VK Bridge methods
  */
@@ -1047,7 +1052,7 @@ export type ReceiveDataMap = {
   VKWebAppShowLeaderBoardBox: { success: boolean };
   VKWebAppShowMessageBox: { result: true };
   VKWebAppShowNativeAds: { result: true };
-  VKWebAppShowOrderBox: { status: OrderBoxShowingStatus };
+  VKWebAppShowOrderBox: VKWebAppShowOrderBoxResponse;
   VKWebAppShowRequestBox: RequestResult;
   VKWebAppShowWallPostBox: { post_id: number | string };
   VKWebAppOpenWallPost: { result: true };
