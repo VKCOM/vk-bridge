@@ -15,6 +15,11 @@ export const IS_IOS_WEBVIEW = Boolean(
     (window as any).webkit.messageHandlers.VKWebAppClose
 );
 
+export const IS_REACT_NATIVE_WEBVIEW = Boolean(
+  (window as any).ReactNativeWebView &&
+  typeof (window as any).ReactNativeWebView.postMessage === 'function'
+);
+
 /** Is the runtime environment a browser */
 export const IS_WEB = IS_CLIENT_SIDE && !IS_ANDROID_WEBVIEW && !IS_IOS_WEBVIEW;
 
@@ -132,6 +137,14 @@ export function createVKBridge(version: string): VKBridge {
       iosBridge[method].postMessage!(props);
     }
 
+    // Sending data through React Native bridge
+    else if (IS_REACT_NATIVE_WEBVIEW) {
+      (window as any).ReactNativeWebView.postMessage(JSON.stringify({
+        handler: method,
+        params: props,
+      }));
+    }
+
     // Sending data through web bridge
     else if (webBridge && typeof webBridge.postMessage === 'function') {
       webBridge.postMessage(
@@ -231,25 +244,47 @@ export function createVKBridge(version: string): VKBridge {
     return !isEmbedded();
   }
 
+  function handleEvent(event: any) {
+    if (IS_IOS_WEBVIEW || IS_ANDROID_WEBVIEW) {
+      // If it's webview
+      return [...subscribers].map((fn) => fn.call(null, event));
+    }
+
+    let bridgeEventData = event?.data;
+    if (!IS_WEB || !bridgeEventData) {
+      return;
+    }
+
+    if (IS_REACT_NATIVE_WEBVIEW && typeof bridgeEventData === 'string') {
+      try {
+        bridgeEventData = JSON.parse(bridgeEventData);
+      } catch {}
+    }
+
+    const { type, data, frameId } = bridgeEventData;
+    if (!type) {
+      return;
+    }
+
+    if (type === 'SetSupportedHandlers') {
+      webSdkHandlers = data.supportedHandlers;
+      return;
+    }
+
+    if (type === 'VKWebAppSettings') {
+      webFrameId = frameId;
+      return;
+    }
+
+    [...subscribers].map((fn) => fn({ detail: { type, data } }));
+  }
+
   // Subscribes to listening messages from a runtime for calling each
   // subscribed event listener.
-  if (typeof window !== 'undefined' && 'addEventListener' in window) {
-    window.addEventListener(EVENT_TYPE, (event: any) => {
-      if (IS_IOS_WEBVIEW || IS_ANDROID_WEBVIEW) {
-        // If it's webview
-        return [...subscribers].map((fn) => fn.call(null, event));
-      } else if (IS_WEB && event && event.data) {
-        // If it's web
-        const { type, data, frameId } = event.data;
-        if (type && type === 'SetSupportedHandlers') {
-          webSdkHandlers = data.supportedHandlers;
-        } else if (type && type === 'VKWebAppSettings') {
-          webFrameId = frameId;
-        } else {
-          [...subscribers].map((fn) => fn({ detail: { type, data } }));
-        }
-      }
-    });
+  if (IS_REACT_NATIVE_WEBVIEW && /(android)/i.test(navigator.userAgent)) {
+    document.addEventListener(EVENT_TYPE, handleEvent);
+  } else if (typeof window !== 'undefined' && 'addEventListener' in window) {
+    window.addEventListener(EVENT_TYPE, handleEvent);
   }
 
   /**
