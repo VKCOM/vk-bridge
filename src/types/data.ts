@@ -1064,7 +1064,7 @@ export type ReceiveDataMap = {
   VKWebAppTapticSelectionChanged: { result: true };
   VKWebAppAddToFavorites: { result: true };
   VKWebAppSendPayload: { result: true };
-  VKWebAppGetCommunityToken: { access_token: string };
+  VKWebAppGetCommunityToken: { access_token: string; scope: string; };
   VKWebAppAudioPause: { result: true };
   VKWebAppAudioPaused: { position: number; type: string; id: string };
   VKWebAppAudioStopped: {}; // Always empty
