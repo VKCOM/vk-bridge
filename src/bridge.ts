@@ -16,6 +16,7 @@ export const IS_IOS_WEBVIEW = Boolean(
 );
 
 export const IS_REACT_NATIVE_WEBVIEW = Boolean(
+  IS_CLIENT_SIDE &&
   (window as any).ReactNativeWebView &&
   typeof (window as any).ReactNativeWebView.postMessage === 'function'
 );
