@@ -84,9 +84,10 @@ export const DESKTOP_METHODS = [
   'VKWebAppShowNativeAds',
   'VKWebAppRetargetingPixel',
   'VKWebAppConversionHit',
+  'VKWebAppShowSubscriptionBox',
 
   // Desktop web specific events
-  ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppAddToMenu', 'VKWebAppShowSubscriptionBox', 'VKWebAppShowInstallPushBox', 'VKWebAppGetFriends'] : ['VKWebAppShowImages']),
+  ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppAddToMenu', 'VKWebAppShowInstallPushBox', 'VKWebAppGetFriends'] : ['VKWebAppShowImages']),
 ];
 
 /** Android VK Bridge interface. */
