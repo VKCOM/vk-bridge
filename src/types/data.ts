@@ -383,9 +383,20 @@ export type MessageRequestOptions = {
   lng?: number;
 };
 
-export type NativeAdsOptions = {
-  ad_format: 'preloader' | 'reward' | 'interstitial';
+export enum EAdsFormats {
+  REWARD = 'reward',
+  INTERSTITIAL = 'interstitial',
+}
+
+export type ShowNativeAdsRequest = {
+  ad_format: EAdsFormats;
+  use_waterfall?: boolean;
 };
+
+export type CheckNativeAdsRequest = {
+  ad_format: EAdsFormats;
+  use_waterfall?: boolean;
+}
 
 export type OrderRequestOptions = {
   /** Always `item` */
@@ -972,7 +983,8 @@ export type RequestPropsMap = {
   VKWebAppShowInviteBox: {};
   VKWebAppShowLeaderBoardBox: { user_result: number };
   VKWebAppShowMessageBox: MessageRequestOptions;
-  VKWebAppShowNativeAds: NativeAdsOptions;
+  VKWebAppShowNativeAds: ShowNativeAdsRequest;
+  VKWebAppCheckNativeAds: CheckNativeAdsRequest;
   VKWebAppShowOrderBox: OrderRequestOptions;
   VKWebAppShowRequestBox: RequestForRequestOptions;
   VKWebAppShowWallPostBox: WallPostRequestOptions;
@@ -1052,6 +1064,7 @@ export type ReceiveDataMap = {
   VKWebAppShowLeaderBoardBox: { success: boolean };
   VKWebAppShowMessageBox: { result: true };
   VKWebAppShowNativeAds: { result: true };
+  VKWebAppCheckNativeAds: { result: boolean };
   VKWebAppShowOrderBox: VKWebAppShowOrderBoxResponse;
   VKWebAppShowRequestBox: RequestResult;
   VKWebAppShowWallPostBox: { post_id: number | string };
@@ -1175,6 +1188,7 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   > &
   EventReceiveNames<'VKWebAppShowMessageBox', 'VKWebAppShowMessageBoxResult', 'VKWebAppShowMessageBoxFailed'> &
   EventReceiveNames<'VKWebAppShowNativeAds', 'VKWebAppShowNativeAdsResult', 'VKWebAppShowNativeAdsFailed'> &
+  EventReceiveNames<'VKWebAppCheckNativeAds', 'VKWebAppCheckNativeAdsResult', 'VKWebAppCheckNativeAdsFailed'> &
   EventReceiveNames<'VKWebAppShowOrderBox', 'VKWebAppShowOrderBoxResult', 'VKWebAppShowOrderBoxFailed'> &
   EventReceiveNames<'VKWebAppShowRequestBox', 'VKWebAppShowRequestBoxResult', 'VKWebAppShowRequestBoxFailed'> &
   EventReceiveNames<'VKWebAppShowWallPostBox', 'VKWebAppShowWallPostBoxResult', 'VKWebAppShowWallPostBoxFailed'> &
