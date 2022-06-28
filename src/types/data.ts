@@ -1014,6 +1014,8 @@ export type RequestPropsMap = {
   VKWebAppRetargetingPixel: RetargetingPixelOptions;
   VKWebAppCheckAllowedScopes: { scopes: string };
   VKWebAppConversionHit: ConversionHitRequest;
+  VKWebAppCheckSurvey: {};
+  VKWebAppShowSurvey: {};
 };
 
 /**
@@ -1113,6 +1115,8 @@ export type ReceiveDataMap = {
   VKWebAppCheckAllowedScopes: { result: VKWebAppCheckAllowedScopesResponseEntry[] };
   VKWebAppChangeFragment: ChangeFragmentResponse;
   VKWebAppConversionHit: ConversionHitResponse;
+  VKWebAppCheckSurvey: { result: boolean };
+  VKWebAppShowSurvey: { result: boolean };
 };
 
 type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F extends string> = Record<
@@ -1231,4 +1235,6 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppGetGroupInfo', 'VKWebAppGetGroupInfoResult', 'VKWebAppGetGroupInfoFailed'> &
   EventReceiveNames<'VKWebAppRetargetingPixel', 'VKWebAppRetargetingPixelResult', 'VKWebAppRetargetingPixelFailed'> &
   EventReceiveNames<'VKWebAppCheckAllowedScopes', 'VKWebAppCheckAllowedScopesResult', 'VKWebAppCheckAllowedScopesFailed'> &
+  EventReceiveNames<'VKWebAppCheckSurvey', 'VKWebAppCheckSurveyResult', 'VKWebAppCheckSurveyFailed'> &
+  EventReceiveNames<'VKWebAppShowSurvey', 'VKWebAppShowSurveyResult', 'VKWebAppShowSurveyFailed'> &
   EventReceiveNames<'VKWebAppConversionHit', 'VKWebAppConversionHitResult', 'VKWebAppConversionHitFailed'>;
