@@ -85,6 +85,8 @@ export const DESKTOP_METHODS = [
   'VKWebAppRetargetingPixel',
   'VKWebAppConversionHit',
   'VKWebAppShowSubscriptionBox',
+  'VKWebAppCheckSurvey',
+  'VKWebAppShowSurvey',
 
   // Desktop web specific events
   ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppAddToMenu', 'VKWebAppShowInstallPushBox', 'VKWebAppGetFriends'] : ['VKWebAppShowImages']),
