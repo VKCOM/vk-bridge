@@ -223,7 +223,7 @@ export type AppearanceType = 'light' | 'dark';
 /**
  * Application color scheme type
  */
-export type AppearanceSchemeType = 'vkcom_light' | 'vkcom_dark' | 'client_light' | 'client_dark' | 'space_gray' | 'bright_light';
+export type AppearanceSchemeType = 'vkcom_light' | 'vkcom_dark' | 'space_gray' | 'bright_light';
 
 /**
  * Vibration type for Taptic Engine
@@ -303,40 +303,46 @@ export type Insets = {
   bottom: number;
 };
 
-/**
- * Update config type for mvk (mobile browser).
- */
-export type MVKUpdateConfigData = {
-  /** Server API host for direct requests. */
+/** Default fields for config response on all platforms */
+export type DefaultUpdateConfigData = {
   api_host: string;
+  /** App_id of opened app */
+  app_id: string;
+  /** Native app appearance */
+  appearance: AppearanceType;
+  /** Native app scheme */
   scheme: AppearanceSchemeType;
 };
 
-export type VKUpdateConfigData = {
-  /** Server API host for direct requests. */
-  api_host: string;
+/** Config response for native platforms */
+export type MobileUpdateConfigData = DefaultUpdateConfigData & {
+  /** Client type */
+  app: 'vkclient' | 'vkme';
+  /** Safe area insets. iOS only */
+  insets?: Insets;
+};
+
+/** Config response for m.vk.com and vk.com */
+export type SharedUpdateConfigData = DefaultUpdateConfigData & {
   /** window.innerWidth of the parent window */
   viewport_width: number;
   /** window.innerHeight of the parent window */
   viewport_height: number;
-  scheme: AppearanceSchemeType;
+  /** Server API host for direct requests. */
+  api_host: string;
+}
+
+/** Config response for m.vk.com (mobile browser) */
+export type MVKUpdateConfigData = SharedUpdateConfigData;
+
+/** Config response for vk.com (full web) */
+export type VKUpdateConfigData = SharedUpdateConfigData & {
+  /** Is app opened in layer */
+  is_layer: boolean;
 };
 
-/**
- * Update config type data for mobile clients and desktop.
- */
-export type DefaultUpdateConfigData = {
-  app: 'vkclient' | 'vkme';
-  app_id: string;
-  appearance: AppearanceType;
-  scheme: AppearanceSchemeType;
-  insets: Insets;
-};
-
-/**
- * Update config data
- */
-export type ParentConfigData = DefaultUpdateConfigData | MVKUpdateConfigData | VKUpdateConfigData;
+/** Update config data */
+export type ParentConfigData = MobileUpdateConfigData | MVKUpdateConfigData | VKUpdateConfigData;
 
 export type WidgetPreviewRequestOptions = {
   /** Widget type */
@@ -926,6 +932,10 @@ export type VKWebAppShowOrderBoxResponse = {
   order_id: string;
 };
 
+export type ScrollTopResponse = {
+  scrollTop: number;
+};
+
 /**
  * Map of types of request props of VK Bridge methods
  */
@@ -1016,6 +1026,9 @@ export type RequestPropsMap = {
   VKWebAppConversionHit: ConversionHitRequest;
   VKWebAppCheckSurvey: {};
   VKWebAppShowSurvey: {};
+  VKWebAppScrollTop: {},
+  VKWebAppScrollTopStart: {},
+  VKWebAppScrollTopStop: {},
 };
 
 /**
@@ -1117,6 +1130,9 @@ export type ReceiveDataMap = {
   VKWebAppConversionHit: ConversionHitResponse;
   VKWebAppCheckSurvey: { result: boolean };
   VKWebAppShowSurvey: { result: boolean };
+  VKWebAppScrollTop: ScrollTopResponse,
+  VKWebAppScrollTopStart: { result: true },
+  VKWebAppScrollTopStop: { result: true },
 };
 
 type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F extends string> = Record<
@@ -1237,4 +1253,8 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppCheckAllowedScopes', 'VKWebAppCheckAllowedScopesResult', 'VKWebAppCheckAllowedScopesFailed'> &
   EventReceiveNames<'VKWebAppCheckSurvey', 'VKWebAppCheckSurveyResult', 'VKWebAppCheckSurveyFailed'> &
   EventReceiveNames<'VKWebAppShowSurvey', 'VKWebAppShowSurveyResult', 'VKWebAppShowSurveyFailed'> &
-  EventReceiveNames<'VKWebAppConversionHit', 'VKWebAppConversionHitResult', 'VKWebAppConversionHitFailed'>;
+  EventReceiveNames<'VKWebAppConversionHit', 'VKWebAppConversionHitResult', 'VKWebAppConversionHitFailed'> &
+  EventReceiveNames<'VKWebAppScrollTop', 'VKWebAppScrollTopResult', 'VKWebAppScrollTopFailed'> &
+  EventReceiveNames<'VKWebAppScrollTopStart', 'VKWebAppScrollTopStartResult', 'VKWebAppScrollTopStop'> &
+  EventReceiveNames<'VKWebAppScrollTopStop', 'VKWebAppScrollTopStopResult', 'VKWebAppScrollTopStopFailed'>
+;

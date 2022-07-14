@@ -1,6 +1,6 @@
 {
   "name": "@vkontakte/vk-bridge",
-  "version": "2.6.4",
+  "version": "2.7.0",
   "description": "Connects a Mini App with VK client",
   "license": "MIT",
   "main": "dist/index.js",
@@ -19,22 +19,6 @@
     "name": "VK",
     "url": "https://vk.com"
   },
-  "contributors": [
-    {
-      "name": "Tim Chaptykov",
-      "email": "tim.chaptykov@gmail.com",
-      "url": "https://vk.com/tc"
-    },
-    {
-      "name": "Gleb Vorontsov",
-      "email": "vorontsov.gleb@gmail.com",
-      "url": "https://vk.com/boy"
-    },
-    {
-      "name": "Danakt Frost",
-      "url": "https://danakt.com"
-    }
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/VKCOM/vk-bridge.git"

@@ -87,6 +87,9 @@ export const DESKTOP_METHODS = [
   'VKWebAppShowSubscriptionBox',
   'VKWebAppCheckSurvey',
   'VKWebAppShowSurvey',
+  'VKWebAppScrollTop',
+  'VKWebAppScrollTopStart',
+  'VKWebAppScrollTopStop',
 
   // Desktop web specific events
   ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppAddToMenu', 'VKWebAppShowInstallPushBox', 'VKWebAppGetFriends'] : ['VKWebAppShowImages']),
