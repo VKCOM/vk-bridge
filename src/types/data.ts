@@ -994,7 +994,7 @@ export type RequestPropsMap = {
   VKWebAppShowLeaderBoardBox: { user_result: number };
   VKWebAppShowMessageBox: MessageRequestOptions;
   VKWebAppShowNativeAds: ShowNativeAdsRequest;
-  VKWebAppGetAds: {};
+  VKWebAppGetAds: [key: string | number];
   VKWebAppCheckNativeAds: CheckNativeAdsRequest;
   VKWebAppShowOrderBox: OrderRequestOptions;
   VKWebAppShowRequestBox: RequestForRequestOptions;
@@ -1080,7 +1080,7 @@ export type ReceiveDataMap = {
   VKWebAppShowLeaderBoardBox: { success: boolean };
   VKWebAppShowMessageBox: { result: true };
   VKWebAppShowNativeAds: { result: true };
-  VKWebAppGetAds: { result: true };
+  VKWebAppGetAds: { };
   VKWebAppCheckNativeAds: { result: boolean };
   VKWebAppShowOrderBox: VKWebAppShowOrderBoxResponse;
   VKWebAppShowRequestBox: RequestResult;
