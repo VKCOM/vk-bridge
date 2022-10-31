@@ -994,6 +994,7 @@ export type RequestPropsMap = {
   VKWebAppShowLeaderBoardBox: { user_result: number };
   VKWebAppShowMessageBox: MessageRequestOptions;
   VKWebAppShowNativeAds: ShowNativeAdsRequest;
+  VKWebAppGetAds: {};
   VKWebAppCheckNativeAds: CheckNativeAdsRequest;
   VKWebAppShowOrderBox: OrderRequestOptions;
   VKWebAppShowRequestBox: RequestForRequestOptions;
@@ -1079,6 +1080,7 @@ export type ReceiveDataMap = {
   VKWebAppShowLeaderBoardBox: { success: boolean };
   VKWebAppShowMessageBox: { result: true };
   VKWebAppShowNativeAds: { result: true };
+  VKWebAppGetAds: { result: true };
   VKWebAppCheckNativeAds: { result: boolean };
   VKWebAppShowOrderBox: VKWebAppShowOrderBoxResponse;
   VKWebAppShowRequestBox: RequestResult;
@@ -1206,6 +1208,7 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
     'VKWebAppShowLeaderBoardBoxResult',
     'VKWebAppShowLeaderBoardBoxFailed'
   > &
+  EventReceiveNames<'VKWebAppGetAds', 'VKWebAppGetAdsResult', 'VKWebAppGetAdsFailed'> &
   EventReceiveNames<'VKWebAppShowMessageBox', 'VKWebAppShowMessageBoxResult', 'VKWebAppShowMessageBoxFailed'> &
   EventReceiveNames<'VKWebAppShowNativeAds', 'VKWebAppShowNativeAdsResult', 'VKWebAppShowNativeAdsFailed'> &
   EventReceiveNames<'VKWebAppCheckNativeAds', 'VKWebAppCheckNativeAdsResult', 'VKWebAppCheckNativeAdsFailed'> &
