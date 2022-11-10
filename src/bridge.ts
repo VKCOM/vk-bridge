@@ -71,7 +71,6 @@ export const DESKTOP_METHODS = [
   'VKWebAppShowInviteBox',
   'VKWebAppShowRequestBox',
   'VKWebAppAddToFavorites',
-  'VKWebAppShowCommunityWidgetPreviewBox',
   'VKWebAppShowStoryBox',
   'VKWebAppStorageGet',
   'VKWebAppStorageGetKeys',
@@ -92,7 +91,13 @@ export const DESKTOP_METHODS = [
   'VKWebAppScrollTopStop',
 
   // Desktop web specific events
-  ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppAddToMenu', 'VKWebAppShowInstallPushBox', 'VKWebAppGetFriends'] : ['VKWebAppShowImages']),
+  ...(IS_DESKTOP_VK ? [
+    'VKWebAppResizeWindow',
+    'VKWebAppAddToMenu',
+    'VKWebAppShowInstallPushBox',
+    'VKWebAppGetFriends',
+    'VKWebAppShowCommunityWidgetPreviewBox'
+  ] : ['VKWebAppShowImages']),
 ];
 
 /** Android VK Bridge interface. */
