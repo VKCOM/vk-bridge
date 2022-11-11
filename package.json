@@ -1,6 +1,6 @@
 {
   "name": "@vkontakte/vk-bridge",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "description": "Connects a Mini App with VK client",
   "license": "MIT",
   "main": "dist/index.js",
