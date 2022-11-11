@@ -936,6 +936,16 @@ export type ScrollTopResponse = {
   scrollTop: number;
 };
 
+export type ShowSubscriptionBoxRequest = {
+  action: 'create' | 'resume' | 'cancel';
+  item?: string;
+  subscription_id?: string;
+};
+
+export type ShowSubscriptionBoxResponse = {
+  success: boolean;
+};
+
 /**
  * Map of types of request props of VK Bridge methods
  */
@@ -998,6 +1008,7 @@ export type RequestPropsMap = {
   VKWebAppShowOrderBox: OrderRequestOptions;
   VKWebAppShowRequestBox: RequestForRequestOptions;
   VKWebAppShowWallPostBox: WallPostRequestOptions;
+  VKWebAppShowSubscriptionBox: ShowSubscriptionBoxRequest;
   VKWebAppOpenWallPost: { post_id: number, owner_id: number };
   VKWebAppStorageGet: { keys: string[] };
   VKWebAppStorageGetKeys: { count: number; offset: number };
@@ -1083,6 +1094,7 @@ export type ReceiveDataMap = {
   VKWebAppShowOrderBox: VKWebAppShowOrderBoxResponse;
   VKWebAppShowRequestBox: RequestResult;
   VKWebAppShowWallPostBox: { post_id: number | string };
+  VKWebAppShowSubscriptionBox: ShowSubscriptionBoxResponse;
   VKWebAppOpenWallPost: { result: true };
   VKWebAppStorageGet: { keys: { key: string; value: string }[] };
   VKWebAppStorageGetKeys: { keys: string[] };
@@ -1212,6 +1224,7 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppShowOrderBox', 'VKWebAppShowOrderBoxResult', 'VKWebAppShowOrderBoxFailed'> &
   EventReceiveNames<'VKWebAppShowRequestBox', 'VKWebAppShowRequestBoxResult', 'VKWebAppShowRequestBoxFailed'> &
   EventReceiveNames<'VKWebAppShowWallPostBox', 'VKWebAppShowWallPostBoxResult', 'VKWebAppShowWallPostBoxFailed'> &
+  EventReceiveNames<'VKWebAppShowSubscriptionBox', 'VKWebAppShowSubscriptionBoxResult', 'VKWebAppShowSubscriptionBoxFailed'> &
   EventReceiveNames<'VKWebAppOpenWallPost', 'VKWebAppOpenWallPostResult', 'VKWebAppOpenWallPostFailed'> &
   EventReceiveNames<'VKWebAppStorageGet', 'VKWebAppStorageGetResult', 'VKWebAppStorageGetFailed'> &
   EventReceiveNames<'VKWebAppStorageGetKeys', 'VKWebAppStorageGetKeysResult', 'VKWebAppStorageGetKeysFailed'> &
