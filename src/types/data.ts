@@ -97,6 +97,15 @@ export type UserInfo = {
   photo_max_orig?: string;
   /** User's timezone */
   timezone: number;
+
+  /**
+   * Date of birth visibility
+   * 1 - show date of birth,
+   * 2 - show only month and day,
+   * 0 - do not show date of birth.
+   */
+  bdate_visibility: 0 | 1 | 2;
+
 };
 
 /**
