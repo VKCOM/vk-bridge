@@ -848,6 +848,43 @@ export type VKWebAppCheckAllowedScopesResponseEntry = {
   allowed: boolean;
 };
 
+/**
+ * Params of VKWebAppShowActionSheet method
+ */
+export type ShowActionSheetOptions = {
+  /** Array of onboarding slides */
+  slides?: ActionSheetSlide[];
+};
+
+type ActionSheetSlide = {
+  media: ActionSheetSlideMedia;
+  title: string;
+  subtitle: string;
+};
+
+type ActionSheetSlideMedia = (
+  | {
+  /** Content url */
+  url: string;
+}
+  | {
+  /** Base64 string with BLOB */
+  blob: string;
+}) & {
+  /** Media type */
+  type: 'image' | 'gif' | 'video';
+};
+
+export type ShowActionSheetResponse = {
+  result: true;
+} & ({
+  action: 'confirm' | 'cancel';
+} | {
+  action: 'reject';
+  slide_index: number;
+});
+
+
 export enum EGrantedPermission {
   CAMERA = 'camera',
   LOCATION = 'location',
@@ -1040,6 +1077,7 @@ export type RequestPropsMap = {
   VKWebAppScrollTop: {},
   VKWebAppScrollTopStart: {},
   VKWebAppScrollTopStop: {},
+  VKWebAppShowActionSheet: ShowActionSheetOptions,
 };
 
 /**
@@ -1145,6 +1183,7 @@ export type ReceiveDataMap = {
   VKWebAppScrollTop: ScrollTopResponse,
   VKWebAppScrollTopStart: { result: true },
   VKWebAppScrollTopStop: { result: true },
+  VKWebAppShowActionSheet: ShowActionSheetResponse,
 };
 
 type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F extends string> = Record<
@@ -1269,5 +1308,6 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppConversionHit', 'VKWebAppConversionHitResult', 'VKWebAppConversionHitFailed'> &
   EventReceiveNames<'VKWebAppScrollTop', 'VKWebAppScrollTopResult', 'VKWebAppScrollTopFailed'> &
   EventReceiveNames<'VKWebAppScrollTopStart', 'VKWebAppScrollTopStartResult', 'VKWebAppScrollTopStop'> &
-  EventReceiveNames<'VKWebAppScrollTopStop', 'VKWebAppScrollTopStopResult', 'VKWebAppScrollTopStopFailed'>
+  EventReceiveNames<'VKWebAppScrollTopStop', 'VKWebAppScrollTopStopResult', 'VKWebAppScrollTopStopFailed'> &
+  EventReceiveNames<'VKWebAppShowActionSheet', 'VKWebAppShowActionSheetResult', 'VKWebAppShowActionSheetFailed'>
 ;
