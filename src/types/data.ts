@@ -96,7 +96,7 @@ export type UserInfo = {
    */
   photo_max_orig?: string;
   /** User's timezone */
-  timezone: number;
+  timezone?: number;
 };
 
 /**
