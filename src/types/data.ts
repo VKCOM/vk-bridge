@@ -983,6 +983,24 @@ export type ShowSubscriptionBoxResponse = {
   success: boolean;
 };
 
+export enum ShowBannerAdLayoutTypes {
+  RESIZE = 'resize',
+  OVERLAY = 'overlay',
+}
+
+export enum ShowBannerAdLocation {
+  TOP = 'top',
+  BOTTOM = 'bottom',
+}
+
+export type ShowBannerAdResponse = {
+  layout_type?: ShowBannerAdLayoutTypes;
+  banner_location?: ShowBannerAdLocation;
+  banner_width?: number;
+  banner_height?: number;
+  result?: boolean;
+};
+
 /**
  * Map of types of request props of VK Bridge methods
  */
@@ -1078,6 +1096,9 @@ export type RequestPropsMap = {
   VKWebAppScrollTopStart: {},
   VKWebAppScrollTopStop: {},
   VKWebAppShowActionSheet: ShowActionSheetOptions,
+  VKWebAppShowBannerAd: { banner_location: ShowBannerAdLocation, layout_type?: ShowBannerAdLayoutTypes, can_close: boolean },
+  VKWebAppCheckBannerAd: {},
+  VKWebAppHideBannerAd: {},
 };
 
 /**
@@ -1184,6 +1205,11 @@ export type ReceiveDataMap = {
   VKWebAppScrollTopStart: { result: true },
   VKWebAppScrollTopStop: { result: true },
   VKWebAppShowActionSheet: ShowActionSheetResponse,
+  VKWebAppShowBannerAd: ShowBannerAdResponse,
+  VKWebAppCheckBannerAd: ShowBannerAdResponse,
+  VKWebAppHideBannerAd: ShowBannerAdResponse,
+  VKWebAppBannerAdUpdated: ShowBannerAdResponse,
+  VKWebAppBannerAdClosedByUser: Omit<ShowBannerAdResponse, 'result'>,
 };
 
 type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F extends string> = Record<
@@ -1309,5 +1335,8 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppScrollTop', 'VKWebAppScrollTopResult', 'VKWebAppScrollTopFailed'> &
   EventReceiveNames<'VKWebAppScrollTopStart', 'VKWebAppScrollTopStartResult', 'VKWebAppScrollTopStop'> &
   EventReceiveNames<'VKWebAppScrollTopStop', 'VKWebAppScrollTopStopResult', 'VKWebAppScrollTopStopFailed'> &
-  EventReceiveNames<'VKWebAppShowActionSheet', 'VKWebAppShowActionSheetResult', 'VKWebAppShowActionSheetFailed'>
+  EventReceiveNames<'VKWebAppShowActionSheet', 'VKWebAppShowActionSheetResult', 'VKWebAppShowActionSheetFailed'> &
+  EventReceiveNames<'VKWebAppShowBannerAd', 'VKWebAppShowBannerAdResult', 'VKWebAppShowBannerAdFailed'> &
+  EventReceiveNames<'VKWebAppCheckBannerAd', 'VKWebAppCheckBannerAdResult', 'VKWebAppCheckBannerAdFailed'> &
+  EventReceiveNames<'VKWebAppHideBannerAd', 'VKWebAppHideBannerAdResult', 'VKWebAppHideBannerAdFailed'>
 ;
