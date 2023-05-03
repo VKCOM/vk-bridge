@@ -402,7 +402,13 @@ export type ShowNativeAdsRequest = {
 export type CheckNativeAdsRequest = {
   ad_format: EAdsFormats;
   use_waterfall?: boolean;
-}
+};
+
+export type ShowBannerAdRequest = {
+  banner_location: string;
+  layout_type?: string;
+  can_close?: boolean;
+};
 
 export type OrderRequestOptions = {
   /** Always `item` */
@@ -964,6 +970,17 @@ export type ConversionHitResponse = {
   result: true;
 };
 
+export type VKWebAppShowBannerAdResponse = {
+  result: boolean;
+  banner_width: number;
+  banner_height: number;
+  banner_location: string;
+  layout_type: string;
+};
+
+export type VKWebAppCheckBannerAdResponse = VKWebAppShowBannerAdResponse;
+export type VKWebAppHideBannerAdResponse = VKWebAppShowBannerAdResponse;
+
 export type VKWebAppShowOrderBoxResponse = {
   status: OrderBoxShowingStatus;
   order_id: string;
@@ -1040,6 +1057,9 @@ export type RequestPropsMap = {
   VKWebAppShowInviteBox: {};
   VKWebAppShowLeaderBoardBox: { user_result: number };
   VKWebAppShowMessageBox: MessageRequestOptions;
+  VKWebAppCheckBannerAd: {},
+  VKWebAppHideBannerAd: {},
+  VKWebAppShowBannerAd: ShowBannerAdRequest;
   VKWebAppShowNativeAds: ShowNativeAdsRequest;
   VKWebAppCheckNativeAds: CheckNativeAdsRequest;
   VKWebAppShowOrderBox: OrderRequestOptions;
@@ -1127,6 +1147,9 @@ export type ReceiveDataMap = {
   VKWebAppShowInviteBox: { success: true };
   VKWebAppShowLeaderBoardBox: { success: boolean };
   VKWebAppShowMessageBox: { result: true };
+  VKWebAppCheckBannerAd: VKWebAppCheckBannerAdResponse,
+  VKWebAppHideBannerAd: VKWebAppHideBannerAdResponse,
+  VKWebAppShowBannerAd: VKWebAppShowBannerAdResponse;
   VKWebAppShowNativeAds: { result: true };
   VKWebAppCheckNativeAds: { result: boolean };
   VKWebAppShowOrderBox: VKWebAppShowOrderBoxResponse;
@@ -1258,6 +1281,9 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
     'VKWebAppShowLeaderBoardBoxFailed'
   > &
   EventReceiveNames<'VKWebAppShowMessageBox', 'VKWebAppShowMessageBoxResult', 'VKWebAppShowMessageBoxFailed'> &
+  EventReceiveNames<'VKWebAppCheckBannerAd', 'VKWebAppCheckBannerAdResult', 'VKWebAppCheckBannerAdFailed'> &
+  EventReceiveNames<'VKWebAppHideBannerAd', 'VKWebAppHideBannerAdResult', 'VKWebAppHideBannerAdFailed'> &
+  EventReceiveNames<'VKWebAppShowBannerAd', 'VKWebAppShowBannerAdResult', 'VKWebAppShowBannerAdFailed'> &
   EventReceiveNames<'VKWebAppShowNativeAds', 'VKWebAppShowNativeAdsResult', 'VKWebAppShowNativeAdsFailed'> &
   EventReceiveNames<'VKWebAppCheckNativeAds', 'VKWebAppCheckNativeAdsResult', 'VKWebAppCheckNativeAdsFailed'> &
   EventReceiveNames<'VKWebAppShowOrderBox', 'VKWebAppShowOrderBoxResult', 'VKWebAppShowOrderBoxFailed'> &
