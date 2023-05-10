@@ -404,9 +404,19 @@ export type CheckNativeAdsRequest = {
   use_waterfall?: boolean;
 };
 
+export enum BannerAdLayoutType {
+  RESIZE = 'resize',
+  OVERLAY = 'overlay',
+}
+
+export enum BannerAdLocation {
+  TOP = 'top',
+  BOTTOM = 'bottom',
+}
+
 export type ShowBannerAdRequest = {
-  banner_location: string;
-  layout_type?: string;
+  banner_location: BannerAdLocation;
+  layout_type?: BannerAdLayoutType;
   can_close?: boolean;
 };
 
@@ -974,8 +984,8 @@ export type VKWebAppShowBannerAdResponse = {
   result: boolean;
   banner_width: number;
   banner_height: number;
-  banner_location: string;
-  layout_type: string;
+  banner_location: BannerAdLocation;
+  layout_type: BannerAdLayoutType;
 };
 
 export type VKWebAppCheckBannerAdResponse = VKWebAppShowBannerAdResponse;
