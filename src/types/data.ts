@@ -900,6 +900,11 @@ export type ShowActionSheetResponse = {
   slide_index: number;
 });
 
+export type ShowSlidesSheetRequest = {
+  slides: ActionSheetSlide[];
+}
+
+export type ShowSlidesSheetResponse = ShowActionSheetResponse;
 
 export enum EGrantedPermission {
   CAMERA = 'camera',
@@ -1108,6 +1113,7 @@ export type RequestPropsMap = {
   VKWebAppScrollTopStart: {},
   VKWebAppScrollTopStop: {},
   VKWebAppShowActionSheet: ShowActionSheetOptions,
+  VKWebAppShowSlidesSheet: ShowSlidesSheetRequest,
 };
 
 /**
@@ -1217,6 +1223,7 @@ export type ReceiveDataMap = {
   VKWebAppScrollTopStart: { result: true },
   VKWebAppScrollTopStop: { result: true },
   VKWebAppShowActionSheet: ShowActionSheetResponse,
+  VKWebAppShowSlidesSheet: ShowSlidesSheetResponse,
 };
 
 type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F extends string> = Record<
@@ -1345,5 +1352,6 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
   EventReceiveNames<'VKWebAppScrollTop', 'VKWebAppScrollTopResult', 'VKWebAppScrollTopFailed'> &
   EventReceiveNames<'VKWebAppScrollTopStart', 'VKWebAppScrollTopStartResult', 'VKWebAppScrollTopStop'> &
   EventReceiveNames<'VKWebAppScrollTopStop', 'VKWebAppScrollTopStopResult', 'VKWebAppScrollTopStopFailed'> &
-  EventReceiveNames<'VKWebAppShowActionSheet', 'VKWebAppShowActionSheetResult', 'VKWebAppShowActionSheetFailed'>
+  EventReceiveNames<'VKWebAppShowActionSheet', 'VKWebAppShowActionSheetResult', 'VKWebAppShowActionSheetFailed'> &
+  EventReceiveNames<'VKWebAppShowSlidesSheet', 'VKWebAppShowSlidesSheetResult', 'VKWebAppShowSlidesSheetFailed'>
 ;
