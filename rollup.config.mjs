@@ -21,18 +21,18 @@ const getPlugins = (tsDeclaration = false) => [
           tsconfigOverride: {
             compilerOptions: {
               declaration: true,
-              declarationDir: 'dist/types'
+              declarationDir: 'dist/types',
             },
-            exclude: ['./dist', '**/__tests__/']
-          }
+            exclude: ['./dist', '**/__tests__/'],
+          },
         }
-      : {}
+      : {},
   ),
   babel({ babelHelpers: 'bundled' }),
   json(),
   nodeResolve({ mainFields: ['module', 'jsnext'] }),
   commonjs({ include: 'node_modules/**' }),
-  bundleSizes()
+  bundleSizes(),
 ];
 
 const cjs = {
@@ -42,8 +42,8 @@ const cjs = {
     sourcemap: true,
     exports: 'named',
     file: pkg.main,
-    format: 'cjs'
-  }
+    format: 'cjs',
+  },
 };
 
 const es = {
@@ -52,8 +52,8 @@ const es = {
   output: {
     sourcemap: true,
     file: pkg.module,
-    format: 'es'
-  }
+    format: 'es',
+  },
 };
 
 const umd = {
@@ -64,8 +64,8 @@ const umd = {
     exports: 'named',
     name: pkg.umdName,
     file: pkg.browser,
-    format: 'umd'
-  }
+    format: 'umd',
+  },
 };
 
 const browser = {
@@ -74,8 +74,8 @@ const browser = {
   output: {
     sourcemap: true,
     file: OUTPUT_FILE_BROWSER,
-    format: 'iife'
-  }
+    format: 'iife',
+  },
 };
 
 export default IS_PROD ? [cjs, es, umd, browser] : umd;

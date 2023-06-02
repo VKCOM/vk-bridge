@@ -30,7 +30,10 @@ export type AnyRequestMethodNameWithProps = {
 /**
  * Name of a method which doesn't contain properties
  */
-export type AnyRequestMethodNameWithoutProps = Exclude<AnyRequestMethodName, AnyRequestMethodNameWithProps>;
+export type AnyRequestMethodNameWithoutProps = Exclude<
+  AnyRequestMethodName,
+  AnyRequestMethodNameWithProps
+>;
 
 /**
  * Type of any method name.
@@ -55,21 +58,20 @@ export type AnyResultResponseEventName = ResultResponseEventName<AnyRequestMetho
 /**
  * Getter of failed event name of a method.
  */
-export type FailedResponseEventName<M extends AnyRequestMethodName> = M extends keyof ReceiveEventMap
-  ? ReceiveEventMap[M]['failed']
-  : never;
+export type FailedResponseEventName<M extends AnyRequestMethodName> =
+  M extends keyof ReceiveEventMap ? ReceiveEventMap[M]['failed'] : never;
 
 /**
  * Getter of result event name of a method.
  */
-export type ResultResponseEventName<M extends AnyRequestMethodName> = M extends keyof ReceiveEventMap
-  ? ReceiveEventMap[M]['result']
-  : never;
+export type ResultResponseEventName<M extends AnyRequestMethodName> =
+  M extends keyof ReceiveEventMap ? ReceiveEventMap[M]['result'] : never;
 
 /**
  * Getter of request properties of a method.
  */
-export type RequestProps<M extends AnyRequestMethodName = AnyRequestMethodName> = RequestPropsMap[M];
+export type RequestProps<M extends AnyRequestMethodName = AnyRequestMethodName> =
+  RequestPropsMap[M];
 
 /**
  * Getter of response data of a method.
@@ -172,7 +174,9 @@ export type VKBridgeResultEvent<M extends AnyReceiveMethodName> = M extends AnyR
 /**
  * VK Bridge event.
  */
-export type VKBridgeEvent<M extends AnyReceiveMethodName> = VKBridgeErrorEvent<M> | VKBridgeResultEvent<M>;
+export type VKBridgeEvent<M extends AnyReceiveMethodName> =
+  | VKBridgeErrorEvent<M>
+  | VKBridgeResultEvent<M>;
 
 /**
  * Type of function that will be subscribed to VK Bridge events.
@@ -188,7 +192,7 @@ export type VKBridgeSubscribeHandler = (event: VKBridgeEvent<AnyReceiveMethodNam
  */
 export type VKBridgeSend = <K extends AnyRequestMethodName>(
   method: K,
-  props?: RequestProps<K> & RequestIdProp
+  props?: RequestProps<K> & RequestIdProp,
 ) => Promise<K extends AnyReceiveMethodName ? ReceiveData<K> : void>;
 
 /**

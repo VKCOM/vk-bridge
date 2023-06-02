@@ -16,6 +16,8 @@ const INPUT_FILE = './src/index.ts';
  *  2. скрипт `build:legacy-types` в `package.json` и его использование;
  *  3. удалить поле `typeVersions` в `package.json`;
  *  4. удалить версию 3.8.3 через `yarn remove typescript-3.8.3`.
+ *  5. удалить отключение правила `@typescript-eslint/prefer-ts-expect-error` в `.eslintrc.json`
+ *  6. удалить отключение правила `"@typescript-eslint/ban-ts-comment"` в `.eslintrc.json`
  */
 export default {
   plugins: [
@@ -26,13 +28,13 @@ export default {
         compilerOptions: {
           noEmit: true,
           declaration: true,
-          declarationDir: 'dist/types3.8.3'
+          declarationDir: 'dist/types3.8.3',
         },
-        exclude: ['./dist', '**/__tests__/']
-      }
+        exclude: ['./dist', '**/__tests__/'],
+      },
     }),
-    json()
+    json(),
   ],
   input: INPUT_FILE,
-  output: {}
+  output: {},
 };
