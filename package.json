@@ -32,7 +32,18 @@
     "lint:prettier": "prettier --check --ignore-unknown .",
     "lint:prettier:fix": "prettier --check --ignore-unknown . --write",
     "lint:types": "./node_modules/typescript/bin/tsc --incremental --emitDeclarationOnly --declaration --tsBuildInfoFile .cache/.tsbuildinfo",
-    "deduplicate": "yarn-deduplicate --list && yarn-deduplicate --fail"
+    "deduplicate": "yarn-deduplicate --list && yarn-deduplicate --fail",
+    "prepare": "husky install",
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{mjs,js,ts}": [
+      "prettier --check",
+      "eslint"
+    ],
+    "*.{json,md}": [
+      "prettier --check"
+    ]
   },
   "author": {
     "name": "VK",
@@ -61,7 +72,9 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-unicorn": "^47.0.0",
+    "husky": "^8.0.3",
     "jest": "^29.5.0",
+    "lint-staged": "^13.2.2",
     "prettier": "^2.8.8",
     "rimraf": "^5.0.1",
     "rollup": "^3.23.0",
