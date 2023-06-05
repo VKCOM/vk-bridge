@@ -1,7 +1,7 @@
 import { createVKBridge } from './bridge';
 import { version } from '../package.json';
 
-// VK Bridge API
+// VK Bridge API run CI
 const bridge = createVKBridge(version);
 
 // Export typings
