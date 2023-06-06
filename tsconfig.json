@@ -7,6 +7,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "sourceMap": true,
+    "skipLibCheck": true
   },
   "exclude": ["./dist"]
 }
