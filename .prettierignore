@@ -1,0 +1,34 @@
+# TODO после релиза фичи https://github.com/prettier/prettier/issues/8506#issuecomment-659604909
+#  надо расширять конфиг через .gitignore и тем самым удалить дубли.
+
+# OS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Dependencices
+node_modules/
+
+# Builds
+dist/
+
+# Caches
+.cache
+tmp/
+
+# Logs
+test-results.json
+lint-results.json
+yarn-error.log
+
+# Caches
+.cache
+
+# Coverage directories used by tools like istanbul
+coverage
+.nyc_output
+
+# GitHub templates
+.github/**/*.md

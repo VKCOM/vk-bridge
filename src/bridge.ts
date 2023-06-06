@@ -1,5 +1,11 @@
 import { promisifySend } from './promisifySend';
-import { VKBridge, VKBridgeSubscribeHandler, AnyRequestMethodName, RequestProps, RequestIdProp } from './types/bridge';
+import {
+  VKBridge,
+  VKBridgeSubscribeHandler,
+  AnyRequestMethodName,
+  RequestProps,
+  RequestIdProp,
+} from './types/bridge';
 
 /** Is the client side runtime environment */
 export const IS_CLIENT_SIDE = typeof window !== 'undefined';
@@ -12,13 +18,13 @@ export const IS_IOS_WEBVIEW = Boolean(
   IS_CLIENT_SIDE &&
     (window as any).webkit &&
     (window as any).webkit.messageHandlers &&
-    (window as any).webkit.messageHandlers.VKWebAppClose
+    (window as any).webkit.messageHandlers.VKWebAppClose,
 );
 
 export const IS_REACT_NATIVE_WEBVIEW = Boolean(
   IS_CLIENT_SIDE &&
-  (window as any).ReactNativeWebView &&
-  typeof (window as any).ReactNativeWebView.postMessage === 'function'
+    (window as any).ReactNativeWebView &&
+    typeof (window as any).ReactNativeWebView.postMessage === 'function',
 );
 
 /** Is the runtime environment a browser */
@@ -71,7 +77,6 @@ export const DESKTOP_METHODS = [
   'VKWebAppShowInviteBox',
   'VKWebAppShowRequestBox',
   'VKWebAppAddToFavorites',
-  'VKWebAppShowCommunityWidgetPreviewBox',
   'VKWebAppShowStoryBox',
   'VKWebAppStorageGet',
   'VKWebAppStorageGetKeys',
@@ -81,6 +86,9 @@ export const DESKTOP_METHODS = [
   'VKWebAppOpenWallPost',
   'VKWebAppCheckAllowedScopes',
   'VKWebAppGetAds',
+  'VKWebAppCheckBannerAd',
+  'VKWebAppHideBannerAd',
+  'VKWebAppShowBannerAd',
   'VKWebAppCheckNativeAds',
   'VKWebAppShowNativeAds',
   'VKWebAppRetargetingPixel',
@@ -91,27 +99,35 @@ export const DESKTOP_METHODS = [
   'VKWebAppScrollTop',
   'VKWebAppScrollTopStart',
   'VKWebAppScrollTopStop',
+  'VKWebAppShowActionSheet',
 
   // Desktop web specific events
-  ...(IS_DESKTOP_VK ? ['VKWebAppResizeWindow', 'VKWebAppAddToMenu', 'VKWebAppShowInstallPushBox', 'VKWebAppGetFriends'] : ['VKWebAppShowImages']),
+  ...(IS_DESKTOP_VK
+    ? [
+        'VKWebAppResizeWindow',
+        'VKWebAppAddToMenu',
+        'VKWebAppShowInstallPushBox',
+        'VKWebAppGetFriends',
+        'VKWebAppShowCommunityWidgetPreviewBox',
+      ]
+    : ['VKWebAppShowImages']),
 ];
 
 /** Android VK Bridge interface. */
-const androidBridge: Record<string, (serializedData: string) => void> | undefined = IS_CLIENT_SIDE
-  ? (window as any).AndroidBridge
-  : undefined;
+const androidBridge: Record<AnyRequestMethodName, (serializedData: string) => void> | undefined =
+  IS_CLIENT_SIDE ? (window as any).AndroidBridge : undefined;
 
 /** iOS VK Bridge interface. */
-const iosBridge: Record<string, { postMessage?: (data: any) => void }> | undefined = IS_IOS_WEBVIEW
-  ? (window as any).webkit.messageHandlers
-  : undefined;
+const iosBridge: Record<AnyRequestMethodName, { postMessage?: (data: any) => void }> | undefined =
+  IS_IOS_WEBVIEW ? (window as any).webkit.messageHandlers : undefined;
 
 /** Web VK Bridge interface. */
-const webBridge: { postMessage?: (message: any, targetOrigin:string) => void } | undefined = IS_WEB
+const webBridge: { postMessage?: (message: any, targetOrigin: string) => void } | undefined = IS_WEB
   ? parent
   : undefined;
 
-let webSdkHandlers: string[] | undefined;
+// [Примечание 1] Отключили использование в этом PR https://github.com/VKCOM/vk-bridge/pull/262
+// let webSdkHandlers: string[] | undefined;
 
 /**
  * Creates a VK Bridge API that holds functions for interact with runtime
@@ -134,23 +150,33 @@ export function createVKBridge(version: string): VKBridge {
    * @param method The method (event) name to send
    * @param [props] Method properties
    */
-  function send<K extends AnyRequestMethodName>(method: K, props?: RequestProps<K> & RequestIdProp) {
+  function send<K extends AnyRequestMethodName>(
+    method: K,
+    props?: RequestProps<K> & RequestIdProp,
+  ) {
     // Sending data through Android bridge
+
     if (androidBridge && androidBridge[method]) {
       androidBridge[method](JSON.stringify(props));
     }
 
     // Sending data through iOS bridge
-    else if (iosBridge && iosBridge[method] && typeof iosBridge[method].postMessage === 'function') {
+    else if (
+      iosBridge &&
+      iosBridge[method] &&
+      typeof iosBridge[method].postMessage === 'function'
+    ) {
       iosBridge[method].postMessage!(props);
     }
 
     // Sending data through React Native bridge
     else if (IS_REACT_NATIVE_WEBVIEW) {
-      (window as any).ReactNativeWebView.postMessage(JSON.stringify({
-        handler: method,
-        params: props,
-      }));
+      (window as any).ReactNativeWebView.postMessage(
+        JSON.stringify({
+          handler: method,
+          params: props,
+        }),
+      );
     }
 
     // Sending data through web bridge
@@ -163,7 +189,7 @@ export function createVKBridge(version: string): VKBridge {
           webFrameId,
           connectVersion: version,
         },
-        '*'
+        '*',
       );
     }
   }
@@ -202,10 +228,15 @@ export function createVKBridge(version: string): VKBridge {
       return !!(androidBridge && typeof androidBridge[method] === 'function');
     } else if (IS_IOS_WEBVIEW) {
       // iOS support check
-      return !!(iosBridge && iosBridge[method] && typeof iosBridge[method].postMessage === 'function');
+      return !!(
+        iosBridge &&
+        iosBridge[method] &&
+        typeof iosBridge[method].postMessage === 'function'
+      );
     } else if (IS_WEB) {
       // Web support check
-      return DESKTOP_METHODS.indexOf(method) > -1;
+      return DESKTOP_METHODS.includes(method);
+      // см. Примечание 1
       // if (!webSdkHandlers) {
       //   console.error('You should call bridge.send("VKWebAppInit") first');
       //   return false;
@@ -274,10 +305,11 @@ export function createVKBridge(version: string): VKBridge {
       return;
     }
 
-    if (type === 'SetSupportedHandlers') {
-      webSdkHandlers = data.supportedHandlers;
-      return;
-    }
+    // см. Примечание 1
+    // if (type === 'SetSupportedHandlers') {
+    //   webSdkHandlers = data.supportedHandlers;
+    //   return;
+    // }
 
     if (type === 'VKWebAppSettings') {
       webFrameId = frameId;

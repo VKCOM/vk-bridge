@@ -83,8 +83,11 @@ function createRequestResolver() {
  * @returns Send function which returns the Promise object.
  */
 export function promisifySend(
-  sendEvent: <K extends AnyRequestMethodName>(method: K, props?: RequestProps<K> & RequestIdProp) => void,
-  subscribe: (fn: VKBridgeSubscribeHandler) => void
+  sendEvent: <K extends AnyRequestMethodName>(
+    method: K,
+    props?: RequestProps<K> & RequestIdProp,
+  ) => void,
+  subscribe: (fn: VKBridgeSubscribeHandler) => void,
 ) {
   const requestResolver = createRequestResolver();
 
@@ -106,7 +109,7 @@ export function promisifySend(
 
   return function promisifiedSend<K extends AnyRequestMethodName>(
     method: K,
-    props: RequestProps<K> & RequestIdProp = {} as RequestProps<K> & RequestIdProp
+    props: RequestProps<K> & RequestIdProp = {} as RequestProps<K> & RequestIdProp, // eslint-disable-line @typescript-eslint/consistent-type-assertions
   ): Promise<K extends AnyReceiveMethodName ? ReceiveData<K> : void> {
     return new Promise((resolve, reject) => {
       const requestId = requestResolver.add({ resolve, reject }, props.request_id);
