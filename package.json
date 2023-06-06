@@ -23,18 +23,16 @@
     "build": "rimraf dist && NODE_ENV=production rollup -c && yarn build:legacy-types",
     "build:legacy-types": "rollup -c rollup.config-legacy-types.mjs >/dev/null",
     "prepublishOnly": "npm run build",
-    "pretest": "yarn build",
-    "test": "jest",
+    "test": "yarn build && jest",
     "test:ci": "yarn test --ci --silent --outputFile ./test-results.json --json",
-    "lint": "yarn pretest && concurrently 'yarn:lint:es' 'yarn:lint:types' 'yarn:lint:prettier'",
-    "lint:ci": "yarn pretest && concurrently 'yarn:lint:es:ci' 'yarn:lint:types' 'yarn:lint:prettier'",
+    "lint": "yarn build && concurrently 'yarn:lint:es' 'yarn:lint:types' 'yarn:lint:prettier'",
+    "lint:ci": "yarn build && concurrently 'yarn:lint:es:ci' 'yarn:lint:types' 'yarn:lint:prettier'",
     "lint:es": "eslint . --ignore-path .gitignore --ext .mjs,.js,.ts --cache --cache-location .cache/.eslintcache",
     "lint:es:ci": "yarn run lint:es -o lint-results.json -f json",
     "lint:es:fix": "yarn run lint:es --fix",
     "lint:prettier": "prettier --check --ignore-unknown .",
     "lint:prettier:fix": "prettier --check --ignore-unknown . --write",
     "lint:types": "./node_modules/typescript/bin/tsc --incremental --declaration --noEmit --tsBuildInfoFile .cache/.tsbuildinfo",
-    "deduplicate": "yarn-deduplicate --list && yarn-deduplicate --fail",
     "prepare": "husky install",
     "pre-commit": "lint-staged"
   },
@@ -85,12 +83,10 @@
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
-    "typescript-3.8.3": "npm:typescript@3.8.3",
-    "yarn-deduplicate": "^6.0.2"
+    "typescript-3.8.3": "npm:typescript@3.8.3"
   },
   "engines": {
-    "yarn": "^1.21.1",
     "node": ">=14.18.0"
   },
-  "packageManager": "yarn@1.22.19"
+  "packageManager": "yarn@3.6.0"
 }
