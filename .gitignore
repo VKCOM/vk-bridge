@@ -1,6 +1,28 @@
+# OS
 .DS_Store
+
+# IDE
 .idea/
+.vscode/
+
+# Dependencices
 node_modules/
-.rpt2_cache/
-.rts2_cache_*/
+
+# Builds
 dist/
+
+# Caches
+.cache
+tmp/
+
+# Logs
+test-results.json
+lint-results.json
+yarn-error.log
+
+# Caches
+.cache
+
+# Coverage directories used by tools like istanbul
+coverage
+.nyc_output

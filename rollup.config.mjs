@@ -1,11 +1,11 @@
-import babel from 'rollup-plugin-babel';
-import nodeResolve from 'rollup-plugin-node-resolve';
-import { uglify } from 'rollup-plugin-uglify';
-import bundleSize from 'rollup-plugin-bundle-size';
-import commonjs from 'rollup-plugin-commonjs';
+import babel from '@rollup/plugin-babel';
+import nodeResolve from '@rollup/plugin-node-resolve';
+import terser from '@rollup/plugin-terser';
+import commonjs from '@rollup/plugin-commonjs';
 import typescript from 'rollup-plugin-typescript2';
-import json from 'rollup-plugin-json';
-import pkg from './package.json';
+import bundleSizes from 'rollup-plugin-bundle-size';
+import json from '@rollup/plugin-json';
+import pkg from './package.json' assert { type: 'json' };
 
 const IS_PROD = process.env.NODE_ENV === 'production';
 
@@ -21,28 +21,29 @@ const getPlugins = (tsDeclaration = false) => [
           tsconfigOverride: {
             compilerOptions: {
               declaration: true,
-              declarationDir: 'dist/types'
-            }
-          }
+              declarationDir: 'dist/types',
+            },
+            exclude: ['./dist', '**/__tests__/'],
+          },
         }
-      : {}
+      : {},
   ),
-  babel(),
+  babel({ babelHelpers: 'bundled' }),
   json(),
   nodeResolve({ mainFields: ['module', 'jsnext'] }),
   commonjs({ include: 'node_modules/**' }),
-  bundleSize()
+  bundleSizes(),
 ];
 
 const cjs = {
-  plugins: IS_PROD ? [...getPlugins(true), uglify()] : getPlugins(true),
+  plugins: IS_PROD ? [...getPlugins(true), terser()] : getPlugins(true),
   input: INPUT_FILE,
   output: {
     sourcemap: true,
     exports: 'named',
     file: pkg.main,
-    format: 'cjs'
-  }
+    format: 'cjs',
+  },
 };
 
 const es = {
@@ -51,30 +52,30 @@ const es = {
   output: {
     sourcemap: true,
     file: pkg.module,
-    format: 'es'
-  }
+    format: 'es',
+  },
 };
 
 const umd = {
-  plugins: IS_PROD ? [...getPlugins(), uglify()] : getPlugins(),
+  plugins: IS_PROD ? [...getPlugins(), terser()] : getPlugins(),
   input: INPUT_FILE,
   output: {
     sourcemap: true,
     exports: 'named',
     name: pkg.umdName,
     file: pkg.browser,
-    format: 'umd'
-  }
+    format: 'umd',
+  },
 };
 
 const browser = {
-  plugins: [...getPlugins(), uglify()],
+  plugins: [...getPlugins(), terser()],
   input: INPUT_FILE_BROWSER,
   output: {
     sourcemap: true,
     file: OUTPUT_FILE_BROWSER,
-    format: 'iife'
-  }
+    format: 'iife',
+  },
 };
 
 export default IS_PROD ? [cjs, es, umd, browser] : umd;

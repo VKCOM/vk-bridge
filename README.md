@@ -16,7 +16,7 @@ import bridge from '@vkontakte/vk-bridge';
 bridge.send('VKWebAppInit');
 
 // Subscribes to event, sended by client
-bridge.subscribe(e => console.log(e));
+bridge.subscribe((e) => console.log(e));
 ```
 
 For use in a browser, include the file [`dist/browser.min.js`](https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js) and use as follows
@@ -47,11 +47,11 @@ Sends a message to native client and returns the `Promise` object with response 
 // Sending event to client
 bridge
   .send('VKWebAppGetEmail')
-  .then(data => {
+  .then((data) => {
     // Handling received data
     console.log(data.email);
   })
-  .catch(error => {
+  .catch((error) => {
     // Handling an error
   });
 ```
@@ -81,7 +81,7 @@ Subscribes a function to events listening
 
 ```js
 // Subscribing to receiving events
-bridge.subscribe(event => {
+bridge.subscribe((event) => {
   if (!event.detail) {
     return;
   }
@@ -114,7 +114,7 @@ Unsubscribes a function from events listening
 **Example**
 
 ```js
-const fn = event => {
+const fn = (event) => {
   // ...
 };
 
@@ -169,11 +169,14 @@ event. Returns the VK Bridge enhancer applying the middleware.
 import bridge, { applyMiddleware } from '@vkontakte/vk-bridge';
 
 // Logs the result of each sent event
-const logger = ({ send, subscribe }) => next => async (method, props) => {
-  const result = await next(method, props);
-  console.log(result);
-  return result;
-};
+const logger =
+  ({ send, subscribe }) =>
+  (next) =>
+  async (method, props) => {
+    const result = await next(method, props);
+    console.log(result);
+    return result;
+  };
 
 const enhancedBridge = applyMiddleware(logger)(bridge);
 ```

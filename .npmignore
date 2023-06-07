@@ -1,8 +1,0 @@
-.DS_Store
-.idea/
-node_modules/
-.rpt2_cache/
-.rts2_cache_*/
-/src/
-rollup.config.js
-PUBLISHING.md

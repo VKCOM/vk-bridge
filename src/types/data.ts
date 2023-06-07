@@ -43,7 +43,7 @@ export type UserGetFriendsFriend = {
    * is not set.
    */
   photo_200: string;
-}
+};
 
 /**
  * Type of user info object
@@ -330,7 +330,7 @@ export type SharedUpdateConfigData = DefaultUpdateConfigData & {
   viewport_height: number;
   /** Server API host for direct requests. */
   api_host: string;
-}
+};
 
 /** Config response for m.vk.com (mobile browser) */
 export type MVKUpdateConfigData = SharedUpdateConfigData;
@@ -468,21 +468,21 @@ export type WallPostRequestOptions = {
    * `true` - post will be available to friends only
    * `false` - post will be available to all users (default)
    */
-  friends_only?: boolean
+  friends_only?: boolean;
   /**
    * List of services or websites the update will be exported to, if the user has so requested.
    * Sample values: 'twitter', 'facebook'
    */
-  services?: 'twitter' | 'facebook' | string
+  services?: 'twitter' | 'facebook' | string;
   /** Publication date (in Unix time). If used, posting will be delayed until the set time */
-  publish_date?: number
+  publish_date?: number;
   /**
    * `true` - post comments will be closed
    * `false` - permission to leave post comments will be up to user's settings (default)
    */
-  close_comments?: boolean
+  close_comments?: boolean;
   /** Source of the post. Internal and external links supported */
-  copyright?: string
+  copyright?: string;
 } & (
   | {
       message?: string;
@@ -514,7 +514,7 @@ export type ShareUserInfo = {
  * Result data of link share
  */
 export type LinkShareResult =
-  | { type: 'message', users: ShareUserInfo[] }
+  | { type: 'message'; users: ShareUserInfo[] }
   | { type: 'post'; post_id: string }
   | { type: 'story'; story_id: string }
   | { type: 'qr' | 'link' | 'other' };
@@ -584,7 +584,11 @@ export type StoryActionLink = {
    * The value of the string that will be displayed on the client when
    * clicking on the tooltip.
    */
-  tooltip_text_key: 'tooltip_open_post' | 'tooltip_open_photo' | 'tooltip_open_page' | 'tooltip_open_default';
+  tooltip_text_key:
+    | 'tooltip_open_post'
+    | 'tooltip_open_photo'
+    | 'tooltip_open_page'
+    | 'tooltip_open_default';
 };
 
 export type StoryActionTime = {
@@ -720,7 +724,16 @@ export type StoryRenderableSticker = (
 
 export type StoryNativeSticker = {
   /** Story action type */
-  action_type: 'text' | 'hashtag' | 'mention' | 'time' | 'place' | 'question' | 'emoji' | 'sticker' | 'market_item';
+  action_type:
+    | 'text'
+    | 'hashtag'
+    | 'mention'
+    | 'time'
+    | 'place'
+    | 'question'
+    | 'emoji'
+    | 'sticker'
+    | 'market_item';
   /** Story action */
   action: StoryAction;
   /** Object transform */
@@ -849,11 +862,11 @@ export type RetargetingPixelOptions = {
  * Type for params field in OKWebAppCallAPIMethod
  */
 export type OKCallApiParams = {
-  application_key: string
-  access_token: string
-  format?: string
+  application_key: string;
+  access_token: string;
+  format?: string;
 
-  [key: string]: any
+  [key: string]: any;
 };
 
 /**
@@ -880,29 +893,33 @@ type ActionSheetSlide = {
 
 type ActionSheetSlideMedia = (
   | {
-  /** Content url */
-  url: string;
-}
+      /** Content url */
+      url: string;
+    }
   | {
-  /** Base64 string with BLOB */
-  blob: string;
-}) & {
+      /** Base64 string with BLOB */
+      blob: string;
+    }
+) & {
   /** Media type */
   type: 'image' | 'gif' | 'video';
 };
 
 export type ShowActionSheetResponse = {
   result: true;
-} & ({
-  action: 'confirm' | 'cancel';
-} | {
-  action: 'reject';
-  slide_index: number;
-});
+} & (
+  | {
+      action: 'confirm' | 'cancel';
+    }
+  | {
+      action: 'reject';
+      slide_index: number;
+    }
+);
 
 export type ShowSlidesSheetRequest = {
   slides: ActionSheetSlide[];
-}
+};
 
 export type ShowSlidesSheetResponse = ShowActionSheetResponse;
 
@@ -930,7 +947,7 @@ export type ChangeFragmentResponse = {
   location: string;
 };
 
-export enum  EGetLaunchParamsResponseLanguages {
+export enum EGetLaunchParamsResponseLanguages {
   RU = 'ru',
   UK = 'uk',
   UA = 'ua',
@@ -1018,15 +1035,19 @@ export type ShowSubscriptionBoxResponse = {
 /**
  * Map of types of request props of VK Bridge methods
  */
+/* eslint-disable @typescript-eslint/ban-types */
 export type RequestPropsMap = {
   VKWebAppInit: {};
   VKWebAppAddToCommunity: {};
   VKWebAppAddToHomeScreen: {};
-  VKWebAppAddToHomeScreenInfo: {},
+  VKWebAppAddToHomeScreenInfo: {};
   VKWebAppAllowMessagesFromGroup: { group_id: number; key?: string };
   VKWebAppAllowNotifications: {};
   OKWebAppCallAPIMethod: { method: string; params: OKCallApiParams };
-  VKWebAppCallAPIMethod: { method: string; params: Record<'access_token' | 'v', string> & Record<string, string | number> };
+  VKWebAppCallAPIMethod: {
+    method: string;
+    params: Record<'access_token' | 'v', string> & Record<string, string | number>;
+  };
   VKWebAppCopyText: { text: string };
   VKWebAppCreateHash: CreateHashRequest;
   VKWebAppDownloadFile: { url: string; filename: string };
@@ -1038,8 +1059,8 @@ export type RequestPropsMap = {
   VKWebAppFlashSetLevel: { level: number };
   VKWebAppGetClientVersion: {};
   VKWebAppGetCommunityToken: CommunityTokenRequestOptions;
-  VKWebAppGetConfig: {},
-  VKWebAppGetLaunchParams: {},
+  VKWebAppGetConfig: {};
+  VKWebAppGetLaunchParams: {};
   VKWebAppAudioPause: {};
   VKWebAppGetEmail: {};
   VKWebAppGetFriends: { multi?: boolean };
@@ -1072,8 +1093,8 @@ export type RequestPropsMap = {
   VKWebAppShowInviteBox: {};
   VKWebAppShowLeaderBoardBox: { user_result: number };
   VKWebAppShowMessageBox: MessageRequestOptions;
-  VKWebAppCheckBannerAd: {},
-  VKWebAppHideBannerAd: {},
+  VKWebAppCheckBannerAd: {};
+  VKWebAppHideBannerAd: {};
   VKWebAppShowBannerAd: ShowBannerAdRequest;
   VKWebAppShowNativeAds: ShowNativeAdsRequest;
   VKWebAppCheckNativeAds: CheckNativeAdsRequest;
@@ -1081,7 +1102,7 @@ export type RequestPropsMap = {
   VKWebAppShowRequestBox: RequestForRequestOptions;
   VKWebAppShowWallPostBox: WallPostRequestOptions;
   VKWebAppShowSubscriptionBox: ShowSubscriptionBoxRequest;
-  VKWebAppOpenWallPost: { post_id: number, owner_id: number };
+  VKWebAppOpenWallPost: { post_id: number; owner_id: number };
   VKWebAppStorageGet: { keys: string[] };
   VKWebAppStorageGetKeys: { count: number; offset: number };
   VKWebAppStorageSet: { key: string; value: string };
@@ -1109,11 +1130,11 @@ export type RequestPropsMap = {
   VKWebAppConversionHit: ConversionHitRequest;
   VKWebAppCheckSurvey: {};
   VKWebAppShowSurvey: {};
-  VKWebAppScrollTop: {},
-  VKWebAppScrollTopStart: {},
-  VKWebAppScrollTopStop: {},
-  VKWebAppShowActionSheet: ShowActionSheetOptions,
-  VKWebAppShowSlidesSheet: ShowSlidesSheetRequest,
+  VKWebAppScrollTop: {};
+  VKWebAppScrollTopStart: {};
+  VKWebAppScrollTopStop: {};
+  VKWebAppShowActionSheet: ShowActionSheetOptions;
+  VKWebAppShowSlidesSheet: ShowSlidesSheetRequest;
 };
 
 /**
@@ -1123,7 +1144,7 @@ export type ReceiveDataMap = {
   VKWebAppInit: { result: true };
   VKWebAppAddToCommunity: { group_id: number };
   VKWebAppAddToHomeScreen: { result: true };
-  VKWebAppAddToHomeScreenInfo: { is_feature_supported: boolean, is_added_to_home_screen: boolean },
+  VKWebAppAddToHomeScreenInfo: { is_feature_supported: boolean; is_added_to_home_screen: boolean };
   VKWebAppAllowMessagesFromGroup: { result: true };
   VKWebAppAllowNotifications: { result: true };
   OKWebAppCallAPIMethod: { response: any };
@@ -1140,7 +1161,9 @@ export type ReceiveDataMap = {
   VKWebAppGetClientVersion: { platform: string; version: string };
   VKWebAppGetEmail: { email: string; sign: string };
   VKWebAppGetFriends: { users: UserGetFriendsFriend[] };
-  VKWebAppGetGeodata: { available: 0 } | { available: 1; lat: number; long: number; accuracy: number; };
+  VKWebAppGetGeodata:
+    | { available: 0 }
+    | { available: 1; lat: number; long: number; accuracy: number };
   VKWebAppGetGrantedPermissions: GetGrantedPermissionsResponse;
   VKWebAppGetPersonalCard: PersonalCardData;
   VKWebAppGetPhoneNumber: { phone_number: string; sign: string; is_verified: boolean };
@@ -1163,8 +1186,8 @@ export type ReceiveDataMap = {
   VKWebAppShowInviteBox: { success: true };
   VKWebAppShowLeaderBoardBox: { success: boolean };
   VKWebAppShowMessageBox: { result: true };
-  VKWebAppCheckBannerAd: VKWebAppCheckBannerAdResponse,
-  VKWebAppHideBannerAd: VKWebAppHideBannerAdResponse,
+  VKWebAppCheckBannerAd: VKWebAppCheckBannerAdResponse;
+  VKWebAppHideBannerAd: VKWebAppHideBannerAdResponse;
   VKWebAppShowBannerAd: VKWebAppShowBannerAdResponse;
   VKWebAppShowNativeAds: { result: true };
   VKWebAppCheckNativeAds: { result: boolean };
@@ -1173,7 +1196,7 @@ export type ReceiveDataMap = {
   VKWebAppShowWallPostBox: { post_id: number | string };
   VKWebAppShowSubscriptionBox: ShowSubscriptionBoxResponse;
   VKWebAppOpenWallPost: { result: true };
-  VKWebAppStorageGet: { keys: { key: string; value: string }[] };
+  VKWebAppStorageGet: { keys: Array<{ key: string; value: string }> };
   VKWebAppStorageGetKeys: { keys: string[] };
   VKWebAppStorageSet: { result: true };
   VKWebAppTapticImpactOccurred: { result: true };
@@ -1181,7 +1204,7 @@ export type ReceiveDataMap = {
   VKWebAppTapticSelectionChanged: { result: true };
   VKWebAppAddToFavorites: { result: true };
   VKWebAppSendPayload: { result: true };
-  VKWebAppGetCommunityToken: { access_token: string; scope: string; };
+  VKWebAppGetCommunityToken: { access_token: string; scope: string };
   VKWebAppAudioPause: { result: true };
   VKWebAppAudioPaused: { position: number; type: string; id: string };
   VKWebAppAudioStopped: {}; // Always empty
@@ -1219,25 +1242,43 @@ export type ReceiveDataMap = {
   VKWebAppConversionHit: ConversionHitResponse;
   VKWebAppCheckSurvey: { result: boolean };
   VKWebAppShowSurvey: { result: boolean };
-  VKWebAppScrollTop: ScrollTopResponse,
-  VKWebAppScrollTopStart: { result: true },
-  VKWebAppScrollTopStop: { result: true },
-  VKWebAppShowActionSheet: ShowActionSheetResponse,
-  VKWebAppShowSlidesSheet: ShowSlidesSheetResponse,
+  VKWebAppScrollTop: ScrollTopResponse;
+  VKWebAppScrollTopStart: { result: true };
+  VKWebAppScrollTopStop: { result: true };
+  VKWebAppShowActionSheet: ShowActionSheetResponse;
+  VKWebAppShowSlidesSheet: ShowSlidesSheetResponse;
 };
+/* eslint-enable @typescript-eslint/ban-types */
 
-type EventReceiveNames<T extends keyof RequestPropsMap, R extends string, F extends string> = Record<
-  T,
-  { result: R; failed: F }
->;
+type EventReceiveNames<
+  T extends keyof RequestPropsMap,
+  R extends string,
+  F extends string,
+> = Record<T, { result: R; failed: F }>;
 
 /**
  * Map of event names.
  */
-export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitResult', 'VKWebAppInitFailed'> &
-  EventReceiveNames<'VKWebAppAddToCommunity', 'VKWebAppAddToCommunityResult', 'VKWebAppAddToCommunityFailed'> &
-  EventReceiveNames<'VKWebAppAddToHomeScreen', 'VKWebAppAddToHomeScreenResult', 'VKWebAppAddToHomeScreenFailed'> &
-  EventReceiveNames<'VKWebAppAddToHomeScreenInfo', 'VKWebAppAddToHomeScreenInfoResult', 'VKWebAppAddToHomeScreenInfoFailed'> &
+export type ReceiveEventMap = EventReceiveNames<
+  'VKWebAppInit',
+  'VKWebAppInitResult',
+  'VKWebAppInitFailed'
+> &
+  EventReceiveNames<
+    'VKWebAppAddToCommunity',
+    'VKWebAppAddToCommunityResult',
+    'VKWebAppAddToCommunityFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppAddToHomeScreen',
+    'VKWebAppAddToHomeScreenResult',
+    'VKWebAppAddToHomeScreenFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppAddToHomeScreenInfo',
+    'VKWebAppAddToHomeScreenInfoResult',
+    'VKWebAppAddToHomeScreenInfoFailed'
+  > &
   EventReceiveNames<
     'VKWebAppAllowMessagesFromGroup',
     'VKWebAppAllowMessagesFromGroupResult',
@@ -1248,42 +1289,126 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
     'VKWebAppAllowNotificationsResult',
     'VKWebAppAllowNotificationsFailed'
   > &
-  EventReceiveNames<'OKWebAppCallAPIMethod', 'OKWebAppCallAPIMethodResult', 'OKWebAppCallAPIMethodFailed'> &
-  EventReceiveNames<'VKWebAppCallAPIMethod', 'VKWebAppCallAPIMethodResult', 'VKWebAppCallAPIMethodFailed'> &
+  EventReceiveNames<
+    'OKWebAppCallAPIMethod',
+    'OKWebAppCallAPIMethodResult',
+    'OKWebAppCallAPIMethodFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppCallAPIMethod',
+    'VKWebAppCallAPIMethodResult',
+    'VKWebAppCallAPIMethodFailed'
+  > &
   EventReceiveNames<'VKWebAppCopyText', 'VKWebAppCopyTextResult', 'VKWebAppCopyTextFailed'> &
   EventReceiveNames<'VKWebAppCreateHash', 'VKWebAppCreateHashResult', 'VKWebAppCreateHashFailed'> &
-  EventReceiveNames<'VKWebAppDownloadFile', 'VKWebAppDownloadFileResult', 'VKWebAppDownloadFileFailed'> &
+  EventReceiveNames<
+    'VKWebAppDownloadFile',
+    'VKWebAppDownloadFileResult',
+    'VKWebAppDownloadFileFailed'
+  > &
   // NOTE: Different request/response events
-  EventReceiveNames<'VKWebAppGetAuthToken', 'VKWebAppAccessTokenReceived', 'VKWebAppAccessTokenFailed'> &
+  EventReceiveNames<
+    'VKWebAppGetAuthToken',
+    'VKWebAppAccessTokenReceived',
+    'VKWebAppAccessTokenFailed'
+  > &
   EventReceiveNames<'VKWebAppClose', 'VKWebAppCloseResult', 'VKWebAppCloseFailed'> &
   EventReceiveNames<'VKWebAppOpenApp', 'VKWebAppOpenAppResult', 'VKWebAppOpenAppFailed'> &
-  EventReceiveNames<'VKWebAppDenyNotifications', 'VKWebAppDenyNotificationsResult', 'VKWebAppDenyNotificationsFailed'> &
-  EventReceiveNames<'VKWebAppFlashGetInfo', 'VKWebAppFlashGetInfoResult', 'VKWebAppFlashGetInfoFailed'> &
-  EventReceiveNames<'VKWebAppFlashSetLevel', 'VKWebAppFlashSetLevelResult', 'VKWebAppFlashSetLevelFailed'> &
-  EventReceiveNames<'VKWebAppGetClientVersion', 'VKWebAppGetClientVersionResult', 'VKWebAppGetClientVersionFailed'> &
-  EventReceiveNames<'VKWebAppGetCommunityToken', 'VKWebAppGetCommunityTokenResult', 'VKWebAppGetCommunityTokenFailed'> &
+  EventReceiveNames<
+    'VKWebAppDenyNotifications',
+    'VKWebAppDenyNotificationsResult',
+    'VKWebAppDenyNotificationsFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppFlashGetInfo',
+    'VKWebAppFlashGetInfoResult',
+    'VKWebAppFlashGetInfoFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppFlashSetLevel',
+    'VKWebAppFlashSetLevelResult',
+    'VKWebAppFlashSetLevelFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppGetClientVersion',
+    'VKWebAppGetClientVersionResult',
+    'VKWebAppGetClientVersionFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppGetCommunityToken',
+    'VKWebAppGetCommunityTokenResult',
+    'VKWebAppGetCommunityTokenFailed'
+  > &
   EventReceiveNames<'VKWebAppGetConfig', 'VKWebAppGetConfigResult', 'VKWebAppGetConfigFailed'> &
-  EventReceiveNames<'VKWebAppGetLaunchParams', 'VKWebAppGetLaunchParamsResult', 'VKWebAppGetLaunchParamsFailed'> &
+  EventReceiveNames<
+    'VKWebAppGetLaunchParams',
+    'VKWebAppGetLaunchParamsResult',
+    'VKWebAppGetLaunchParamsFailed'
+  > &
   EventReceiveNames<'VKWebAppAudioPause', 'VKWebAppAudioPauseResult', 'VKWebAppAudioPauseFailed'> &
   EventReceiveNames<'VKWebAppGetEmail', 'VKWebAppGetEmailResult', 'VKWebAppGetEmailFailed'> &
   EventReceiveNames<'VKWebAppGetFriends', 'VKWebAppGetFriendsResult', 'VKWebAppGetFriendsFailed'> &
   EventReceiveNames<'VKWebAppGetGeodata', 'VKWebAppGetGeodataResult', 'VKWebAppGetGeodataFailed'> &
-  EventReceiveNames<'VKWebAppGetGrantedPermissions', 'VKWebAppGetGrantedPermissionsResult', 'VKWebAppGetGrantedPermissionsFailed'> &
-  EventReceiveNames<'VKWebAppGetPersonalCard', 'VKWebAppGetPersonalCardResult', 'VKWebAppGetPersonalCardFailed'> &
-  EventReceiveNames<'VKWebAppGetPhoneNumber', 'VKWebAppGetPhoneNumberResult', 'VKWebAppGetPhoneNumberFailed'> &
-  EventReceiveNames<'VKWebAppGetUserInfo', 'VKWebAppGetUserInfoResult', 'VKWebAppGetUserInfoFailed'> &
+  EventReceiveNames<
+    'VKWebAppGetGrantedPermissions',
+    'VKWebAppGetGrantedPermissionsResult',
+    'VKWebAppGetGrantedPermissionsFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppGetPersonalCard',
+    'VKWebAppGetPersonalCardResult',
+    'VKWebAppGetPersonalCardFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppGetPhoneNumber',
+    'VKWebAppGetPhoneNumberResult',
+    'VKWebAppGetPhoneNumberFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppGetUserInfo',
+    'VKWebAppGetUserInfoResult',
+    'VKWebAppGetUserInfoFailed'
+  > &
   EventReceiveNames<'VKWebAppJoinGroup', 'VKWebAppJoinGroupResult', 'VKWebAppJoinGroupFailed'> &
   EventReceiveNames<'VKWebAppLeaveGroup', 'VKWebAppLeaveGroupResult', 'VKWebAppLeaveGroupFailed'> &
   EventReceiveNames<'VKWebAppAddToMenu', 'VKWebAppAddToMenuResult', 'VKWebAppAddToMenuFailed'> &
-  EventReceiveNames<'VKWebAppOpenCodeReader', 'VKWebAppOpenCodeReaderResult', 'VKWebAppOpenCodeReaderFailed'> &
-  EventReceiveNames<'VKWebAppOpenContacts', 'VKWebAppOpenContactsResult', 'VKWebAppOpenContactsFailed'> &
-  EventReceiveNames<'VKWebAppOpenPayForm', 'VKWebAppOpenPayFormResult', 'VKWebAppOpenPayFormFailed'> &
+  EventReceiveNames<
+    'VKWebAppOpenCodeReader',
+    'VKWebAppOpenCodeReaderResult',
+    'VKWebAppOpenCodeReaderFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppOpenContacts',
+    'VKWebAppOpenContactsResult',
+    'VKWebAppOpenContactsFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppOpenPayForm',
+    'VKWebAppOpenPayFormResult',
+    'VKWebAppOpenPayFormFailed'
+  > &
   EventReceiveNames<'VKWebAppOpenQR', 'VKWebAppOpenQRResult', 'VKWebAppOpenQRFailed'> &
-  EventReceiveNames<'VKWebAppResizeWindow', 'VKWebAppResizeWindowResult', 'VKWebAppResizeWindowFailed'> &
+  EventReceiveNames<
+    'VKWebAppResizeWindow',
+    'VKWebAppResizeWindowResult',
+    'VKWebAppResizeWindowFailed'
+  > &
   EventReceiveNames<'VKWebAppScroll', 'VKWebAppScrollResult', 'VKWebAppScrollFailed'> &
-  EventReceiveNames<'VKWebAppSendToClient', 'VKWebAppSendToClientResult', 'VKWebAppSendToClientFailed'> &
-  EventReceiveNames<'VKWebAppSetLocation', 'VKWebAppSetLocationResult', 'VKWebAppSetLocationFailed'> &
-  EventReceiveNames<'VKWebAppSetViewSettings', 'VKWebAppSetViewSettingsResult', 'VKWebAppSetViewSettingsFailed'> &
+  EventReceiveNames<
+    'VKWebAppSendToClient',
+    'VKWebAppSendToClientResult',
+    'VKWebAppSendToClientFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppSetLocation',
+    'VKWebAppSetLocationResult',
+    'VKWebAppSetLocationFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppSetViewSettings',
+    'VKWebAppSetViewSettingsResult',
+    'VKWebAppSetViewSettingsFailed'
+  > &
   EventReceiveNames<'VKWebAppShare', 'VKWebAppShareResult', 'VKWebAppShareFailed'> &
   EventReceiveNames<
     'VKWebAppShowCommunityWidgetPreviewBox',
@@ -1291,25 +1416,77 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
     'VKWebAppShowCommunityWidgetPreviewBoxFailed'
   > &
   EventReceiveNames<'VKWebAppShowImages', 'VKWebAppShowImagesResult', 'VKWebAppShowImagesFailed'> &
-  EventReceiveNames<'VKWebAppShowInviteBox', 'VKWebAppShowInviteBoxResult', 'VKWebAppShowInviteBoxFailed'> &
+  EventReceiveNames<
+    'VKWebAppShowInviteBox',
+    'VKWebAppShowInviteBoxResult',
+    'VKWebAppShowInviteBoxFailed'
+  > &
   EventReceiveNames<
     'VKWebAppShowLeaderBoardBox',
     'VKWebAppShowLeaderBoardBoxResult',
     'VKWebAppShowLeaderBoardBoxFailed'
   > &
-  EventReceiveNames<'VKWebAppShowMessageBox', 'VKWebAppShowMessageBoxResult', 'VKWebAppShowMessageBoxFailed'> &
-  EventReceiveNames<'VKWebAppCheckBannerAd', 'VKWebAppCheckBannerAdResult', 'VKWebAppCheckBannerAdFailed'> &
-  EventReceiveNames<'VKWebAppHideBannerAd', 'VKWebAppHideBannerAdResult', 'VKWebAppHideBannerAdFailed'> &
-  EventReceiveNames<'VKWebAppShowBannerAd', 'VKWebAppShowBannerAdResult', 'VKWebAppShowBannerAdFailed'> &
-  EventReceiveNames<'VKWebAppShowNativeAds', 'VKWebAppShowNativeAdsResult', 'VKWebAppShowNativeAdsFailed'> &
-  EventReceiveNames<'VKWebAppCheckNativeAds', 'VKWebAppCheckNativeAdsResult', 'VKWebAppCheckNativeAdsFailed'> &
-  EventReceiveNames<'VKWebAppShowOrderBox', 'VKWebAppShowOrderBoxResult', 'VKWebAppShowOrderBoxFailed'> &
-  EventReceiveNames<'VKWebAppShowRequestBox', 'VKWebAppShowRequestBoxResult', 'VKWebAppShowRequestBoxFailed'> &
-  EventReceiveNames<'VKWebAppShowWallPostBox', 'VKWebAppShowWallPostBoxResult', 'VKWebAppShowWallPostBoxFailed'> &
-  EventReceiveNames<'VKWebAppShowSubscriptionBox', 'VKWebAppShowSubscriptionBoxResult', 'VKWebAppShowSubscriptionBoxFailed'> &
-  EventReceiveNames<'VKWebAppOpenWallPost', 'VKWebAppOpenWallPostResult', 'VKWebAppOpenWallPostFailed'> &
+  EventReceiveNames<
+    'VKWebAppShowMessageBox',
+    'VKWebAppShowMessageBoxResult',
+    'VKWebAppShowMessageBoxFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppCheckBannerAd',
+    'VKWebAppCheckBannerAdResult',
+    'VKWebAppCheckBannerAdFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppHideBannerAd',
+    'VKWebAppHideBannerAdResult',
+    'VKWebAppHideBannerAdFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppShowBannerAd',
+    'VKWebAppShowBannerAdResult',
+    'VKWebAppShowBannerAdFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppShowNativeAds',
+    'VKWebAppShowNativeAdsResult',
+    'VKWebAppShowNativeAdsFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppCheckNativeAds',
+    'VKWebAppCheckNativeAdsResult',
+    'VKWebAppCheckNativeAdsFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppShowOrderBox',
+    'VKWebAppShowOrderBoxResult',
+    'VKWebAppShowOrderBoxFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppShowRequestBox',
+    'VKWebAppShowRequestBoxResult',
+    'VKWebAppShowRequestBoxFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppShowWallPostBox',
+    'VKWebAppShowWallPostBoxResult',
+    'VKWebAppShowWallPostBoxFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppShowSubscriptionBox',
+    'VKWebAppShowSubscriptionBoxResult',
+    'VKWebAppShowSubscriptionBoxFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppOpenWallPost',
+    'VKWebAppOpenWallPostResult',
+    'VKWebAppOpenWallPostFailed'
+  > &
   EventReceiveNames<'VKWebAppStorageGet', 'VKWebAppStorageGetResult', 'VKWebAppStorageGetFailed'> &
-  EventReceiveNames<'VKWebAppStorageGetKeys', 'VKWebAppStorageGetKeysResult', 'VKWebAppStorageGetKeysFailed'> &
+  EventReceiveNames<
+    'VKWebAppStorageGetKeys',
+    'VKWebAppStorageGetKeysResult',
+    'VKWebAppStorageGetKeysFailed'
+  > &
   EventReceiveNames<'VKWebAppStorageSet', 'VKWebAppStorageSetResult', 'VKWebAppStorageSetFailed'> &
   EventReceiveNames<
     'VKWebAppTapticImpactOccurred',
@@ -1326,32 +1503,115 @@ export type ReceiveEventMap = EventReceiveNames<'VKWebAppInit', 'VKWebAppInitRes
     'VKWebAppTapticSelectionChangedResult',
     'VKWebAppTapticSelectionChangedFailed'
   > &
-  EventReceiveNames<'VKWebAppAddToFavorites', 'VKWebAppAddToFavoritesResult', 'VKWebAppAddToFavoritesFailed'> &
-  EventReceiveNames<'VKWebAppSendPayload', 'VKWebAppSendPayloadResult', 'VKWebAppSendPayloadFailed'> &
-  EventReceiveNames<'VKWebAppDisableSwipeBack', 'VKWebAppDisableSwipeBackResult', 'VKWebAppDisableSwipeBackFailed'> &
-  EventReceiveNames<'VKWebAppEnableSwipeBack', 'VKWebAppEnableSwipeBackResult', 'VKWebAppEnableSwipeBackFailed'> &
-  EventReceiveNames<'VKWebAppSetSwipeSettings', 'VKWebAppSetSwipeSettingsResult', 'VKWebAppSetSwipeSettingsFailed'> &
-  EventReceiveNames<'VKWebAppShowStoryBox', 'VKWebAppShowStoryBoxResult', 'VKWebAppShowStoryBoxFailed'> &
+  EventReceiveNames<
+    'VKWebAppAddToFavorites',
+    'VKWebAppAddToFavoritesResult',
+    'VKWebAppAddToFavoritesFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppSendPayload',
+    'VKWebAppSendPayloadResult',
+    'VKWebAppSendPayloadFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppDisableSwipeBack',
+    'VKWebAppDisableSwipeBackResult',
+    'VKWebAppDisableSwipeBackFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppEnableSwipeBack',
+    'VKWebAppEnableSwipeBackResult',
+    'VKWebAppEnableSwipeBackFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppSetSwipeSettings',
+    'VKWebAppSetSwipeSettingsResult',
+    'VKWebAppSetSwipeSettingsFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppShowStoryBox',
+    'VKWebAppShowStoryBoxResult',
+    'VKWebAppShowStoryBoxFailed'
+  > &
   EventReceiveNames<
     'VKWebAppAccelerometerStart',
     'VKWebAppAccelerometerStartResult',
     'VKWebAppAccelerometerStartFailed'
   > &
-  EventReceiveNames<'VKWebAppAccelerometerStop', 'VKWebAppAccelerometerStopResult', 'VKWebAppAccelerometerStopFailed'> &
-  EventReceiveNames<'VKWebAppGyroscopeStart', 'VKWebAppGyroscopeStartResult', 'VKWebAppGyroscopeStartFailed'> &
-  EventReceiveNames<'VKWebAppGyroscopeStop', 'VKWebAppGyroscopeStopResult', 'VKWebAppGyroscopeStopFailed'> &
-  EventReceiveNames<'VKWebAppDeviceMotionStart', 'VKWebAppDeviceMotionStartResult', 'VKWebAppDeviceMotionStartFailed'> &
-  EventReceiveNames<'VKWebAppDeviceMotionStop', 'VKWebAppDeviceMotionStopResult', 'VKWebAppDeviceMotionStopFailed'> &
-  EventReceiveNames<'VKWebAppSubscribeStoryApp', 'VKWebAppSubscribeStoryAppResult', 'VKWebAppSubscribeStoryAppFailed'> &
-  EventReceiveNames<'VKWebAppGetGroupInfo', 'VKWebAppGetGroupInfoResult', 'VKWebAppGetGroupInfoFailed'> &
-  EventReceiveNames<'VKWebAppRetargetingPixel', 'VKWebAppRetargetingPixelResult', 'VKWebAppRetargetingPixelFailed'> &
-  EventReceiveNames<'VKWebAppCheckAllowedScopes', 'VKWebAppCheckAllowedScopesResult', 'VKWebAppCheckAllowedScopesFailed'> &
-  EventReceiveNames<'VKWebAppCheckSurvey', 'VKWebAppCheckSurveyResult', 'VKWebAppCheckSurveyFailed'> &
+  EventReceiveNames<
+    'VKWebAppAccelerometerStop',
+    'VKWebAppAccelerometerStopResult',
+    'VKWebAppAccelerometerStopFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppGyroscopeStart',
+    'VKWebAppGyroscopeStartResult',
+    'VKWebAppGyroscopeStartFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppGyroscopeStop',
+    'VKWebAppGyroscopeStopResult',
+    'VKWebAppGyroscopeStopFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppDeviceMotionStart',
+    'VKWebAppDeviceMotionStartResult',
+    'VKWebAppDeviceMotionStartFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppDeviceMotionStop',
+    'VKWebAppDeviceMotionStopResult',
+    'VKWebAppDeviceMotionStopFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppSubscribeStoryApp',
+    'VKWebAppSubscribeStoryAppResult',
+    'VKWebAppSubscribeStoryAppFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppGetGroupInfo',
+    'VKWebAppGetGroupInfoResult',
+    'VKWebAppGetGroupInfoFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppRetargetingPixel',
+    'VKWebAppRetargetingPixelResult',
+    'VKWebAppRetargetingPixelFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppCheckAllowedScopes',
+    'VKWebAppCheckAllowedScopesResult',
+    'VKWebAppCheckAllowedScopesFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppCheckSurvey',
+    'VKWebAppCheckSurveyResult',
+    'VKWebAppCheckSurveyFailed'
+  > &
   EventReceiveNames<'VKWebAppShowSurvey', 'VKWebAppShowSurveyResult', 'VKWebAppShowSurveyFailed'> &
-  EventReceiveNames<'VKWebAppConversionHit', 'VKWebAppConversionHitResult', 'VKWebAppConversionHitFailed'> &
+  EventReceiveNames<
+    'VKWebAppConversionHit',
+    'VKWebAppConversionHitResult',
+    'VKWebAppConversionHitFailed'
+  > &
   EventReceiveNames<'VKWebAppScrollTop', 'VKWebAppScrollTopResult', 'VKWebAppScrollTopFailed'> &
-  EventReceiveNames<'VKWebAppScrollTopStart', 'VKWebAppScrollTopStartResult', 'VKWebAppScrollTopStop'> &
-  EventReceiveNames<'VKWebAppScrollTopStop', 'VKWebAppScrollTopStopResult', 'VKWebAppScrollTopStopFailed'> &
-  EventReceiveNames<'VKWebAppShowActionSheet', 'VKWebAppShowActionSheetResult', 'VKWebAppShowActionSheetFailed'> &
-  EventReceiveNames<'VKWebAppShowSlidesSheet', 'VKWebAppShowSlidesSheetResult', 'VKWebAppShowSlidesSheetFailed'>
-;
+  EventReceiveNames<
+    'VKWebAppScrollTopStart',
+    'VKWebAppScrollTopStartResult',
+    'VKWebAppScrollTopStop'
+  > &
+  EventReceiveNames<
+    'VKWebAppScrollTopStop',
+    'VKWebAppScrollTopStopResult',
+    'VKWebAppScrollTopStopFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppShowActionSheet',
+    'VKWebAppShowActionSheetResult',
+    'VKWebAppShowActionSheetFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppShowSlidesSheet',
+    'VKWebAppShowSlidesSheetResult',
+    'VKWebAppShowSlidesSheetFailed'
+  >;

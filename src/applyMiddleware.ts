@@ -9,9 +9,13 @@ import { Middleware, MiddlewareAPI } from './types/middleware';
  * @param middlewares The middleware chain to be applied.
  * @returns The VK Bridge enhancer applying the middleware.
  */
-export function applyMiddleware(...middlewares: Array<Middleware | undefined | null>): (bridge: VKBridge) => VKBridge {
+export function applyMiddleware(
+  ...middlewares: Array<Middleware | undefined | null>
+): (bridge: VKBridge) => VKBridge {
   if (middlewares.includes(undefined) || middlewares.includes(null)) {
-    return applyMiddleware(...middlewares.filter((item): item is Middleware => typeof item === 'function'));
+    return applyMiddleware(
+      ...middlewares.filter((item): item is Middleware => typeof item === 'function'),
+    );
   }
 
   return (bridge) => {
@@ -22,7 +26,7 @@ export function applyMiddleware(...middlewares: Array<Middleware | undefined | n
     let send: VKBridgeSend = () => {
       throw new Error(
         'Sending events while constructing your middleware is not allowed. ' +
-          'Other middleware would not be applied to this send.'
+          'Other middleware would not be applied to this send.',
       );
     };
 
