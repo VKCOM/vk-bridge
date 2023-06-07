@@ -1091,7 +1091,7 @@ export type RequestPropsMap = {
   VKWebAppHideBannerAd: {};
   VKWebAppShowBannerAd: ShowBannerAdRequest;
   VKWebAppShowNativeAds: ShowNativeAdsRequest;
-  VKWebAppGetAds: [key: string | number];
+  VKWebAppGetAds: [string | number];
   VKWebAppCheckNativeAds: CheckNativeAdsRequest;
   VKWebAppShowOrderBox: OrderRequestOptions;
   VKWebAppShowRequestBox: RequestForRequestOptions;
@@ -1184,7 +1184,7 @@ export type ReceiveDataMap = {
   VKWebAppHideBannerAd: VKWebAppHideBannerAdResponse;
   VKWebAppShowBannerAd: VKWebAppShowBannerAdResponse;
   VKWebAppShowNativeAds: { result: true };
-  VKWebAppGetAds: { };
+  VKWebAppGetAds: {};
   VKWebAppCheckNativeAds: { result: boolean };
   VKWebAppShowOrderBox: VKWebAppShowOrderBoxResponse;
   VKWebAppShowRequestBox: RequestResult;
@@ -1420,13 +1420,41 @@ export type ReceiveEventMap = EventReceiveNames<
     'VKWebAppShowLeaderBoardBoxResult',
     'VKWebAppShowLeaderBoardBoxFailed'
   > &
-  EventReceiveNames<'VKWebAppShowMessageBox', 'VKWebAppShowMessageBoxResult', 'VKWebAppShowMessageBoxFailed'> &
-  EventReceiveNames<'VKWebAppShowNativeAds', 'VKWebAppShowNativeAdsResult', 'VKWebAppShowNativeAdsFailed'> &
-  EventReceiveNames<'VKWebAppCheckNativeAds', 'VKWebAppCheckNativeAdsResult', 'VKWebAppCheckNativeAdsFailed'> &
-  EventReceiveNames<'VKWebAppShowOrderBox', 'VKWebAppShowOrderBoxResult', 'VKWebAppShowOrderBoxFailed'> &
-  EventReceiveNames<'VKWebAppShowRequestBox', 'VKWebAppShowRequestBoxResult', 'VKWebAppShowRequestBoxFailed'> &
-  EventReceiveNames<'VKWebAppShowWallPostBox', 'VKWebAppShowWallPostBoxResult', 'VKWebAppShowWallPostBoxFailed'> &
-  EventReceiveNames<'VKWebAppOpenWallPost', 'VKWebAppOpenWallPostResult', 'VKWebAppOpenWallPostFailed'> &
+  EventReceiveNames<
+    'VKWebAppShowMessageBox',
+    'VKWebAppShowMessageBoxResult',
+    'VKWebAppShowMessageBoxFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppShowNativeAds',
+    'VKWebAppShowNativeAdsResult',
+    'VKWebAppShowNativeAdsFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppCheckNativeAds',
+    'VKWebAppCheckNativeAdsResult',
+    'VKWebAppCheckNativeAdsFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppShowOrderBox',
+    'VKWebAppShowOrderBoxResult',
+    'VKWebAppShowOrderBoxFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppShowRequestBox',
+    'VKWebAppShowRequestBoxResult',
+    'VKWebAppShowRequestBoxFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppShowWallPostBox',
+    'VKWebAppShowWallPostBoxResult',
+    'VKWebAppShowWallPostBoxFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppOpenWallPost',
+    'VKWebAppOpenWallPostResult',
+    'VKWebAppOpenWallPostFailed'
+  > &
   EventReceiveNames<
     'VKWebAppShowMessageBox',
     'VKWebAppShowMessageBoxResult',
@@ -1611,8 +1639,4 @@ export type ReceiveEventMap = EventReceiveNames<
     'VKWebAppShowActionSheetResult',
     'VKWebAppShowActionSheetFailed'
   > &
-  EventReceiveNames<
-    'VKWebAppGetAds', 
-    'VKWebAppGetAdsResult', 
-    'VKWebAppGetAdsFailed'
->;
+  EventReceiveNames<'VKWebAppGetAds', 'VKWebAppGetAdsResult', 'VKWebAppGetAdsFailed'>;
