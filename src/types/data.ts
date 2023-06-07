@@ -917,6 +917,12 @@ export type ShowActionSheetResponse = {
     }
 );
 
+export type ShowSlidesSheetRequest = {
+  slides: ActionSheetSlide[];
+};
+
+export type ShowSlidesSheetResponse = ShowActionSheetResponse;
+
 export enum EGrantedPermission {
   CAMERA = 'camera',
   LOCATION = 'location',
@@ -1128,6 +1134,7 @@ export type RequestPropsMap = {
   VKWebAppScrollTopStart: {};
   VKWebAppScrollTopStop: {};
   VKWebAppShowActionSheet: ShowActionSheetOptions;
+  VKWebAppShowSlidesSheet: ShowSlidesSheetRequest;
 };
 
 /**
@@ -1239,6 +1246,7 @@ export type ReceiveDataMap = {
   VKWebAppScrollTopStart: { result: true };
   VKWebAppScrollTopStop: { result: true };
   VKWebAppShowActionSheet: ShowActionSheetResponse;
+  VKWebAppShowSlidesSheet: ShowSlidesSheetResponse;
 };
 /* eslint-enable @typescript-eslint/ban-types */
 
@@ -1601,4 +1609,9 @@ export type ReceiveEventMap = EventReceiveNames<
     'VKWebAppShowActionSheet',
     'VKWebAppShowActionSheetResult',
     'VKWebAppShowActionSheetFailed'
+  > &
+  EventReceiveNames<
+    'VKWebAppShowSlidesSheet',
+    'VKWebAppShowSlidesSheetResult',
+    'VKWebAppShowSlidesSheetFailed'
   >;
