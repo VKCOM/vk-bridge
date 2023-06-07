@@ -1647,4 +1647,8 @@ export type ReceiveEventMap = EventReceiveNames<
     'VKWebAppShowActionSheetResult',
     'VKWebAppShowActionSheetFailed'
   > &
-  EventReceiveNames<'VKWebAppShowSlidesSheet', 'VKWebAppShowSlidesSheetResult', 'VKWebAppShowSlidesSheetFailed'>;
+  EventReceiveNames<
+    'VKWebAppShowSlidesSheet',
+    'VKWebAppShowSlidesSheetResult',
+    'VKWebAppShowSlidesSheetFailed'
+  >;
