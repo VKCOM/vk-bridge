@@ -1,6 +1,9 @@
-import bridgeEsm, { applyMiddleware as applyMiddlewareEsm } from '../../';
-const { applyMiddleware: applyMiddlewareUmd, default: bridgeUmd } = require('../../dist/index.umd');
-const { applyMiddleware: applyMiddlewareCmj, default: bridgeCmj } = require('../../dist/index');
+/**
+ * ⛔️ YOU SHOULD BUILD THE PACKAGE BEFORE START THIS TEST
+ */
+import bridgeEsm, { applyMiddleware as applyMiddlewareEsm } from '@vkontakte/vk-bridge';
+const { applyMiddleware: applyMiddlewareUmd, default: bridgeUmd } = require('../dist/index.umd');
+const { applyMiddleware: applyMiddlewareCmj, default: bridgeCmj } = require('../dist/index');
 
 test('Valid esm export', () => {
   expect(typeof bridgeEsm.send).toBe('function');

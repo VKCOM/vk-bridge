@@ -1,0 +1,36 @@
+{
+  "name": "@vkontakte/vk-bridge",
+  "version": "2.7.5",
+  "description": "Connects a Mini App with VK client",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "browser": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "umdName": "vkBridge",
+  "types": "dist/types/src/index.d.ts",
+  "typesVersions": {
+    "<4.0": {
+      "*": [
+        "dist/types3.8.3/src/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "watch": "yarn run --top-level rollup -c -w",
+    "build": "NODE_ENV=production yarn run --top-level rollup -c",
+    "build:legacy-types": "yarn run --top-level rollup -c rollup.config-legacy-types.mjs >/dev/null",
+    "prepack": "yarn run build"
+  },
+  "author": {
+    "name": "VK",
+    "url": "https://vk.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VKCOM/vk-bridge.git",
+    "directory": "packages/core"
+  }
+}

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "es5",
     "moduleResolution": "node",
     "module": "esnext",
@@ -7,7 +8,10 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "sourceMap": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@vkontakte/vk-bridge": ["./packages/core"]
+    }
   },
-  "exclude": ["./dist"]
+  "exclude": ["**/dist", "**/node_modules"]
 }

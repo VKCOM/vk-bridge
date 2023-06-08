@@ -30,7 +30,7 @@ export default {
           declaration: true,
           declarationDir: 'dist/types3.8.3',
         },
-        exclude: ['./dist', '**/__tests__/'],
+        exclude: ['**/dist', '**/*.test.ts'],
       },
     }),
     json(),

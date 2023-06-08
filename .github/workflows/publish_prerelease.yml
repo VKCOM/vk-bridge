@@ -1,4 +1,4 @@
-name: 'Publish'
+name: 'Publish pre-relase'
 
 on:
   workflow_dispatch:
@@ -10,16 +10,29 @@ on:
           - '@vkontakte/vk-bridge'
         required: true
       new_version:
-        description: 'version type:'
-        type: choice
-        default: 'minor'
-        options:
-          - patch
-          - minor
-          - major
+        description: 'version type (use prerelease for bumping pre-release version):'
         required: true
+        type: choice
+        default: 'prerelease'
+        options:
+          - prepatch
+          - preminor
+          - premajor
+          - prerelease
+      npm_tag_aka_pre_id:
+        required: true
+        description: 'NPM tag:'
+        type: choice
+        default: 'beta'
+        options:
+          - alpha
+          - beta
+          - rc
+      custom_version:
+        description: 'use syntax x.y.z-beta.0, without "v" (it ignore "version type" parameter):'
+        required: false
 
-run-name: Publish ${{ github.event.inputs.package_name }} ${{ inputs.new_version }}
+run-name: Publish pre-release ${{ github.event.inputs.package_name }} ${{ inputs.new_version }} ${{ inputs.custom_version }}
 
 jobs:
   publish:
@@ -38,7 +51,9 @@ jobs:
         uses: ./.github/actions/publish-workflow-2-bump-version
         with:
           package_name: ${{ github.event.inputs.package_name }}
-          new_version: ${{ github.event.inputs.new_version }}
+          new_version: ${{ github.event.inputs.custom_version || github.event.inputs.new_version }}
+          # Ignore `pre_id` if `custom_version` is specified
+          pre_id: ${{ !github.event.inputs.custom_version && github.event.inputs.npm_tag_aka_pre_id || '' }}
 
       - name: Run pre-publish checks
         uses: ./.github/actions/publish-workflow-3-validation
@@ -52,3 +67,4 @@ jobs:
           package_name: ${{ github.event.inputs.package_name }}
           token: ${{ secrets.DEVTOOLS_GITHUB_TOKEN }}
           npm_token: ${{ secrets.NPMJS_PUBLISH_TOKEN }}
+          npm_tag: ${{ github.event.inputs.npm_tag_aka_pre_id }}
