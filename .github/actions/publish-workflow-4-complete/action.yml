@@ -46,8 +46,12 @@ runs:
         github_token: ${{ inputs.token }}
         branch: ${{ inputs.branch }}
 
-    - name: Publish release of ${{ inputs.package_name }}
-      run: yarn workspace ${{ inputs.package_name }} npm publish --tag ${{ inputs.npm_tag }}
+    - name: Prepare NPM credentials
+      run: |
+        echo npmAuthToken: "$NODE_AUTH_TOKEN" >> ./.yarnrc.yml
       env:
         NODE_AUTH_TOKEN: ${{ inputs.npm_token }}
+
+    - name: Publish release of ${{ inputs.package_name }}
+      run: yarn workspace ${{ inputs.package_name }} npm publish --tag ${{ inputs.npm_tag }}
       shell: bash
