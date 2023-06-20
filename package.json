@@ -1,40 +1,21 @@
 {
-  "name": "@vkontakte/vk-bridge",
-  "version": "2.7.5",
-  "description": "Connects a Mini App with VK client",
-  "license": "MIT",
-  "main": "dist/index.js",
-  "browser": "dist/index.umd.js",
-  "module": "dist/index.es.js",
-  "umdName": "vkBridge",
-  "types": "dist/types/src/index.d.ts",
-  "typesVersions": {
-    "<4.0": {
-      "*": [
-        "dist/types3.8.3/src/index.d.ts"
-      ]
-    }
-  },
-  "files": [
-    "dist"
-  ],
+  "private": true,
+  "name": "@vk-bridge/monorepo",
+  "version": "0.0.0",
   "scripts": {
-    "watch": "rollup -c -w",
-    "build": "rimraf dist && NODE_ENV=production rollup -c && yarn build:legacy-types",
-    "build:legacy-types": "rollup -c rollup.config-legacy-types.mjs >/dev/null",
-    "prepublishOnly": "npm run build",
-    "pretest": "yarn build",
-    "test": "jest",
-    "test:ci": "yarn test --ci --silent --outputFile ./test-results.json --json",
-    "lint": "yarn pretest && concurrently 'yarn:lint:es' 'yarn:lint:types' 'yarn:lint:prettier'",
-    "lint:ci": "yarn pretest && concurrently 'yarn:lint:es:ci' 'yarn:lint:types' 'yarn:lint:prettier'",
+    "build": "yarn workspaces foreach -pt run build",
+    "build:clean": "rimraf packages/**/dist packages/**/node_modules/.cache",
+    "test": "yarn build && jest",
+    "test:ci": "jest --ci --silent --outputFile ./test-results.json --json",
+    "lint": "yarn build && concurrently 'yarn:lint:es' 'yarn:lint:types' 'yarn:lint:prettier'",
+    "lint:ci": "concurrently 'yarn:lint:es:ci' 'yarn:lint:types' 'yarn:lint:prettier'",
     "lint:es": "eslint . --ignore-path .gitignore --ext .mjs,.js,.ts --cache --cache-location .cache/.eslintcache",
     "lint:es:ci": "yarn run lint:es -o lint-results.json -f json",
     "lint:es:fix": "yarn run lint:es --fix",
     "lint:prettier": "prettier --check --ignore-unknown .",
     "lint:prettier:fix": "prettier --check --ignore-unknown . --write",
     "lint:types": "./node_modules/typescript/bin/tsc --incremental --declaration --noEmit --tsBuildInfoFile .cache/.tsbuildinfo",
-    "deduplicate": "yarn-deduplicate --list && yarn-deduplicate --fail",
+    "g:npm:version": "cd $INIT_CWD && npm version --no-workspaces-update --no-commit-hooks --no-git-tag-version",
     "prepare": "husky install",
     "pre-commit": "lint-staged"
   },
@@ -46,14 +27,6 @@
     "*.{json,md}": [
       "prettier --check"
     ]
-  },
-  "author": {
-    "name": "VK",
-    "url": "https://vk.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/VKCOM/vk-bridge.git"
   },
   "devDependencies": {
     "@babel/core": "^7.22.1",
@@ -79,18 +52,19 @@
     "lint-staged": "^13.2.2",
     "prettier": "^2.8.8",
     "rimraf": "^5.0.1",
-    "rollup": "^3.23.0",
+    "rollup": "^3.23.1",
     "rollup-plugin-bundle-size": "^1.0.3",
     "rollup-plugin-typescript2": "^0.34.1",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
-    "typescript-3.8.3": "npm:typescript@3.8.3",
-    "yarn-deduplicate": "^6.0.2"
+    "typescript-3.8.3": "npm:typescript@3.8.3"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "engines": {
-    "yarn": "^1.21.1",
     "node": ">=14.18.0"
   },
-  "packageManager": "yarn@1.22.19"
+  "packageManager": "yarn@3.6.0"
 }

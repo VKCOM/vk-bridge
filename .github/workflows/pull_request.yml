@@ -28,14 +28,11 @@ jobs:
         with:
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
 
-      - name: Setup NodeJS
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: 'yarn'
+      - name: Setting up the repository environment
+        uses: ./.github/actions/setup
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --ignore-scripts
+      - name: Build packages
+        run: yarn run build
 
       - name: Run lint:ci command
         run: yarn run lint:ci
@@ -51,15 +48,16 @@ jobs:
     runs-on: ubuntu-latest
     name: Run unit tests
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile --ignore-scripts
+      - name: Setting up the repository environment
+        uses: ./.github/actions/setup
+
+      - name: Build packages
+        run: yarn run build
 
       - name: Run tests for the specified workspace
         run: yarn run test:ci

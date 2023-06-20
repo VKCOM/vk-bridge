@@ -1,15 +1,26 @@
 # Publishing
 
-## TL;DR
+Run **Publish** or **Publish pre-relase** action in https://github.com/VKCOM/vk-bridge/actions page.
 
-Package publishing is done using the only one command
+See [.github/workflows/publish.yml](./.github/workflows/publish.yml) and
+[.github/workflows/publish_release.yml](./.github/workflows/publish_release.yml) workflow files for
+details.
 
-```
-yarn publish
-```
+## F.A.Q.
 
-## Detailed process
+### What's the `g:npm:version` script in root [package.json](./package.json)?
 
-When the `yarn publish` command is executed, the `build` command specified in `prepublishOnly` is automatically called. It builds the package in three module systems: CommonJS, ES and UMD. Assembly files are located in the `dist/` directory. After completing the building, you will need to enter in console a new version of the package for publication. You can also manually upgrade the version in `package.json` in advance and skip entering the version in the console.
+Since `yarn >= 2`, the `version` command has been limited. For workaround we use
+[`npm version`](https://docs.npmjs.com/cli/v8/commands/npm-version).
 
-If you choose the first variant, after publication in the repository, a local commit will be created with the updated `package.json` where the new version will be indicated, as well as a tag with the new version. The tag and the updated branch must be pushed to the remote repository.
+We **disable** next flags for exclude NPM side effects:
+
+- [workspaces-update](https://docs.npmjs.com/cli/v8/commands/npm-version#workspaces-update)
+- [commit-hooks](https://docs.npmjs.com/cli/v8/commands/npm-version#commit-hooks)
+- [git-tag-version](https://docs.npmjs.com/cli/v8/commands/npm-version#git-tag-version)
+
+About `cd $INIT_CWD` see [How to share scripts between workspaces?](https://yarnpkg.com/getting-started/qa#how-to-share-scripts-between-workspaces).
+
+### Which lifecycle scripts I can use for a package?
+
+You should use [Yarn Lifecycle Scripts](https://yarnpkg.com/advanced/lifecycle-scripts).

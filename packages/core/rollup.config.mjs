@@ -23,7 +23,7 @@ const getPlugins = (tsDeclaration = false) => [
               declaration: true,
               declarationDir: 'dist/types',
             },
-            exclude: ['./dist', '**/__tests__/'],
+            exclude: ['**/dist', '**/*.test.ts'],
           },
         }
       : {},

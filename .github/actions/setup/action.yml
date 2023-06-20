@@ -1,0 +1,15 @@
+name: Setup
+description: It setting up the repository environment
+
+runs:
+  using: composite
+  steps:
+    - name: Setup NodeJS
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'yarn'
+
+    - name: Install dependencies
+      run: YARN_ENABLE_SCRIPTS=false yarn install
+      shell: bash

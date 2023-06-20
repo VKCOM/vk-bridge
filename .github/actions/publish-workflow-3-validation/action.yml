@@ -1,0 +1,13 @@
+name: Publish Workflow / Validation
+description: It runs pre-publish checks
+
+runs:
+  using: composite
+  steps:
+    - name: Build packages
+      run: yarn run build
+      shell: bash
+
+    - name: Run tests and linters
+      run: yarn concurrently 'yarn:lint:ci' 'yarn:test:ci'
+      shell: bash
