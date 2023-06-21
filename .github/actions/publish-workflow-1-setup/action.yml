@@ -9,8 +9,6 @@ runs:
       with:
         node-version: 18
         cache: 'yarn'
-        always-auth: true
-        registry-url: 'https://registry.npmjs.org'
 
     - name: Install dependencies
       run: YARN_ENABLE_SCRIPTS=false yarn install
