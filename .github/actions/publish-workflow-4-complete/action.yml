@@ -45,6 +45,7 @@ runs:
       with:
         github_token: ${{ inputs.token }}
         branch: ${{ inputs.branch }}
+        tags: true
 
     - name: Setup NPM Auth Token to .yarnrc.yml
       run: |
