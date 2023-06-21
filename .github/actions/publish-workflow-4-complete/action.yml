@@ -51,6 +51,7 @@ runs:
         echo npmAuthToken: "$NODE_AUTH_TOKEN" >> ./.yarnrc.yml
       env:
         NODE_AUTH_TOKEN: ${{ inputs.npm_token }}
+      shell: bash
 
     - name: Publish release of ${{ inputs.package_name }}
       run: yarn workspace ${{ inputs.package_name }} npm publish --tag ${{ inputs.npm_tag }}
