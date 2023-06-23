@@ -877,7 +877,6 @@ export type VKWebAppCheckAllowedScopesResponseEntry = {
   allowed: boolean;
 };
 
-
 type ActionSheetSlide = {
   media: ActionSheetSlideMedia;
   title: string;
