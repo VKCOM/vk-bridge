@@ -98,7 +98,6 @@ export const DESKTOP_METHODS = [
   'VKWebAppScrollTop',
   'VKWebAppScrollTopStart',
   'VKWebAppScrollTopStop',
-  'VKWebAppShowActionSheet',
   'VKWebAppShowSlidesSheet',
 
   // Desktop web specific events

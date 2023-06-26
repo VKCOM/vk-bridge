@@ -881,14 +881,6 @@ export type VKWebAppCheckAllowedScopesResponseEntry = {
   allowed: boolean;
 };
 
-/**
- * Params of VKWebAppShowActionSheet method
- */
-export type ShowActionSheetOptions = {
-  /** Array of onboarding slides */
-  slides?: ActionSheetSlide[];
-};
-
 type ActionSheetSlide = {
   media: ActionSheetSlideMedia;
   title: string;
@@ -909,7 +901,7 @@ type ActionSheetSlideMedia = (
   type: 'image' | 'gif' | 'video';
 };
 
-export type ShowActionSheetResponse = {
+export type ShowSlidesSheetResponse = {
   result: true;
 } & (
   | {
@@ -924,8 +916,6 @@ export type ShowActionSheetResponse = {
 export type ShowSlidesSheetRequest = {
   slides: ActionSheetSlide[];
 };
-
-export type ShowSlidesSheetResponse = ShowActionSheetResponse;
 
 export enum EGrantedPermission {
   CAMERA = 'camera',
@@ -1137,7 +1127,6 @@ export type RequestPropsMap = {
   VKWebAppScrollTop: {};
   VKWebAppScrollTopStart: {};
   VKWebAppScrollTopStop: {};
-  VKWebAppShowActionSheet: ShowActionSheetOptions;
   VKWebAppShowSlidesSheet: ShowSlidesSheetRequest;
 };
 
@@ -1249,7 +1238,6 @@ export type ReceiveDataMap = {
   VKWebAppScrollTop: ScrollTopResponse;
   VKWebAppScrollTopStart: { result: true };
   VKWebAppScrollTopStop: { result: true };
-  VKWebAppShowActionSheet: ShowActionSheetResponse;
   VKWebAppShowSlidesSheet: ShowSlidesSheetResponse;
 };
 /* eslint-enable @typescript-eslint/ban-types */
@@ -1608,11 +1596,6 @@ export type ReceiveEventMap = EventReceiveNames<
     'VKWebAppScrollTopStop',
     'VKWebAppScrollTopStopResult',
     'VKWebAppScrollTopStopFailed'
-  > &
-  EventReceiveNames<
-    'VKWebAppShowActionSheet',
-    'VKWebAppShowActionSheetResult',
-    'VKWebAppShowActionSheetFailed'
   > &
   EventReceiveNames<
     'VKWebAppShowSlidesSheet',
