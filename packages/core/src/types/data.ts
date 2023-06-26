@@ -303,6 +303,8 @@ export type Insets = {
   bottom: number;
 };
 
+export type AdaptivityType = 'force_mobile' | 'force_mobile_compact' | 'adaptive';
+
 /** Default fields for config response on all platforms */
 export type DefaultUpdateConfigData = {
   api_host: string;
@@ -330,6 +332,8 @@ export type SharedUpdateConfigData = DefaultUpdateConfigData & {
   viewport_height: number;
   /** Server API host for direct requests. */
   api_host: string;
+  /** Adaptivity type. */
+  adaptivity?: AdaptivityType;
 };
 
 /** Config response for m.vk.com (mobile browser) */
