@@ -1663,7 +1663,7 @@ __metadata:
     lint-staged: ^13.2.2
     prettier: ^2.8.8
     rimraf: ^5.0.1
-    rollup: ^3.23.1
+    rollup: ^3.25.2
     rollup-plugin-bundle-size: ^1.0.3
     rollup-plugin-typescript2: ^0.35.0
     ts-jest: ^29.1.0
@@ -5722,9 +5722,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^3.23.1":
-  version: 3.25.1
-  resolution: "rollup@npm:3.25.1"
+"rollup@npm:^3.25.2":
+  version: 3.25.2
+  resolution: "rollup@npm:3.25.2"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -5732,7 +5732,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: f483b28a0605097a725b080c088262b0fa21f7bce66f741df73d9ff0be6a3baaf2927916b094ce95412f4f15cc59bb5eae020f59cae3d3a6993d123faceb5b41
+  checksum: 80034ec8d71022b816cd31c24455d7b06ab8d8ff49ab9e583ceb03e2ebd0f6ad00824c6257fa4f8d12a12c2dceda999cec9509c1fff956e8a707b0add1bf2d9c
   languageName: node
   linkType: hard
 
