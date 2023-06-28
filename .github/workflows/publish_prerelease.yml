@@ -8,6 +8,7 @@ on:
         type: choice
         options:
           - '@vkontakte/vk-bridge'
+          - '@vkontakte/vk-bridge-react'
         required: true
       new_version:
         description: 'version type (use prerelease for bumping pre-release version):'

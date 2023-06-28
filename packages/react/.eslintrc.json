@@ -1,0 +1,23 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["import", "unicorn"],
+  "extends": [
+    "plugin:@vkontakte/eslint-plugin/react-typescript", // "Preset 1"
+    "plugin:prettier/recommended" // "Preset 2"
+  ],
+  "rules": {
+    "@typescript-eslint/no-magic-numbers": "off", // [Reason] overrides "Preset 1",
+    "@typescript-eslint/no-unnecessary-condition": "off", // [Reason] overrides "Preset 1"
+    "@typescript-eslint/no-non-null-assertion": "off", // [Reason] overrides "Preset 1"
+    "@typescript-eslint/prefer-ts-expect-error": "off", // [Reason] overrides "Preset 1" (see rollup.config-legacy-types.mjs)
+    "@typescript-eslint/ban-ts-comment": "off", // [Reason] overrides "Preset 1" (see rollup.config-legacy-types.mjs)
+
+    "no-shadow": "off",
+
+    "unicorn/expiring-todo-comments": ["error"]
+  }
+}

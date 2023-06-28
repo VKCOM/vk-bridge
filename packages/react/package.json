@@ -1,0 +1,43 @@
+{
+  "name": "@vkontakte/vk-bridge-react",
+  "version": "0.0.0",
+  "description": "React hooks for VK Bridge",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "types": "dist/types/src/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "watch": "yarn run --top-level rollup -c -w",
+    "build": "NODE_ENV=production yarn run --top-level rollup -c",
+    "prepack": "yarn run build"
+  },
+  "author": {
+    "name": "VK",
+    "url": "https://vk.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VKCOM/vk-bridge.git",
+    "directory": "packages/react"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.13",
+    "@vkontakte/vk-bridge": "workspace:^",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "react": "^18.2.0"
+  },
+  "peerDependencies": {
+    "@types/react": "^17.0.0 || ^18.0.0",
+    "@vkontakte/vk-bridge": "workspace:^",
+    "react": "^17.0.0 || ^18.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    }
+  }
+}
