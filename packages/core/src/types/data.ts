@@ -962,6 +962,8 @@ export enum EGetLaunchParamsResponseGroupRole {
 
 export enum EGetLaunchParamsResponsePlatforms {
   DESKTOP_WEB = 'desktop_web',
+  DESKTOP_WEB_MESSENGER = 'desktop_web_messenger',
+  DESKTOP_APP_MESSENGER = 'desktop_app_messenger',
   MOBILE_WEB = 'mobile_web',
   MOBILE_ANDROID = 'mobile_android',
   MOBILE_ANDROID_MESSENGER = 'mobile_android_messenger',
