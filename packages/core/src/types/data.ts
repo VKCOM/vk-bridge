@@ -1008,6 +1008,8 @@ export type VKWebAppShowBannerAdResponse = {
 
 export type VKWebAppCheckBannerAdResponse = VKWebAppShowBannerAdResponse;
 export type VKWebAppHideBannerAdResponse = VKWebAppShowBannerAdResponse;
+export type VKWebAppBannerAdUpdatedResponse = VKWebAppShowBannerAdResponse;
+export type VKWebAppBannerAdClosedByUserResponse = Omit<VKWebAppShowBannerAdResponse, 'result'>;
 
 export type VKWebAppShowOrderBoxResponse = {
   status: OrderBoxShowingStatus;
@@ -1184,6 +1186,8 @@ export type ReceiveDataMap = {
   VKWebAppCheckBannerAd: VKWebAppCheckBannerAdResponse;
   VKWebAppHideBannerAd: VKWebAppHideBannerAdResponse;
   VKWebAppShowBannerAd: VKWebAppShowBannerAdResponse;
+  VKWebAppBannerAdUpdated: VKWebAppBannerAdUpdatedResponse;
+  VKWebAppBannerAdClosedByUser: VKWebAppBannerAdClosedByUserResponse;
   VKWebAppShowNativeAds: { result: true };
   VKWebAppCheckNativeAds: { result: boolean };
   VKWebAppShowOrderBox: VKWebAppShowOrderBoxResponse;
