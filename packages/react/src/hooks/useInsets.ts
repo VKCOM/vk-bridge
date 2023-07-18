@@ -8,21 +8,14 @@ const VIRTUAL_KEYBOARD_HEIGHT = 150;
 const BOTTOM_INSET_FOR_VIRTUAL_KEYBOARD = 0;
 
 export interface UseInsets {
-  top: Insets['top'] | null;
-  right: Insets['right'] | null;
-  bottom: Insets['bottom'] | null;
-  left: Insets['left'] | null;
+  top: Insets['top'];
+  right: Insets['right'];
+  bottom: Insets['bottom'];
+  left: Insets['left'];
 }
 
-let initialState: UseInsets = {
-  bottom: null,
-  top: null,
-  left: null,
-  right: null,
-};
-
-export const useInsets = (): UseInsets => {
-  const [insets, setInsets] = useState<UseInsets>(initialState);
+export const useInsets = (): UseInsets | null => {
+  const [insets, setInsets] = useState<UseInsets | null>(null);
 
   useIsomorphicLayoutEffect(() => {
     const handleBridgeEvent = (event: VKBridgeEvent<AnyReceiveMethodName>) => {
