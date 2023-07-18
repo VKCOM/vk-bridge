@@ -917,6 +917,20 @@ export type ShowSlidesSheetRequest = {
   slides: ActionSheetSlide[];
 };
 
+type TranslationLanguage = 'ru' | 'en' | 'es' | 'pt' | string;
+
+export type TranslateResponse = {
+  result: {
+    texts: string[];
+    source_lang: TranslationLanguage;
+  };
+};
+
+export type TranslateRequest = {
+  texts: string[];
+  translation_language: TranslationLanguage;
+};
+
 export enum EGrantedPermission {
   CAMERA = 'camera',
   LOCATION = 'location',
@@ -1132,6 +1146,7 @@ export type RequestPropsMap = {
   VKWebAppScrollTopStart: {};
   VKWebAppScrollTopStop: {};
   VKWebAppShowSlidesSheet: ShowSlidesSheetRequest;
+  VKWebAppTranslate: TranslateRequest;
 };
 
 /**
@@ -1245,6 +1260,7 @@ export type ReceiveDataMap = {
   VKWebAppScrollTopStart: { result: true };
   VKWebAppScrollTopStop: { result: true };
   VKWebAppShowSlidesSheet: ShowSlidesSheetResponse;
+  VKWebAppTranslate: TranslateResponse;
 };
 /* eslint-enable @typescript-eslint/ban-types */
 
@@ -1607,4 +1623,5 @@ export type ReceiveEventMap = EventReceiveNames<
     'VKWebAppShowSlidesSheet',
     'VKWebAppShowSlidesSheetResult',
     'VKWebAppShowSlidesSheetFailed'
-  >;
+  > &
+  EventReceiveNames<'VKWebAppTranslate', 'VKWebAppTranslateResult', 'VKWebAppTranslateFailed'>;
