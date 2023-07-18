@@ -83,12 +83,12 @@ const App = () => {
 
 <!-- prettier-ignore -->
   ```ts
-  interface UseInsets {
-    top: number | null;
-    right: number | null;
-    bottom: number | null;
-    left: number | null;
-  }
+  type UseInsets = {
+    top: number;
+    right: number;
+    bottom: number;
+    left: number;
+  } | null;
   ```
 
   </td>
