@@ -23,7 +23,7 @@ const App = () => {
 
   return (
     <div style={{ paddingTop: insets?.top }}>
-      <button onClick={handleClick}>Touch to me and feel</button>
+      <button onClick={handleClick}>Touch me and feel</button>
     </div>
   );
 };
@@ -103,12 +103,6 @@ const App = () => {
   </td>
 </tr>
 
-<tr>
-  <td> <code>runTapticImpactOccurred</code> </td>
-  <td> <code>void</code> </td>
-  <td> Function dispatches <code>VKWebAppTapticImpactOccurred</code> event if it is support. </td>
-</tr>
-
 </table>
 
 ## Helpers
@@ -123,8 +117,8 @@ const App = () => {
 
 <tr>
   <td> <code>runTapticImpactOccurred</code> </td>
-  <td> <code>void</code> </td>
-  <td> Function dispatches <code>VKWebAppTapticImpactOccurred</code> event if it is support. </td>
+  <td> <code>boolean</code> </td>
+  <td> Function dispatches <code>VKWebAppTapticImpactOccurred</code> event if it is support (will return <code>true</code>). </td>
 </tr>
 
 </table>
