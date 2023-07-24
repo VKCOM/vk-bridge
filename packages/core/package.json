@@ -22,7 +22,8 @@
     "watch": "yarn run --top-level rollup -c -w",
     "build": "NODE_ENV=production yarn run --top-level rollup -c && yarn run build:legacy-types",
     "build:legacy-types": "yarn run --top-level rollup -c rollup.config-legacy-types.mjs >/dev/null",
-    "prepack": "yarn run build"
+    "prepack": "yarn run build",
+    "test": "yarn run --top-level jest --config ../../jest.config.js"
   },
   "author": {
     "name": "VK",
