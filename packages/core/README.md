@@ -173,3 +173,28 @@ const logger =
 
 const enhancedBridge = applyMiddleware(logger)(bridge);
 ```
+
+## Functions
+
+### `parseURLSearchParamsForGetLaunchParams(urlSearchParams: string)`
+
+Parse URL search params for get provided to mini app [launch params](https://dev.vk.com/mini-apps/development/launch-params).
+
+**Parameters**
+
+- `urlSearchParams` a.k.a `window.location.search`.
+
+**Example**
+
+```js
+import { parseURLSearchParamsForGetLaunchParams } from '@vkontakte/vk-bridge';
+
+// https://exmample-mini-app.io/?vk_platform=desktop_web&vk_is_app_user=1&vk_user_id=12345
+const { vk_platform, vk_viewer_group_role, vk_user_id } = parseURLSearchParamsForGetLaunchParams(
+  window.location.search,
+);
+
+console.log(vk_platform); // 'desktop_web'
+console.log(vk_is_app_user); // 1
+console.log(vk_user_id); // 12345
+```
