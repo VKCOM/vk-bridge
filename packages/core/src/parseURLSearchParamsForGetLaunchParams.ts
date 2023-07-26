@@ -25,7 +25,7 @@ export const parseURLSearchParamsForGetLaunchParams = (
   try {
     const parsedSearchParams = new URLSearchParams(searchParams);
 
-    const covertToggleStateFromStringToNumber = (value: string) => {
+    const convertToggleStateFromStringToNumber = (value: string) => {
       switch (value) {
         case '0':
           return 0;
@@ -60,7 +60,7 @@ export const parseURLSearchParamsForGetLaunchParams = (
         case 'vk_is_app_user':
         case 'vk_are_notifications_enabled':
         case 'vk_is_favorite': {
-          launchParams[query] = covertToggleStateFromStringToNumber(value);
+          launchParams[query] = convertToggleStateFromStringToNumber(value);
           break;
         }
         case 'vk_language': {
