@@ -109,6 +109,9 @@ export const DESKTOP_METHODS = [
         'VKWebAppShowInstallPushBox',
         'VKWebAppGetFriends',
         'VKWebAppShowCommunityWidgetPreviewBox',
+        'VKWebAppCallStart',
+        'VKWebAppCallJoin',
+        'VKWebAppCallGetStatus',
       ]
     : ['VKWebAppShowImages']),
 ];
