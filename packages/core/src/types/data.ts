@@ -931,6 +931,32 @@ export type TranslateRequest = {
   translation_language: TranslationLanguage;
 };
 
+export type CallStartResponse = {
+  result: true;
+  join_link: string;
+};
+
+export type CallJoinRequest = {
+  join_link: string;
+};
+
+export type CallJoinResponse = {
+  result: true;
+};
+
+export type CallGetStatusResponse = {
+  result: true;
+  is_active: boolean;
+};
+
+export type CallLeftResponse = {
+  reason: string;
+};
+
+export type CallFinishedResponse = {
+  result: true;
+};
+
 export enum EGrantedPermission {
   CAMERA = 'camera',
   LOCATION = 'location',
@@ -1147,6 +1173,9 @@ export type RequestPropsMap = {
   VKWebAppScrollTopStop: {};
   VKWebAppShowSlidesSheet: ShowSlidesSheetRequest;
   VKWebAppTranslate: TranslateRequest;
+  VKWebAppCallStart: {};
+  VKWebAppCallJoin: CallJoinRequest;
+  VKWebAppCallGetStatus: {};
 };
 
 /**
@@ -1261,6 +1290,11 @@ export type ReceiveDataMap = {
   VKWebAppScrollTopStop: { result: true };
   VKWebAppShowSlidesSheet: ShowSlidesSheetResponse;
   VKWebAppTranslate: TranslateResponse;
+  VKWebAppCallStart: CallStartResponse;
+  VKWebAppCallJoin: CallJoinResponse;
+  VKWebAppCallGetStatus: CallGetStatusResponse;
+  VKWebAppCallLeft: CallLeftResponse;
+  VKWebAppCallFinished: CallFinishedResponse;
 };
 /* eslint-enable @typescript-eslint/ban-types */
 
@@ -1624,4 +1658,11 @@ export type ReceiveEventMap = EventReceiveNames<
     'VKWebAppShowSlidesSheetResult',
     'VKWebAppShowSlidesSheetFailed'
   > &
-  EventReceiveNames<'VKWebAppTranslate', 'VKWebAppTranslateResult', 'VKWebAppTranslateFailed'>;
+  EventReceiveNames<'VKWebAppTranslate', 'VKWebAppTranslateResult', 'VKWebAppTranslateFailed'> &
+  EventReceiveNames<'VKWebAppCallStart', 'VKWebAppCallStartResult', 'VKWebAppCallStartFailed'> &
+  EventReceiveNames<'VKWebAppCallJoin', 'VKWebAppCallJoinResult', 'VKWebAppCallJoinFailed'> &
+  EventReceiveNames<
+    'VKWebAppCallGetStatus',
+    'VKWebAppCallGetStatusResult',
+    'VKWebAppCallGetStatusFailed'
+  >;
