@@ -1176,6 +1176,7 @@ export type RequestPropsMap = {
   VKWebAppCallStart: {};
   VKWebAppCallJoin: CallJoinRequest;
   VKWebAppCallGetStatus: {};
+  VKWebAppRecommend: {};
 };
 
 /**
@@ -1295,6 +1296,7 @@ export type ReceiveDataMap = {
   VKWebAppCallGetStatus: CallGetStatusResponse;
   VKWebAppCallLeft: CallLeftResponse;
   VKWebAppCallFinished: CallFinishedResponse;
+  VKWebAppRecommend: { result: true };
 };
 /* eslint-enable @typescript-eslint/ban-types */
 
@@ -1665,4 +1667,5 @@ export type ReceiveEventMap = EventReceiveNames<
     'VKWebAppCallGetStatus',
     'VKWebAppCallGetStatusResult',
     'VKWebAppCallGetStatusFailed'
-  >;
+  > &
+  EventReceiveNames<'VKWebAppRecommend', 'VKWebAppRecommendResult', 'VKWebAppRecommendFailed'>;
