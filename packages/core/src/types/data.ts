@@ -1068,6 +1068,7 @@ export type ShowSubscriptionBoxRequest = {
 
 export type ShowSubscriptionBoxResponse = {
   success: boolean;
+  subscriptionId: string;
 };
 
 /**
