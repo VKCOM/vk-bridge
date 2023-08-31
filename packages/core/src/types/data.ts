@@ -307,7 +307,6 @@ export type AdaptivityType = 'force_mobile' | 'force_mobile_compact' | 'adaptive
 
 /** Default fields for config response on all platforms */
 export type DefaultUpdateConfigData = {
-  api_host: string;
   /** App_id of opened app */
   app_id: string;
   /** Native app appearance */
