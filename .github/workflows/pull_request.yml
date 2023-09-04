@@ -8,7 +8,7 @@ name: 'Pull Request'
 #
 # Пример:
 # ```
-# - uses: actions/checkout@v3
+# - uses: actions/checkout@v4
 #   with:
 #     ref: refs/pull/${{ github.event.pull_request.number }}/merge
 # ```
@@ -24,7 +24,7 @@ jobs:
     name: Run linters
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
 
@@ -49,7 +49,7 @@ jobs:
     name: Run unit tests
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
 
