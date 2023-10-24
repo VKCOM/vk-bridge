@@ -26,7 +26,7 @@ export const useAdaptivity = (): UseAdaptivity => {
 
   useIsomorphicLayoutEffect(() => {
     const updateAdaptivity = (data: ParentConfigData) => {
-      if (!('adaptivity' in data) || !('viewport_width' in data) || !('viewport_height' in data)) {
+      if (!('viewport_width' in data) || !('viewport_height' in data)) {
         return;
       }
 
