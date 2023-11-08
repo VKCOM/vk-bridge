@@ -6,6 +6,7 @@ import {
   RequestProps,
   RequestIdProp,
 } from './types/bridge';
+import { createInstanceId } from './utils';
 
 /** Is the client side runtime environment */
 export const IS_CLIENT_SIDE = typeof window !== 'undefined';
@@ -145,6 +146,9 @@ export function createVKBridge(version: string): VKBridge {
 
   /** List of functions that subscribed on events. */
   const subscribers: VKBridgeSubscribeHandler[] = [];
+
+  /** Uniq instance ID */
+  const instanceId = createInstanceId();
 
   /**
    * Sends an event to the runtime env. In the case of Android/iOS application
@@ -335,7 +339,7 @@ export function createVKBridge(version: string): VKBridge {
    * Enhanced send functions for the ability to receive response data in
    * the Promise object.
    */
-  const sendPromise = promisifySend(send, subscribe);
+  const sendPromise = promisifySend(send, subscribe, instanceId);
 
   return {
     send: sendPromise,

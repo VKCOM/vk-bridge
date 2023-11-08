@@ -21,8 +21,10 @@ function createCounter() {
 
 /**
  * Creates interface for resolving request promises by request id's (or not).
+ *
+ * @param instanceId Uniq bridge instance ID.
  */
-function createRequestResolver() {
+function createRequestResolver(instanceId: string) {
   /**
    * @prop resolve Resolve function.
    * @prop reject Reject function.
@@ -44,7 +46,7 @@ function createRequestResolver() {
      * @returns New request id of the added controller.
      */
     add(controller: PromiseController, customId?: number | string): number | string {
-      const id = customId != null ? customId : counter.next();
+      const id = customId != null ? customId : `${counter.next()}_${instanceId}`;
 
       promiseControllers[id] = controller;
 
@@ -80,6 +82,7 @@ function createRequestResolver() {
  *
  * @param sendEvent Send event function.
  * @param subscribe Subscribe event function.
+ * @param instanceId Uniq bridge instance ID.
  * @returns Send function which returns the Promise object.
  */
 export function promisifySend(
@@ -88,8 +91,9 @@ export function promisifySend(
     props?: RequestProps<K> & RequestIdProp,
   ) => void,
   subscribe: (fn: VKBridgeSubscribeHandler) => void,
+  instanceId: string,
 ) {
-  const requestResolver = createRequestResolver();
+  const requestResolver = createRequestResolver(instanceId);
 
   // Subscribe to receive a data
   subscribe((event) => {
