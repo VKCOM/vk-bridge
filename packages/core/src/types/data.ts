@@ -1070,6 +1070,14 @@ export type ShowSubscriptionBoxResponse = {
   subscriptionId: string;
 };
 
+export type AddToProfileRequest = {
+  ttl?: number;
+};
+
+export type AddToProfileResponse = {
+  visibility: 'all' | 'friends' | 'best_friends';
+};
+
 /**
  * Map of types of request props of VK Bridge methods
  */
@@ -1177,6 +1185,7 @@ export type RequestPropsMap = {
   VKWebAppCallJoin: CallJoinRequest;
   VKWebAppCallGetStatus: {};
   VKWebAppRecommend: {};
+  VKWebAppAddToProfile: AddToProfileRequest;
 };
 
 /**
@@ -1297,6 +1306,7 @@ export type ReceiveDataMap = {
   VKWebAppCallLeft: CallLeftResponse;
   VKWebAppCallFinished: CallFinishedResponse;
   VKWebAppRecommend: { result: true };
+  VKWebAppAddToProfile: AddToProfileResponse;
 };
 /* eslint-enable @typescript-eslint/ban-types */
 
@@ -1668,4 +1678,9 @@ export type ReceiveEventMap = EventReceiveNames<
     'VKWebAppCallGetStatusResult',
     'VKWebAppCallGetStatusFailed'
   > &
-  EventReceiveNames<'VKWebAppRecommend', 'VKWebAppRecommendResult', 'VKWebAppRecommendFailed'>;
+  EventReceiveNames<'VKWebAppRecommend', 'VKWebAppRecommendResult', 'VKWebAppRecommendFailed'> &
+  EventReceiveNames<
+    'VKWebAppAddToProfile',
+    'VKWebAppAddToProfileResult',
+    'VKWebAppAddToProfileFailed'
+  >;

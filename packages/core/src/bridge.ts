@@ -101,6 +101,7 @@ export const DESKTOP_METHODS = [
   'VKWebAppShowSlidesSheet',
   'VKWebAppTranslate',
   'VKWebAppRecommend',
+  'VKWebAppAddToProfile',
 
   // Desktop web specific events
   ...(IS_DESKTOP_VK
