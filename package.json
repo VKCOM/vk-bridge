@@ -3,7 +3,7 @@
   "name": "@vk-bridge/monorepo",
   "version": "0.0.0",
   "scripts": {
-    "build": "yarn workspaces foreach -pt run build",
+    "build": "yarn workspaces foreach -t run build",
     "build:clean": "rimraf packages/**/dist packages/**/node_modules/.cache",
     "test": "yarn build && jest",
     "test:ci": "jest --ci --silent --outputFile ./test-results.json --json",
