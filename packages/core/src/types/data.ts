@@ -972,7 +972,7 @@ export type CreateHashRequest = {
 
 export type CreateHashResponse = {
   ts: number;
-  hash: string;
+  sign: string;
   payload?: string;
 };
 
