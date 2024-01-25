@@ -24,7 +24,7 @@ jobs:
         run: yarn run lint:ci
 
       - name: Upload lint scripts artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: lint-scripts-output
@@ -47,7 +47,7 @@ jobs:
         run: yarn run test:ci
 
       - name: Upload test artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: test-output
