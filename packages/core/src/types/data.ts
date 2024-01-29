@@ -417,8 +417,15 @@ export enum BannerAdLocation {
   BOTTOM = 'bottom',
 }
 
+export enum BannerAdAlign {
+  LEFT = 'left',
+  RIGHT = 'right',
+  CENTER = 'center',
+}
+
 export type ShowBannerAdRequest = {
   banner_location: BannerAdLocation;
+  banner_align?: BannerAdAlign;
   layout_type?: BannerAdLayoutType;
   can_close?: boolean;
 };
@@ -1042,6 +1049,7 @@ export type VKWebAppShowBannerAdResponse = {
   banner_width: number;
   banner_height: number;
   banner_location: BannerAdLocation;
+  banner_align: BannerAdAlign;
   layout_type: BannerAdLayoutType;
 };
 
