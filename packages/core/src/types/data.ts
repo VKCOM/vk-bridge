@@ -453,6 +453,11 @@ export type RequestForRequestOptions = {
   requestKey?: string;
 };
 
+export type PostAttachmentLink = {
+  type: string;
+  link: string;
+};
+
 export type WallPostRequestOptions = {
   /**
    * ID of the user or community on whose wall the post is to be
@@ -497,10 +502,17 @@ export type WallPostRequestOptions = {
   | {
       message?: string;
       attachments: string;
+      upload_attachments?: PostAttachmentLink[];
     }
   | {
       message: string;
       attachments?: string;
+      upload_attachments?: PostAttachmentLink[];
+    }
+  | {
+      message?: string;
+      attachments?: string;
+      upload_attachments: PostAttachmentLink[];
     }
 );
 
