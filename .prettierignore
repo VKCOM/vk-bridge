@@ -30,8 +30,8 @@ yarn-error.log
 coverage
 .nyc_output
 
-# GitHub templates
-.github/**/*.md
+# GitHub
+.github/*
 
 # Yarn
 .yarn/*
