@@ -1,0 +1,60 @@
+name: Bug Report
+description: Помогите нам сделать библиотеку vk-bridge более стабильной
+title: '[Bug]: '
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Описание
+      description: Расскажите о вашей проблеме.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Версия vk-bridge
+      description: Поможет локализовать проблему.
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Платформа
+      description: Выберите одну или несколько платформ, на которых воспроизводится ошибка.
+      multiple: true
+      options:
+        - Web
+        - MobileWeb
+        - IOS
+        - Android
+    validations:
+      required: true
+  - type: input
+    id: browser_version
+    attributes:
+      label: Браузер и версия
+      description: Если ошибка в Web/MobileWeb.
+  - type: textarea
+    id: steps
+    attributes:
+      label: Шаги воспроизведения
+      description: Желательно описать последовательность, при которой ошибка стабильно воспроизводится.
+  - type: textarea
+    id: expectations
+    attributes:
+      label: Ожидаемое поведение
+      description: Если считаете, что из описания ожидаемое поведение непонятно.
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Скриншоты
+      description: Прикрепите скриншоты, если есть такая возможность.
+  - type: textarea
+    id: reproduce-example
+    attributes:
+      label: Пример с воспроизведением
+      description: Ссылка на ваше приложение, в котором можно воспроизвести ошибку.
+  - type: markdown
+    attributes:
+      value: |
+        Спасибо за то, что помогаете нам стать лучше!
