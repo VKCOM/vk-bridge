@@ -19,7 +19,8 @@ body:
   - type: dropdown
     id: platform
     attributes:
-      label: Укажите платформу
+      label: Платформа
+      description: Выберите одну или несколько платформ, на которых воспроизводится ошибка.
       multiple: true
       options:
         - Web
@@ -31,8 +32,8 @@ body:
   - type: input
     id: browser_version
     attributes:
-      label: Укажите браузер и версию, если ошибка в Web/MobileWeb
-      description: Поможет локализовать проблему.
+      label: Браузер и версия
+      description: Если ошибка в Web/MobileWeb.
   - type: textarea
     id: steps
     attributes:
