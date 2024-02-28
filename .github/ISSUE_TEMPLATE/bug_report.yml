@@ -46,13 +46,13 @@ body:
     attributes:
       label: Ожидаемое поведение
       description: Если считаете, что из описания ожидаемое поведение непонятно.
+    validations:
+      required: true
   - type: textarea
     id: screenshots
     attributes:
       label: Скриншоты
       description: Прикрепите скриншоты, если есть такая возможность.
-    validations:
-      required: true
   - type: input
     id: app-link
     attributes:
