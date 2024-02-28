@@ -39,21 +39,30 @@ body:
     attributes:
       label: Шаги воспроизведения
       description: Желательно описать последовательность, при которой ошибка стабильно воспроизводится.
+    validations:
+      required: true
   - type: textarea
     id: expectations
     attributes:
       label: Ожидаемое поведение
       description: Если считаете, что из описания ожидаемое поведение непонятно.
+    validations:
+      required: true
   - type: textarea
     id: screenshots
     attributes:
       label: Скриншоты
       description: Прикрепите скриншоты, если есть такая возможность.
+  - type: input
+    id: app-link
+    attributes:
+      label: Приложение
+      description: Ссылка на ваше приложение, в котором можно воспроизвести ошибку.
   - type: textarea
     id: reproduce-example
     attributes:
-      label: Пример с воспроизведением
-      description: Ссылка на ваше приложение, в котором можно воспроизвести ошибку.
+      label: Код, который вызвал ошибку
+      description: Вы можете привести листинг кода.
   - type: markdown
     attributes:
       value: |
