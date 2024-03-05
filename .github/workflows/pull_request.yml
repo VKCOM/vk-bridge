@@ -12,7 +12,7 @@ jobs:
     name: Run linters
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setting up the repository environment
         uses: ./.github/actions/setup
@@ -35,7 +35,7 @@ jobs:
     name: Run unit tests
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setting up the repository environment
         uses: ./.github/actions/setup
