@@ -1098,6 +1098,10 @@ export type AddToProfileResponse = {
   visibility: 'all' | 'friends' | 'best_friends';
 };
 
+export type AppShareResponse = {
+  result: LinkShareResult[]
+}
+
 /**
  * Map of types of request props of VK Bridge methods
  */
@@ -1251,7 +1255,7 @@ export type ReceiveDataMap = {
   VKWebAppSendToClient: { result: true };
   VKWebAppSetLocation: { result: true };
   VKWebAppSetViewSettings: { result: true };
-  VKWebAppShare: LinkShareResult[];
+  VKWebAppShare: AppShareResponse;
   VKWebAppShowCommunityWidgetPreviewBox: { result: true };
   VKWebAppShowImages: { result: true };
   VKWebAppShowInviteBox: { success: true };
