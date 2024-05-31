@@ -103,6 +103,7 @@ export const DESKTOP_METHODS = [
   'VKWebAppTranslate',
   'VKWebAppRecommend',
   'VKWebAppAddToProfile',
+  'VKWebAppGetFriends',
 
   // Desktop web specific events
   ...(IS_DESKTOP_VK
@@ -110,7 +111,6 @@ export const DESKTOP_METHODS = [
         'VKWebAppResizeWindow',
         'VKWebAppAddToMenu',
         'VKWebAppShowInstallPushBox',
-        'VKWebAppGetFriends',
         'VKWebAppShowCommunityWidgetPreviewBox',
         'VKWebAppCallStart',
         'VKWebAppCallJoin',
