@@ -1206,6 +1206,7 @@ export type RequestPropsMap = {
   VKWebAppCallGetStatus: {};
   VKWebAppRecommend: {};
   VKWebAppAddToProfile: AddToProfileRequest;
+  SetSupportedHandlers: {};
 };
 
 /**
@@ -1327,6 +1328,7 @@ export type ReceiveDataMap = {
   VKWebAppCallFinished: CallFinishedResponse;
   VKWebAppRecommend: { result: true };
   VKWebAppAddToProfile: AddToProfileResponse;
+  SetSupportedHandlers: { supportedHandlers: Array<keyof RequestPropsMap> };
 };
 /* eslint-enable @typescript-eslint/ban-types */
 
