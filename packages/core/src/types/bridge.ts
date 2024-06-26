@@ -236,8 +236,17 @@ export interface VKBridge {
    *
    * @param method Method (event) name to check.
    * @returns Result of checking.
+   * @deprecated This method is deprecated. Use supportsAsync instead.
    */
   supports: <K extends AnyRequestMethodName>(method: K) => boolean;
+
+  /**
+   * Checks if a method is supported on runtime platform.
+   *
+   * @param method Method (event) name to check.
+   * @returns The Promise object with result of checking.
+   */
+  supportsAsync: <K extends AnyRequestMethodName>(method: K) => Promise<boolean>;
 
   /**
    * Checks whether the runtime is a WebView.
