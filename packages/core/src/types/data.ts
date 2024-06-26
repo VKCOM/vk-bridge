@@ -1701,6 +1701,7 @@ export type ReceiveEventMap = EventReceiveNames<
     'VKWebAppCallGetStatusFailed'
   > &
   EventReceiveNames<'VKWebAppRecommend', 'VKWebAppRecommendResult', 'VKWebAppRecommendFailed'> &
+  EventReceiveNames<'SetSupportedHandlers', 'SetSupportedHandlers', 'SetSupportedHandlersFailed'> &
   EventReceiveNames<
     'VKWebAppAddToProfile',
     'VKWebAppAddToProfileResult',
