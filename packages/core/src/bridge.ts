@@ -367,6 +367,16 @@ export function createVKBridge(version: string): VKBridge {
     }
   }
 
+  subscribe((event) => {
+    if (!event.detail) {
+      return;
+    }
+    switch (event.detail.type) {
+      case 'SetSupportedHandlers':
+        supportedHandlers = event.detail.data.supportedHandlers;
+    }
+  });
+
   return {
     send: sendPromise,
     sendPromise,
