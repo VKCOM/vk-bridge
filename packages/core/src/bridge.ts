@@ -119,6 +119,9 @@ export const DESKTOP_METHODS = [
     : ['VKWebAppShowImages']),
 ];
 
+/** Cache for supported methods */
+let supportedHandlers: AnyRequestMethodName[];
+
 /** Android VK Bridge interface. */
 const androidBridge: Record<AnyRequestMethodName, (serializedData: string) => void> | undefined =
   IS_CLIENT_SIDE ? (window as any).AndroidBridge : undefined;
@@ -230,8 +233,11 @@ export function createVKBridge(version: string): VKBridge {
    *
    * @param method Method (event) name to check.
    * @returns Result of checking.
+   * @deprecated This method is deprecated. Use supportsAsync instead.
    */
   function supports<K extends AnyRequestMethodName>(method: K): boolean {
+    console.warn('This method is deprecated. Use supportsAsync instead.');
+
     if (IS_ANDROID_WEBVIEW) {
       // Android support check
       return !!(androidBridge && typeof androidBridge[method] === 'function');
@@ -342,12 +348,42 @@ export function createVKBridge(version: string): VKBridge {
    */
   const sendPromise = promisifySend(send, subscribe, instanceId);
 
+  async function supportsAsync(method: AnyRequestMethodName): Promise<boolean> {
+    if (IS_ANDROID_WEBVIEW || IS_IOS_WEBVIEW) {
+      return supports(method);
+    }
+
+    if (supportedHandlers) {
+      return supportedHandlers.includes(method);
+    }
+
+    try {
+      const response = await sendPromise('SetSupportedHandlers');
+      supportedHandlers = response.supportedHandlers;
+      return supportedHandlers.includes(method);
+    } catch (error) {
+      supportedHandlers = ['VKWebAppInit'];
+      return supportedHandlers.includes(method);
+    }
+  }
+
+  subscribe((event) => {
+    if (!event.detail) {
+      return;
+    }
+    switch (event.detail.type) {
+      case 'SetSupportedHandlers':
+        supportedHandlers = event.detail.data.supportedHandlers;
+    }
+  });
+
   return {
     send: sendPromise,
     sendPromise,
     subscribe,
     unsubscribe,
     supports,
+    supportsAsync,
     isWebView,
     isIframe,
     isEmbedded,
