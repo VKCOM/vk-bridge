@@ -14,3 +14,5 @@ A package for integrating VK Mini Apps with official VK clients for iOS, Android
 ## Contributing
 
 Welcome to our [Contributing](./CONTRIBUTING.md) document.
+
+## TEST
