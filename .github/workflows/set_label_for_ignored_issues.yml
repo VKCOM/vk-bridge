@@ -1,14 +1,14 @@
 name: Set Pay attention label for ignored issues
 on:
   schedule:
-    - cron: '0 11 */2 * *'
-    - cron: '0 11 */7 * *'
+    - cron: '*/6 * * * *'
+    - cron: '*/9 * * * *'
 jobs:
   set-label-for-issues:
     runs-on: ubuntu-latest
     steps:
       - name: Set label for issues
-        if: github.event.schedule == '0 11 */2 * *'
+        if: github.event.schedule == '*/6 * * * *'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -30,7 +30,7 @@ jobs:
               }
             }
       - name: Set label for pull requests
-        if: github.event.schedule == '0 11 */7 * *'
+        if: github.event.schedule == '*/9 * * * *'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
