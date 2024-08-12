@@ -1,6 +1,7 @@
 name: Set Pay attention label for ignored issues
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 10 * * 1-5'
 
 jobs:
   set-label-for-issues:
