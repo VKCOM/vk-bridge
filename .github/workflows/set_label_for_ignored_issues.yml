@@ -1,14 +1,12 @@
 name: Set Pay attention label for ignored issues
 on:
-  schedule:
-    - cron: '0 11 */2 * *'
-    - cron: '0 11 */7 * *'
+  workflow_dispatch:
+
 jobs:
   set-label-for-issues:
     runs-on: ubuntu-latest
     steps:
-      - name: Set label for issues
-        if: github.event.schedule == '0 11 */2 * *'
+      - name: Set Pay attention label for ignored issues
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -19,29 +17,11 @@ jobs:
             })
             if (issuesList.data && issuesList.status === 200) {
               for (const issue of issuesList.data) {
-                if (!issue.pull_request && !issue.labels.length) {
-                  await github.rest.issues.addLabels({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    issue_number: issue.number,
-                    labels: ['pay attention']
-                  });
-                }
-              }
-            }
-      - name: Set label for pull requests
-        if: github.event.schedule == '0 11 */7 * *'
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const issuesList = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-            })
-            if (issuesList.data && issuesList.status === 200) {
-              for (const issue of issuesList.data) {
-                if (issue.pull_request && !issue.labels.length) {
+                const createdDaysDelta = (new Date() - new Date(issue.created_at)) / (1000 * 60 * 60 * 24);
+
+                if (!issue.labels.length && (
+                  (!issue.pull_request && createdDaysDelta > 2) || (issue.pull_request && createdDaysDelta > 7)
+                )) {
                   await github.rest.issues.addLabels({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
