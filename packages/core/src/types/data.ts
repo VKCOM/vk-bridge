@@ -423,10 +423,22 @@ export enum BannerAdAlign {
   CENTER = 'center',
 }
 
+export enum BannerAdHeightType {
+  COMPACT = 'compact',
+  REGULAR = 'regular',
+}
+
+export enum BannerAdOrientation {
+  HORIZONTAL = 'horizontal',
+  VERTICAL = 'vertical',
+}
+
 export type ShowBannerAdRequest = {
   banner_location: BannerAdLocation;
   banner_align?: BannerAdAlign;
   layout_type?: BannerAdLayoutType;
+  height_type?: BannerAdHeightType;
+  orientation?: BannerAdOrientation;
   can_close?: boolean;
 };
 
@@ -1061,8 +1073,10 @@ export type VKWebAppShowBannerAdResponse = {
   banner_width: number;
   banner_height: number;
   banner_location: BannerAdLocation;
-  banner_align: BannerAdAlign;
+  banner_align?: BannerAdAlign;
   layout_type: BannerAdLayoutType;
+  height_type: BannerAdHeightType;
+  orientation?: BannerAdOrientation;
 };
 
 export type VKWebAppCheckBannerAdResponse = VKWebAppShowBannerAdResponse;
