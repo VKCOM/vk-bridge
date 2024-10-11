@@ -49,6 +49,13 @@ body:
     validations:
       required: true
   - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Фактическое поведение
+      description: Результат выполнения в текущей реализации.
+    validations:
+      required: true
+  - type: textarea
     id: screenshots
     attributes:
       label: Скриншоты
