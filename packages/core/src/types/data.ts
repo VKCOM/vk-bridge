@@ -1148,7 +1148,7 @@ export type RequestPropsMap = {
   VKWebAppGetGrantedPermissions: {};
   VKWebAppGetPersonalCard: { type: PersonalCardType[] };
   VKWebAppGetPhoneNumber: {};
-  VKWebAppGetUserInfo: { user_id?: number };
+  VKWebAppGetUserInfo: { user_id?: number; user_ids?: string };
   VKWebAppJoinGroup: { group_id: number };
   VKWebAppLeaveGroup: { group_id: number };
   VKWebAppAddToMenu: {};
