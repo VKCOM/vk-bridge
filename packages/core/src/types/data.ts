@@ -1112,6 +1112,27 @@ export type AddToProfileResponse = {
   visibility: 'all' | 'friends' | 'best_friends';
 };
 
+export type TrackEventRequest = {
+  event_name:
+    | 'login'
+    | 'registration'
+    | 'subscribe'
+    | 'unsubscribe'
+    | 'purchase'
+    | 'add_to_cart'
+    | 'search'
+    | 'lead'
+    | 'product_card'
+    | 'enroll_in_course'
+    | 'take_test'
+    | 'visit_website'
+    | 'view_info_page'
+    | 'view_contacts'
+    | 'download'
+    | 'custom';
+  custom_user_id?: string;
+};
+
 /**
  * Map of types of request props of VK Bridge methods
  */
@@ -1221,6 +1242,7 @@ export type RequestPropsMap = {
   VKWebAppRecommend: {};
   VKWebAppAddToProfile: AddToProfileRequest;
   SetSupportedHandlers: {};
+  VKWebAppTrackEvent: TrackEventRequest;
 };
 
 /**
@@ -1343,6 +1365,7 @@ export type ReceiveDataMap = {
   VKWebAppRecommend: { result: true };
   VKWebAppAddToProfile: AddToProfileResponse;
   SetSupportedHandlers: { supportedHandlers: Array<keyof RequestPropsMap> };
+  VKWebAppTrackEvent: { result: true };
 };
 /* eslint-enable @typescript-eslint/ban-types */
 
@@ -1720,4 +1743,5 @@ export type ReceiveEventMap = EventReceiveNames<
     'VKWebAppAddToProfile',
     'VKWebAppAddToProfileResult',
     'VKWebAppAddToProfileFailed'
-  >;
+  > &
+  EventReceiveNames<'VKWebAppTrackEvent', 'VKWebAppTrackEventResult', 'VKWebAppTrackEventFailed'>;
