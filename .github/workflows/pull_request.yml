@@ -62,12 +62,12 @@ jobs:
     name: Report CI results
     steps:
       - name: Download lint scripts artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: lint-scripts-output
 
       - name: Download test artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: test-output
 
