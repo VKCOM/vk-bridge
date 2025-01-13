@@ -120,7 +120,7 @@ export const DESKTOP_METHODS = [
 ];
 
 /** Cache for supported methods */
-let supportedHandlers: AnyRequestMethodName[];
+let supportedHandlers: Set<AnyRequestMethodName>;
 
 /** Android VK Bridge interface. */
 const androidBridge: Record<AnyRequestMethodName, (serializedData: string) => void> | undefined =
@@ -228,16 +228,7 @@ export function createVKBridge(version: string): VKBridge {
     }
   }
 
-  /**
-   * Checks if a method is supported on runtime platform.
-   *
-   * @param method Method (event) name to check.
-   * @returns Result of checking.
-   * @deprecated This method is deprecated. Use supportsAsync instead.
-   */
-  function supports<K extends AnyRequestMethodName>(method: K): boolean {
-    console.warn('This method is deprecated. Use supportsAsync instead.');
-
+  function supportsInner<K extends AnyRequestMethodName>(method: K): boolean {
     if (IS_ANDROID_WEBVIEW) {
       // Android support check
       return !!(androidBridge && typeof androidBridge[method] === 'function');
@@ -260,6 +251,19 @@ export function createVKBridge(version: string): VKBridge {
     }
 
     return false;
+  }
+
+  /**
+   * Checks if a method is supported on runtime platform.
+   *
+   * @param method Method (event) name to check.
+   * @returns Result of checking.
+   * @deprecated This method is deprecated. Use supportsAsync instead.
+   */
+  function supports<K extends AnyRequestMethodName>(method: K): boolean {
+    console.warn('bridge.supports method is deprecated. Use bridge.supportsAsync instead.');
+
+    return supportsInner(method);
   }
 
   /**
@@ -350,21 +354,21 @@ export function createVKBridge(version: string): VKBridge {
 
   async function supportsAsync(method: AnyRequestMethodName): Promise<boolean> {
     if (IS_ANDROID_WEBVIEW || IS_IOS_WEBVIEW) {
-      return supports(method);
+      return supportsInner(method);
     }
 
     if (supportedHandlers) {
-      return supportedHandlers.includes(method);
+      return supportedHandlers.has(method);
     }
 
     try {
       const response = await sendPromise('SetSupportedHandlers');
-      supportedHandlers = response.supportedHandlers;
-      return supportedHandlers.includes(method);
+      supportedHandlers = new Set(response.supportedHandlers);
     } catch (error) {
-      supportedHandlers = ['VKWebAppInit'];
-      return supportedHandlers.includes(method);
+      supportedHandlers = new Set(['VKWebAppInit'] as const);
     }
+
+    return supportedHandlers.has(method);
   }
 
   subscribe((event) => {
@@ -373,7 +377,7 @@ export function createVKBridge(version: string): VKBridge {
     }
     switch (event.detail.type) {
       case 'SetSupportedHandlers':
-        supportedHandlers = event.detail.data.supportedHandlers;
+        supportedHandlers = new Set(event.detail.data.supportedHandlers);
     }
   });
 
