@@ -1,3 +1,7 @@
+## v2.15.5
+
+- Добавили недостающее поле `bdate_visibility` в ответ метода `VKWebAppGetUserInfo`
+
 ## v2.15.4
 
 - Исправили лишние ворнинги в консоли при вызове `bridge.supportsAsync`

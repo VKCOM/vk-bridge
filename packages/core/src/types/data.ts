@@ -77,6 +77,9 @@ export type UserInfo = {
    * the field is not in the response.
    */
   bdate?: string;
+  /** Visibility of Date of birth: 0 - hidden, 1 - entire date of birth is visible,
+   * 2 - day and month are visible */
+  bdate_visibility: 0 | 1 | 2;
   /**
    * URL of the square user's photo with 100px width.
    * https://vk.com/images/camera_100.png will be returned if the photo
