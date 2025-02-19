@@ -97,6 +97,16 @@ export type UserInfo = {
   photo_max_orig?: string;
   /** User's timezone */
   timezone?: number;
+  /** Bdate visibility */
+  bdate_visibility: 0 | 1 | 2;
+  /** Can see a private user profile */
+  can_access_closed: boolean;
+  /** Is user profile closed */
+  is_closed: boolean;
+  /**
+   * URL of the square user's photo with maximum size.
+   */
+  photo_base?: string;
 };
 
 /**
