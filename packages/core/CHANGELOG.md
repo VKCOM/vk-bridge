@@ -1,3 +1,7 @@
+## v2.15.5
+
+- Добавили недостающие поля `bdate_visibility`, `can_access_closed`, `is_closed` в ответ метода `VKWebAppGetUserInfo`
+
 ## v2.15.4
 
 - Исправили лишние ворнинги в консоли при вызове `bridge.supportsAsync`

@@ -78,6 +78,14 @@ export type UserInfo = {
    */
   bdate?: string;
   /**
+   * Visibility of Date of birth: 0 - hidden, 1 - entire date of birth is visible,
+   * 2 - day and month are visible */
+  bdate_visibility: 0 | 1 | 2;
+  /** Can see a private user profile */
+  can_access_closed: boolean;
+  /** Is user profile closed */
+  is_closed: boolean;
+  /**
    * URL of the square user's photo with 100px width.
    * https://vk.com/images/camera_100.png will be returned if the photo
    * is not set.
