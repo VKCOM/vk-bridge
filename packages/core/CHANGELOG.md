@@ -1,6 +1,6 @@
 ## v2.15.5
 
-- Добавили недостающее поле `bdate_visibility` в ответ метода `VKWebAppGetUserInfo`
+- Добавили недостающие поля `bdate_visibility`, `can_access_closed`, `is_closed` в ответ метода `VKWebAppGetUserInfo`
 
 ## v2.15.4
 
