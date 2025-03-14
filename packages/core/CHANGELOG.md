@@ -1,3 +1,7 @@
+## v2.15.6
+
+- Убраны ограничения по именам поля `event_name` и добавлено поле параметров `event_params` в `VKWebAppTrackEvent`
+
 ## v2.15.5
 
 - Добавили недостающие поля `bdate_visibility`, `can_access_closed`, `is_closed` в ответ метода `VKWebAppGetUserInfo`
