@@ -1121,24 +1121,9 @@ export type AddToProfileResponse = {
 };
 
 export type TrackEventRequest = {
-  event_name:
-    | 'login'
-    | 'registration'
-    | 'subscribe'
-    | 'unsubscribe'
-    | 'purchase'
-    | 'add_to_cart'
-    | 'search'
-    | 'lead'
-    | 'product_card'
-    | 'enroll_in_course'
-    | 'take_test'
-    | 'visit_website'
-    | 'view_info_page'
-    | 'view_contacts'
-    | 'download'
-    | 'custom';
+  event_name: string;
   custom_user_id?: string;
+  event_params?: object;
 };
 
 /**
