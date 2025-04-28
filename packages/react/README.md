@@ -116,9 +116,12 @@ const App = () => {
 </tr>
 
 <tr>
-  <td> <code>runTapticImpactOccurred</code> </td>
-  <td> <code>boolean</code> </td>
-  <td> Function dispatches <code>VKWebAppTapticImpactOccurred</code> event if it is support (will return <code>true</code>). </td>
+  <td><code>runTapticImpactOccurredAsync</code></td>
+  <td><code>Promise&lt;boolean&gt;</code></td>
+  <td>
+    Dispatches <code>VKWebAppTapticImpactOccurred</code> event if supported.<br/>
+    Returns a Promise that resolves to <code>true</code> if the event was dispatched, or <code>false</code> if not supported.
+  </td>
 </tr>
 
 </table>
