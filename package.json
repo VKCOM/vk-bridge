@@ -41,7 +41,7 @@
     "@typescript-eslint/parser": "^5.60.0",
     "@vkontakte/eslint-plugin": "^1.1.1",
     "@vkontakte/prettier-config": "^0.1.0",
-    "concurrently": "^8.2.0",
+    "concurrently": "^8.2.2",
     "eslint": "^8.43.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
