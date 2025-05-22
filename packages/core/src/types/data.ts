@@ -1126,13 +1126,17 @@ export type TrackEventRequest = {
   event_params?: object;
 };
 
+export type AddToCommunityRequest = {
+  hide_success_modal?: boolean;
+};
+
 /**
  * Map of types of request props of VK Bridge methods
  */
 /* eslint-disable @typescript-eslint/ban-types */
 export type RequestPropsMap = {
   VKWebAppInit: {};
-  VKWebAppAddToCommunity: {};
+  VKWebAppAddToCommunity: AddToCommunityRequest;
   VKWebAppAddToHomeScreen: {};
   VKWebAppAddToHomeScreenInfo: {};
   VKWebAppAllowMessagesFromGroup: { group_id: number; key?: string };
