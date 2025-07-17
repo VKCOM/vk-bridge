@@ -1271,7 +1271,7 @@ export type ReceiveDataMap = {
     | { available: 1; lat: number; long: number; accuracy: number };
   VKWebAppGetGrantedPermissions: GetGrantedPermissionsResponse;
   VKWebAppGetPersonalCard: PersonalCardData;
-  VKWebAppGetPhoneNumber: { phone_number: string; sign: string; isValid: boolean };
+  VKWebAppGetPhoneNumber: { phone_number: string; sign: string; isValid?: boolean };
   VKWebAppGetUserInfo: UserInfo;
   VKWebAppJoinGroup: { result: true };
   VKWebAppLeaveGroup: { result: true };
