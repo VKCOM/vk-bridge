@@ -1257,7 +1257,7 @@ export type ReceiveDataMap = {
   VKWebAppCopyText: { result: true };
   VKWebAppCreateHash: CreateHashResponse;
   VKWebAppDownloadFile: { result: true };
-  VKWebAppGetAuthToken: { access_token: string; scope: string };
+  VKWebAppGetAuthToken: { access_token: string; scope: string; expires: number; status: boolean };
   VKWebAppClose: { payload: any };
   VKWebAppOpenApp: { result: true };
   VKWebAppDenyNotifications: { result: true };
