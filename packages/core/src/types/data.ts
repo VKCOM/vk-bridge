@@ -1097,6 +1097,14 @@ export type VKWebAppShowOrderBoxResponse = {
   order_id: string;
 };
 
+export type VKWebAppGetAuthTokenResponse = {
+  access_token: string;
+  scope: string;
+  expires: number;
+  status: boolean;
+  local_access_token?: string;
+};
+
 export type ScrollTopResponse = {
   scrollTop: number;
 };
@@ -1257,7 +1265,7 @@ export type ReceiveDataMap = {
   VKWebAppCopyText: { result: true };
   VKWebAppCreateHash: CreateHashResponse;
   VKWebAppDownloadFile: { result: true };
-  VKWebAppGetAuthToken: { access_token: string; scope: string };
+  VKWebAppGetAuthToken: VKWebAppGetAuthTokenResponse;
   VKWebAppClose: { payload: any };
   VKWebAppOpenApp: { result: true };
   VKWebAppDenyNotifications: { result: true };
