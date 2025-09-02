@@ -1100,9 +1100,8 @@ export type VKWebAppShowOrderBoxResponse = {
 export type VKWebAppGetAuthTokenResponse = {
   access_token: string;
   scope: string;
-  expires: number;
-  status: boolean;
-  local_access_token?: string;
+  expires?: number;
+  status?: boolean;
 };
 
 export type ScrollTopResponse = {
