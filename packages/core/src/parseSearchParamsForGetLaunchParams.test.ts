@@ -88,7 +88,7 @@ describe('parseLaunchParamsByURL', () => {
     });
   });
 
-  // see https://dev.vk.com/mini-apps/development/launch-params?vk_are_notifications_enabled=1#odr_enabled
+  // see https://dev.vk.ru/mini-apps/development/launch-params?vk_are_notifications_enabled=1#odr_enabled
   it('should return 1 or undefined', () => {
     expect(parseURLSearchParamsForGetLaunchParams('odr_enabled=1')).toEqual({
       odr_enabled: 1,

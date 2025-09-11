@@ -15,7 +15,7 @@ export interface LaunchParams extends GetLaunchParamsResponse {
 }
 
 /**
- * @see https://dev.vk.com/mini-apps/development/launch-params
+ * @see https://dev.vk.ru/mini-apps/development/launch-params
  */
 export const parseURLSearchParamsForGetLaunchParams = (
   searchParams: string,
