@@ -31,10 +31,10 @@ export const IS_REACT_NATIVE_WEBVIEW = Boolean(
 /** Is the runtime environment a browser */
 export const IS_WEB = IS_CLIENT_SIDE && !IS_ANDROID_WEBVIEW && !IS_IOS_WEBVIEW;
 
-/** Is the runtime environment m.vk.com */
+/** Is the runtime environment m.vk.ru */
 export const IS_MVK = IS_WEB && /(^\?|&)vk_platform=mobile_web(&|$)/.test(location.search);
 
-/** Is the runtime environment vk.com */
+/** Is the runtime environment vk.ru */
 export const IS_DESKTOP_VK = IS_WEB && !IS_MVK;
 
 /** Type of subscribe event */

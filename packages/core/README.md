@@ -178,7 +178,7 @@ const enhancedBridge = applyMiddleware(logger)(bridge);
 
 ### `parseURLSearchParamsForGetLaunchParams(urlSearchParams: string)`
 
-Parse URL search params for get provided to mini app [launch params](https://dev.vk.com/mini-apps/development/launch-params).
+Parse URL search params for get provided to mini app [launch params](https://dev.vk.ru/mini-apps/development/launch-params).
 
 **Parameters**
 

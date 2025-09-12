@@ -39,7 +39,7 @@ export type UserGetFriendsFriend = {
   sex: 0 | 1 | 2;
   /**
    * URL of the square user's photo with 200px width.
-   * https://vk.com/images/camera_200.png will be returned if the photo
+   * https://vk.ru/images/camera_200.png will be returned if the photo
    * is not set.
    */
   photo_200: string;
@@ -87,19 +87,19 @@ export type UserInfo = {
   is_closed: boolean;
   /**
    * URL of the square user's photo with 100px width.
-   * https://vk.com/images/camera_100.png will be returned if the photo
+   * https://vk.ru/images/camera_100.png will be returned if the photo
    * is not set.
    */
   photo_100: string;
   /**
    * URL of the square user's photo with 200px width.
-   * https://vk.com/images/camera_200.png will be returned if the photo
+   * https://vk.ru/images/camera_200.png will be returned if the photo
    * is not set.
    */
   photo_200: string;
   /**
    * URL of the square user's photo with maximum size.
-   * https://vk.com/images/camera_400.png will be returned if the photo
+   * https://vk.ru/images/camera_400.png will be returned if the photo
    * is not set.
    */
   photo_max_orig?: string;
@@ -161,7 +161,7 @@ export type VKPayActionParamsMap = {
   };
   /**
    * Payment in favor of the merchant
-   * @see {@link https://vk.com/@devpay-vk-pay-how-to VK Pay How To}
+   * @see {@link https://vk.ru/@devpay-vk-pay-how-to VK Pay How To}
    */
   'pay-to-service': {
     /**
@@ -331,7 +331,7 @@ export type MobileUpdateConfigData = DefaultUpdateConfigData & {
   insets?: Insets;
 };
 
-/** Config response for m.vk.com and vk.com */
+/** Config response for m.vk.ru and vk.ru */
 export type SharedUpdateConfigData = DefaultUpdateConfigData & {
   /** window.innerWidth of the parent window */
   viewport_width: number;
@@ -343,10 +343,10 @@ export type SharedUpdateConfigData = DefaultUpdateConfigData & {
   adaptivity?: AdaptivityType;
 };
 
-/** Config response for m.vk.com (mobile browser) */
+/** Config response for m.vk.ru (mobile browser) */
 export type MVKUpdateConfigData = SharedUpdateConfigData;
 
-/** Config response for vk.com (full web) */
+/** Config response for vk.ru (full web) */
 export type VKUpdateConfigData = SharedUpdateConfigData & {
   /** Is app opened in layer */
   is_layer: boolean;
@@ -362,7 +362,7 @@ export type WidgetPreviewRequestOptions = {
   group_id: number;
   /**
    * Widget code
-   * @see {@link https://vk.com/dev/execute Execute method}
+   * @see {@link https://vk.ru/dev/execute Execute method}
    */
   code: string;
 };
