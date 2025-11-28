@@ -25,6 +25,8 @@ run-name: Publish ${{ github.event.inputs.package_name }} ${{ inputs.new_version
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -52,4 +54,3 @@ jobs:
           next_version: ${{ steps.updated_versions_info.outputs.next_version }}
           package_name: ${{ github.event.inputs.package_name }}
           token: ${{ secrets.DEVTOOLS_GITHUB_TOKEN }}
-          npm_token: ${{ secrets.NPMJS_PUBLISH_TOKEN }}

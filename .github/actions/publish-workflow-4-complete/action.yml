@@ -17,9 +17,6 @@ inputs:
   token:
     description: token for write access to repository
     required: true
-  npm_token:
-    description: token for publish package to NPM
-    required: true
   npm_tag:
     description: tag for NPM artifact
     required: false
@@ -33,6 +30,10 @@ outputs:
 runs:
   using: composite
   steps:
+    - name: Publish release of ${{ inputs.package_name }}
+      run: yarn workspace ${{ inputs.package_name }} npm publish --access public --tag ${{ inputs.npm_tag }}
+      shell: bash
+
     - name: Commit and tag
       run: |
         git add -A
@@ -46,15 +47,3 @@ runs:
         github_token: ${{ inputs.token }}
         branch: ${{ inputs.branch }}
         tags: true
-
-    - name: Setup NPM Auth Token to .yarnrc.yml
-      run: |
-        yarn config set npmAlwaysAuth true
-        yarn config set npmAuthToken $NPM_AUTH_TOKEN
-      env:
-        NPM_AUTH_TOKEN: ${{ inputs.npm_token }}
-      shell: bash
-
-    - name: Publish release of ${{ inputs.package_name }}
-      run: yarn workspace ${{ inputs.package_name }} npm publish --tag ${{ inputs.npm_tag }}
-      shell: bash

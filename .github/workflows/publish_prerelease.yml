@@ -38,6 +38,8 @@ run-name: Publish pre-release ${{ github.event.inputs.package_name }} ${{ inputs
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -67,5 +69,4 @@ jobs:
           next_version: ${{ steps.updated_versions_info.outputs.next_version }}
           package_name: ${{ github.event.inputs.package_name }}
           token: ${{ secrets.DEVTOOLS_GITHUB_TOKEN }}
-          npm_token: ${{ secrets.NPMJS_PUBLISH_TOKEN }}
           npm_tag: ${{ github.event.inputs.npm_tag_aka_pre_id }}
