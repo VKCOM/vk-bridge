@@ -1,6 +1,6 @@
 {
   "name": "@vkontakte/vk-bridge-react",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "React hooks for VK Bridge",
   "license": "MIT",
   "main": "dist/index.js",
