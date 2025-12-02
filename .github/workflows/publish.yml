@@ -51,8 +51,19 @@ jobs:
         run: npm install -g npm@latest
         shell: bash
 
+      - name: Determine package directory
+        id: package_dir
+        run: |
+          if [ "${{ github.event.inputs.package_name }}" == "@vkontakte/vk-bridge" ]; then
+            echo "directory=packages/core" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event.inputs.package_name }}" == "@vkontakte/vk-bridge-react" ]; then
+            echo "directory=packages/react" >> $GITHUB_OUTPUT
+          fi
+        shell: bash
+
       - name: Publish to npm
-        run: yarn workspace ${{ github.event.inputs.package_name }} npm publish --access public
+        working-directory: ${{ steps.package_dir.outputs.directory }}
+        run: npm publish --access public
         shell: bash
 
       - name: Commit and tag
