@@ -26,10 +26,11 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
+      contents: write
       id-token: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           token: ${{ secrets.DEVTOOLS_GITHUB_TOKEN }}
 
@@ -46,11 +47,24 @@ jobs:
       - name: Run pre-publish checks
         uses: ./.github/actions/publish-workflow-3-validation
 
-      - name: Complete publish
-        uses: ./.github/actions/publish-workflow-4-complete
+      - name: Update npm
+        run: npm install -g npm@latest
+        shell: bash
+
+      - name: Publish to npm
+        run: yarn workspace ${{ github.event.inputs.package_name }} npm publish --access public
+        shell: bash
+
+      - name: Commit and tag
+        run: |
+          git add -A
+          git commit -m "bump(${{ github.event.inputs.package_name }}): from ${{ steps.updated_versions_info.outputs.prev_version }} to ${{ steps.updated_versions_info.outputs.next_version }}"
+          git tag ${{ github.event.inputs.package_name }}@${{ steps.updated_versions_info.outputs.next_version }}
+        shell: bash
+
+      - name: Pushing changes
+        uses: ad-m/github-push-action@master
         with:
+          github_token: ${{ secrets.DEVTOOLS_GITHUB_TOKEN }}
           branch: ${{ github.ref }}
-          prev_version: ${{ steps.updated_versions_info.outputs.prev_version }}
-          next_version: ${{ steps.updated_versions_info.outputs.next_version }}
-          package_name: ${{ github.event.inputs.package_name }}
-          token: ${{ secrets.DEVTOOLS_GITHUB_TOKEN }}
+          tags: true
