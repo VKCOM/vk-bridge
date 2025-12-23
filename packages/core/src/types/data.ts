@@ -1137,6 +1137,15 @@ export type AddToCommunityRequest = {
   hide_success_modal?: boolean;
 };
 
+export type OpenAppOptions = {
+  app_id: number;
+  location?: string;
+  /** Community ID, if app will open from community. Android, iOS only */
+  group_id?: number;
+  /** Tells the platform that the current app should be closed after opening another one from it. Android, iOS only */
+  close_parent?: boolean;
+};
+
 /**
  * Map of types of request props of VK Bridge methods
  */
@@ -1158,7 +1167,7 @@ export type RequestPropsMap = {
   VKWebAppDownloadFile: { url: string; filename: string };
   VKWebAppGetAuthToken: { app_id: number; scope: PersonalAuthScope | string };
   VKWebAppClose: { status: AppCloseStatus; payload?: any };
-  VKWebAppOpenApp: { app_id: number; location?: string };
+  VKWebAppOpenApp: OpenAppOptions;
   VKWebAppDenyNotifications: {};
   VKWebAppFlashGetInfo: {};
   VKWebAppFlashSetLevel: { level: number };
