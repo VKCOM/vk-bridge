@@ -14,4 +14,4 @@ export { applyMiddleware } from './applyMiddleware';
 
 export { parseURLSearchParamsForGetLaunchParams } from './parseURLSearchParamsForGetLaunchParams';
 
-export { bridge as default };
+export default bridge;
