@@ -1,4 +1,4 @@
-import {
+import type {
   AnyRequestMethodName,
   AnyReceiveMethodName,
   AnyRequestMethodNameWithProps,
@@ -7,8 +7,8 @@ import {
   AnyIOMethodName,
   AnyRequestOnlyMethodName,
   AnyReceiveOnlyMethodName,
-} from './bridge';
-import { CommunityWidgetType } from './data';
+} from './bridge.ts';
+import type { CommunityWidgetType } from './data.ts';
 
 /**
  * Name of a method that can be sent.

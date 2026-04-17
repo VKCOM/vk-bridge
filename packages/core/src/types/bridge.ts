@@ -1,4 +1,4 @@
-import { RequestPropsMap, ReceiveDataMap, ReceiveEventMap } from './data';
+import type { RequestPropsMap, ReceiveDataMap, ReceiveEventMap } from './data.ts';
 
 /**
  * Name of a method that can be sent.
@@ -168,8 +168,8 @@ export type VKBridgeReceiveOnlyEvent<M extends AnyReceiveOnlyMethodName> = {
 export type VKBridgeResultEvent<M extends AnyReceiveMethodName> = M extends AnyReceiveOnlyMethodName
   ? VKBridgeReceiveOnlyEvent<M>
   : M extends AnyIOMethodName
-  ? VKBridgeIOEvent<M>
-  : never;
+    ? VKBridgeIOEvent<M>
+    : never;
 
 /**
  * VK Bridge event.

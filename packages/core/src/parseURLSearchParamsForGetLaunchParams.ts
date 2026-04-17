@@ -1,9 +1,14 @@
-import type { GetLaunchParamsResponse } from './types/data';
-import {
+import type {
+  GetLaunchParamsResponse,
   EGetLaunchParamsResponseLanguages,
   EGetLaunchParamsResponseGroupRole,
   EGetLaunchParamsResponsePlatforms,
-} from './types/data';
+} from './types/data.ts';
+import {
+  getLaunchParamsResponseLanguagesSet,
+  getLaunchParamsResponseGroupRoleSet,
+  getLaunchParamsResponsePlatformsSet,
+} from './types/data/values.ts';
 
 export interface LaunchParams extends GetLaunchParamsResponse {
   vk_chat_id: string;
@@ -55,7 +60,7 @@ export const parseURLSearchParamsForGetLaunchParams = (
           launchParams[query] = value;
           break;
         case 'odr_enabled':
-          launchParams['odr_enabled'] = value === '1' ? 1 : undefined;
+          launchParams.odr_enabled = value === '1' ? 1 : undefined;
           break;
         case 'vk_is_app_user':
         case 'vk_are_notifications_enabled':
@@ -65,24 +70,22 @@ export const parseURLSearchParamsForGetLaunchParams = (
         }
         case 'vk_language': {
           const validateVKLanguage = (value: string): value is EGetLaunchParamsResponseLanguages =>
-            Object.values(EGetLaunchParamsResponseLanguages).some((i) => i === value);
-          launchParams['vk_language'] = validateVKLanguage(value) ? value : undefined;
+            getLaunchParamsResponseLanguagesSet.has(value as any);
+          launchParams.vk_language = validateVKLanguage(value) ? value : undefined;
           break;
         }
         case 'vk_viewer_group_role': {
           const validateVKViewerGroupRole = (
             value: string,
           ): value is EGetLaunchParamsResponseGroupRole =>
-            Object.values(EGetLaunchParamsResponseGroupRole).some((i) => i === value);
-          launchParams['vk_viewer_group_role'] = validateVKViewerGroupRole(value)
-            ? value
-            : undefined;
+            getLaunchParamsResponseGroupRoleSet.has(value as any);
+          launchParams.vk_viewer_group_role = validateVKViewerGroupRole(value) ? value : undefined;
           break;
         }
         case 'vk_platform': {
           const validateVKPlatform = (value: string): value is EGetLaunchParamsResponsePlatforms =>
-            Object.values(EGetLaunchParamsResponsePlatforms).some((i) => i === value);
-          launchParams['vk_platform'] = validateVKPlatform(value) ? value : undefined;
+            getLaunchParamsResponsePlatformsSet.has(value as any);
+          launchParams.vk_platform = validateVKPlatform(value) ? value : undefined;
           break;
         }
       }

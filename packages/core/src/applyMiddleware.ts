@@ -1,5 +1,5 @@
-import { VKBridge, VKBridgeSend } from './types/bridge';
-import { Middleware, MiddlewareAPI } from './types/middleware';
+import type { VKBridge, VKBridgeSend } from './types/bridge.ts';
+import type { Middleware, MiddlewareAPI } from './types/middleware.ts';
 
 /**
  * Creates the VK Bridge enhancer that applies middleware to the `send`

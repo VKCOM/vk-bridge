@@ -34,3 +34,5 @@ yarn-error.log
 # Coverage directories used by tools like istanbul
 coverage
 .nyc_output
+
+artifact.tgz

@@ -7,7 +7,7 @@ import type {
   SharedUpdateConfigData,
   ParentConfigData,
 } from '@vkontakte/vk-bridge';
-import { useIsomorphicLayoutEffect } from '../lib/react';
+import { useIsomorphicLayoutEffect } from '../lib/react/useIsomorphicLayoutEffect.ts';
 
 export interface UseAdaptivity {
   type: null | AdaptivityType;
@@ -63,8 +63,8 @@ function resolveAdaptivity(data: SharedUpdateConfigData): UseAdaptivity | null {
 
   const bridgeAdaptivity: UseAdaptivity = {
     type: null,
-    viewportWidth: isFinite(viewport_width) ? Number(viewport_width) : 0,
-    viewportHeight: isFinite(viewport_height) ? Number(viewport_height) : 0,
+    viewportWidth: Number.isFinite(viewport_width) ? Number(viewport_width) : 0,
+    viewportHeight: Number.isFinite(viewport_height) ? Number(viewport_height) : 0,
   };
 
   switch (adaptivity) {

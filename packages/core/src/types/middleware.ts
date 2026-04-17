@@ -1,4 +1,4 @@
-import { VKBridgeSend, VKBridgeSubscribeHandler } from './bridge';
+import type { VKBridgeSend, VKBridgeSubscribeHandler } from './bridge.ts';
 
 /**
  * API that can use middleware.

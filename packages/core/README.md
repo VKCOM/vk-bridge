@@ -19,17 +19,6 @@ bridge.send('VKWebAppInit');
 bridge.subscribe((e) => console.log(e));
 ```
 
-For use in a browser, include the file [`dist/browser.min.js`](https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js) and use as follows
-
-```html
-<script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
-
-<script>
-  // Sends event to client
-  vkBridge.send('VKWebAppInit');
-</script>
-```
-
 ## API Reference
 
 ### `bridge.send(method[, params])`

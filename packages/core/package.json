@@ -3,28 +3,28 @@
   "version": "2.15.12",
   "description": "Connects a Mini App with VK client",
   "license": "MIT",
-  "main": "dist/index.js",
-  "browser": "dist/index.umd.js",
-  "module": "dist/index.es.js",
-  "umdName": "vkBridge",
-  "types": "dist/types/src/index.d.ts",
-  "typesVersions": {
-    "<4.0": {
-      "*": [
-        "dist/types3.8.3/src/index.d.ts"
-      ]
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     }
   },
+  "main": "dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist",
-    "scripts"
+    "scripts",
+    "src"
   ],
   "scripts": {
-    "watch": "yarn run --top-level rollup -c -w",
-    "build": "NODE_ENV=production yarn run --top-level rollup -c && yarn run build:legacy-types",
-    "build:legacy-types": "yarn run --top-level rollup -c rollup.config-legacy-types.mjs >/dev/null",
+    "watch": "rslib --watch",
+    "build": "rslib",
     "prepack": "yarn run build",
-    "test": "yarn run --top-level jest --config ../../jest.config.js",
+    "test": "node --test 'src/*.test.*'",
+    "lint:types": "tsc -b",
     "postinstall": "node scripts/postinstall.js"
   },
   "author": {
@@ -35,5 +35,13 @@
     "type": "git",
     "url": "https://github.com/VKCOM/vk-bridge",
     "directory": "packages/core"
+  },
+  "devDependencies": {
+    "@rslib/core": "^0.21.2",
+    "@types/node": "^25.6.0",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "@swc/helpers": "^0.5.21"
   }
 }
