@@ -1,5 +1,13 @@
 # VK Bridge React
 
+> ### ⚠️ Warning: You are using version 1.x.x
+>
+> The upcoming major release **2.0.0** will introduce **breaking changes**:
+>
+> - **Requires `@vkontakte/vk-bridge@^3.0.0`**
+> - **ESM-only** — aligns with the core package
+> - **TypeScript 4.0+** — minimum version bumped
+
 React hooks for VK Bridge.
 
 In addition, the library provides other helper functions.

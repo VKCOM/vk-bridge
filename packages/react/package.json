@@ -7,12 +7,14 @@
   "module": "dist/index.es.js",
   "types": "dist/types/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "scripts"
   ],
   "scripts": {
     "watch": "yarn run --top-level rollup -c -w",
     "build": "NODE_ENV=production yarn run --top-level rollup -c",
-    "prepack": "yarn run build"
+    "prepack": "yarn run build",
+    "postinstall": "node scripts/postinstall.js"
   },
   "author": {
     "name": "VK",
