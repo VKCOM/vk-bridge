@@ -1,5 +1,12 @@
 # VK Bridge Core
 
+> [!WARNING] > **You are using version 2.x.x**
+> The upcoming major release **3.0.0** will introduce **breaking changes**:
+>
+> - **ESM-only** — the package will be published as ES modules only. CommonJS is not officially supported
+> - **TypeScript 4.0+** — support for TS 3.x is being dropped
+> - **Enum removal** — use string values instead
+
 ## Usage
 
 ```js

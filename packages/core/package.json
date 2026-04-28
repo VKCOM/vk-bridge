@@ -1,6 +1,6 @@
 {
   "name": "@vkontakte/vk-bridge",
-  "version": "2.15.11",
+  "version": "2.15.12",
   "description": "Connects a Mini App with VK client",
   "license": "MIT",
   "main": "dist/index.js",
@@ -16,14 +16,16 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "scripts"
   ],
   "scripts": {
     "watch": "yarn run --top-level rollup -c -w",
     "build": "NODE_ENV=production yarn run --top-level rollup -c && yarn run build:legacy-types",
     "build:legacy-types": "yarn run --top-level rollup -c rollup.config-legacy-types.mjs >/dev/null",
     "prepack": "yarn run build",
-    "test": "yarn run --top-level jest --config ../../jest.config.js"
+    "test": "yarn run --top-level jest --config ../../jest.config.js",
+    "postinstall": "node scripts/postinstall.js"
   },
   "author": {
     "name": "VK",
