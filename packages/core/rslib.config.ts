@@ -27,6 +27,17 @@ export default defineConfig({
           js: 'always',
         },
       },
+      tools: {
+        rspack: (config) => {
+          config.output = {
+            ...config.output,
+            library: {
+              type: 'window',
+            },
+          };
+          return config;
+        },
+      },
     },
   ],
   source: {
