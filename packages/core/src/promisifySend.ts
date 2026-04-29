@@ -1,11 +1,11 @@
-import {
+import type {
   VKBridgeSubscribeHandler,
   AnyRequestMethodName,
   RequestProps,
   RequestIdProp,
   ReceiveData,
   AnyReceiveMethodName,
-} from './types/bridge';
+} from './types/bridge.ts';
 
 /**
  * Creates counter interface.
@@ -97,7 +97,7 @@ export function promisifySend(
 
   // Subscribe to receive a data
   subscribe((event) => {
-    if (!event.detail || !event.detail.data || typeof event.detail.data !== 'object') {
+    if (!event.detail?.data || typeof event.detail.data !== 'object') {
       return;
     }
 

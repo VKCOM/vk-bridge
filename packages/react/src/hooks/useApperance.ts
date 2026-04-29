@@ -6,7 +6,7 @@ import type {
   AppearanceType,
   ParentConfigData,
 } from '@vkontakte/vk-bridge';
-import { useIsomorphicLayoutEffect } from '../lib/react';
+import { useIsomorphicLayoutEffect } from '../lib/react/useIsomorphicLayoutEffect.ts';
 
 export type UseAppearance = AppearanceType | null;
 

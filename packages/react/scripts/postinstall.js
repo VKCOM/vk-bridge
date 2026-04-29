@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
-const currentVersion = require('../package.json').version;
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+const { version: currentVersion } = require('../package.json');
 
 if (!currentVersion.startsWith('1.')) {
   process.exit(0);

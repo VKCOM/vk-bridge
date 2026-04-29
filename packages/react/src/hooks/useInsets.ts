@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import vkBridge from '@vkontakte/vk-bridge';
 import type { VKBridgeEvent, AnyReceiveMethodName, Insets } from '@vkontakte/vk-bridge';
-import { useIsomorphicLayoutEffect } from '../lib/react';
+import { useIsomorphicLayoutEffect } from '../lib/react/useIsomorphicLayoutEffect.ts';
 
 const VIRTUAL_KEYBOARD_HEIGHT = 150;
 
@@ -38,7 +38,7 @@ function resolveInsets(event: VKBridgeEvent<AnyReceiveMethodName>): UseInsets | 
   const { type, data } = event.detail;
   switch (type) {
     case 'VKWebAppUpdateInsets': // TODO [>=3]: it is legacy, remove it
-    case 'VKWebAppUpdateConfig':
+    case 'VKWebAppUpdateConfig': {
       if (!('insets' in data)) {
         return null;
       }
@@ -52,6 +52,7 @@ function resolveInsets(event: VKBridgeEvent<AnyReceiveMethodName>): UseInsets | 
               : insets.bottom,
         };
       }
+    }
   }
   return null;
 }

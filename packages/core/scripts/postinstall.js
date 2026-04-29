@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
-const currentVersion = require('../package.json').version;
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+const { version: currentVersion } = require('../package.json');
 
 // Показываем только для v2.x.x
 if (!currentVersion.startsWith('2.')) {

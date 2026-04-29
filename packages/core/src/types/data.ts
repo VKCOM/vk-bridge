@@ -1,3 +1,10 @@
+import type {
+  ElementSetType,
+  getLaunchParamsResponseGroupRoleSet,
+  getLaunchParamsResponseLanguagesSet,
+  getLaunchParamsResponsePlatformsSet,
+} from './data/values.ts';
+
 /** Type of the Personal Card */
 export type PersonalCardType = 'phone' | 'email' | 'address';
 
@@ -400,10 +407,7 @@ export type MessageRequestOptions = {
   lng?: number;
 };
 
-export enum EAdsFormats {
-  REWARD = 'reward',
-  INTERSTITIAL = 'interstitial',
-}
+export type EAdsFormats = 'reward' | 'interstitial';
 
 export type ShowNativeAdsRequest = {
   ad_format: EAdsFormats;
@@ -415,31 +419,15 @@ export type CheckNativeAdsRequest = {
   use_waterfall?: boolean;
 };
 
-export enum BannerAdLayoutType {
-  RESIZE = 'resize',
-  OVERLAY = 'overlay',
-}
+export type BannerAdLayoutType = 'resize' | 'overlay';
 
-export enum BannerAdLocation {
-  TOP = 'top',
-  BOTTOM = 'bottom',
-}
+export type BannerAdLocation = 'top' | 'bottom';
 
-export enum BannerAdAlign {
-  LEFT = 'left',
-  RIGHT = 'right',
-  CENTER = 'center',
-}
+export type BannerAdAlign = 'left' | 'right' | 'center';
 
-export enum BannerAdHeightType {
-  COMPACT = 'compact',
-  REGULAR = 'regular',
-}
+export type BannerAdHeightType = 'compact' | 'regular';
 
-export enum BannerAdOrientation {
-  HORIZONTAL = 'horizontal',
-  VERTICAL = 'vertical',
-}
+export type BannerAdOrientation = 'horizontal' | 'vertical';
 
 export type ShowBannerAdRequest = {
   banner_location: BannerAdLocation;
@@ -995,11 +983,7 @@ export type CallFinishedResponse = {
   result: true;
 };
 
-export enum EGrantedPermission {
-  CAMERA = 'camera',
-  LOCATION = 'location',
-  PHOTO = 'photo',
-}
+export type EGrantedPermission = 'camera' | 'location' | 'photo';
 
 export type GetGrantedPermissionsResponse = {
   permissions: EGrantedPermission[];
@@ -1019,36 +1003,17 @@ export type ChangeFragmentResponse = {
   location: string;
 };
 
-export enum EGetLaunchParamsResponseLanguages {
-  RU = 'ru',
-  UK = 'uk',
-  UA = 'ua',
-  EN = 'en',
-  BE = 'be',
-  KZ = 'kz',
-  PT = 'pt',
-  ES = 'es',
-}
+export type EGetLaunchParamsResponseLanguages = ElementSetType<
+  typeof getLaunchParamsResponseLanguagesSet
+>;
 
-export enum EGetLaunchParamsResponseGroupRole {
-  ADMIN = 'admin',
-  EDITOR = 'editor',
-  MEMBER = 'member',
-  MODER = 'moder',
-  NONE = 'none',
-}
+export type EGetLaunchParamsResponseGroupRole = ElementSetType<
+  typeof getLaunchParamsResponseGroupRoleSet
+>;
 
-export enum EGetLaunchParamsResponsePlatforms {
-  DESKTOP_WEB = 'desktop_web',
-  DESKTOP_WEB_MESSENGER = 'desktop_web_messenger',
-  DESKTOP_APP_MESSENGER = 'desktop_app_messenger',
-  MOBILE_WEB = 'mobile_web',
-  MOBILE_ANDROID = 'mobile_android',
-  MOBILE_ANDROID_MESSENGER = 'mobile_android_messenger',
-  MOBILE_IPHONE = 'mobile_iphone',
-  MOBILE_IPHONE_MESSENGER = 'mobile_iphone_messenger',
-  MOBILE_IPAD = 'mobile_ipad',
-}
+export type EGetLaunchParamsResponsePlatforms = ElementSetType<
+  typeof getLaunchParamsResponsePlatformsSet
+>;
 
 export type GetLaunchParamsResponse = {
   vk_user_id: number;

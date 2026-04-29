@@ -1,12 +1,12 @@
-import { promisifySend } from './promisifySend';
-import {
+import { promisifySend } from './promisifySend.ts';
+import type {
   VKBridge,
   VKBridgeSubscribeHandler,
   AnyRequestMethodName,
   RequestProps,
   RequestIdProp,
-} from './types/bridge';
-import { createInstanceId } from './utils';
+} from './types/bridge.ts';
+import { createInstanceId } from './utils.ts';
 
 /** Is the client side runtime environment */
 export const IS_CLIENT_SIDE = typeof window !== 'undefined';
@@ -16,10 +16,7 @@ export const IS_ANDROID_WEBVIEW = Boolean(IS_CLIENT_SIDE && (window as any).Andr
 
 /** Is the runtime environment an iOS app */
 export const IS_IOS_WEBVIEW = Boolean(
-  IS_CLIENT_SIDE &&
-    (window as any).webkit &&
-    (window as any).webkit.messageHandlers &&
-    (window as any).webkit.messageHandlers.VKWebAppClose,
+  IS_CLIENT_SIDE && (window as any).webkit?.messageHandlers?.VKWebAppClose,
 );
 
 export const IS_REACT_NATIVE_WEBVIEW = Boolean(
@@ -146,7 +143,7 @@ const webBridge: { postMessage?: (message: any, targetOrigin: string) => void } 
  */
 export function createVKBridge(version: string): VKBridge {
   /** Current frame id. */
-  let webFrameId: string | undefined = undefined;
+  let webFrameId: string | undefined;
 
   /** List of functions that subscribed on events. */
   const subscribers: VKBridgeSubscribeHandler[] = [];
@@ -168,17 +165,13 @@ export function createVKBridge(version: string): VKBridge {
   ) {
     // Sending data through Android bridge
 
-    if (androidBridge && androidBridge[method]) {
+    if (androidBridge?.[method]) {
       androidBridge[method](JSON.stringify(props));
     }
 
     // Sending data through iOS bridge
-    else if (
-      iosBridge &&
-      iosBridge[method] &&
-      typeof iosBridge[method].postMessage === 'function'
-    ) {
-      iosBridge[method].postMessage!(props);
+    else if (iosBridge?.[method] && typeof iosBridge[method].postMessage === 'function') {
+      iosBridge[method].postMessage?.(props);
     }
 
     // Sending data through React Native bridge
@@ -234,11 +227,7 @@ export function createVKBridge(version: string): VKBridge {
       return !!(androidBridge && typeof androidBridge[method] === 'function');
     } else if (IS_IOS_WEBVIEW) {
       // iOS support check
-      return !!(
-        iosBridge &&
-        iosBridge[method] &&
-        typeof iosBridge[method].postMessage === 'function'
-      );
+      return !!(iosBridge?.[method] && typeof iosBridge[method].postMessage === 'function');
     } else if (IS_WEB) {
       // Web support check
       return DESKTOP_METHODS.includes(method);
@@ -364,7 +353,7 @@ export function createVKBridge(version: string): VKBridge {
     try {
       const response = await sendPromise('SetSupportedHandlers');
       supportedHandlers = new Set(response.supportedHandlers);
-    } catch (error) {
+    } catch (_error) {
       supportedHandlers = new Set(['VKWebAppInit'] as const);
     }
 

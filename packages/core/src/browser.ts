@@ -1,4 +1,4 @@
-import bridge from './index';
+import bridge from './index.ts';
 
-// @ts-ignore
+// @ts-expect-error
 window.vkBridge = window.vkConnect = bridge;
