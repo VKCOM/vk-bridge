@@ -8,12 +8,13 @@ runs:
       uses: actions/setup-node@v4
       with:
         node-version-file: '.nvmrc'
-        cache: 'yarn'
+        # Не используем кэш для публикации, он может быть отравлен
+        # cache: 'yarn'
         always-auth: true
         registry-url: 'https://registry.npmjs.org'
 
     - name: Install dependencies
-      run: YARN_ENABLE_SCRIPTS=false yarn install
+      run: YARN_ENABLE_SCRIPTS=false yarn install --immutable --check-cache # --check-resolutions
       shell: bash
 
     - name: Set Git credentials
