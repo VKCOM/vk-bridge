@@ -24,8 +24,7 @@
     "build": "rslib",
     "prepack": "yarn run build",
     "test": "node --test 'src/*.test.*'",
-    "lint:types": "tsc -b",
-    "postinstall": "node scripts/postinstall.js"
+    "lint:types": "tsc -b"
   },
   "author": {
     "name": "VK",
