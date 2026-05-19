@@ -1,3 +1,8 @@
+## v2.0.1
+
+- Исправлен импорт `@vkontakte/vk-bridge-react/package.json`
+- Удален postinstall
+
 ## v2.0.0
 
 - Сборка `esm`-only
