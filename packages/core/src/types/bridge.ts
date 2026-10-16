@@ -260,4 +260,15 @@ export interface VKBridge {
   isEmbedded: () => boolean;
 
   isStandalone: () => boolean;
+
+  /**
+   * Registers a hook invoked for every outgoing message right before
+   * dispatch, with the final props (including `request_id`). Used by the
+   * built-in logger. Pass `undefined` to remove.
+   *
+   * @internal
+   */
+  __setOnSend?: (
+    fn?: (method: AnyRequestMethodName, props: Record<string, any> & RequestIdProp) => void,
+  ) => void;
 }
