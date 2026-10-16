@@ -6,6 +6,7 @@ export { copyText } from './panel/clipboard.ts';
 import { ensureStyles, PREFIX } from './panel/styles.ts';
 import { formatTime } from './panel/format.ts';
 import { buildGroups, entryMatchesQuery, isBridgeEvent } from './panel/groups.ts';
+import { makeDraggable } from './panel/drag.ts';
 import type { PanelSendFn, PanelState } from './panel/row.ts';
 import { renderEntryRow } from './panel/row.ts';
 export type { PanelSendFn } from './panel/row.ts';
@@ -263,11 +264,7 @@ export function mountPanel(store: LogStore, onSend?: PanelSendFn): PanelHandle {
   // without movement still opens the panel; a real drag does not.
   const FAB_POS_KEY = 'vk-bridge-log-fab-pos';
   const DRAG_THRESHOLD = 5;
-  let fabDragging = false;
   let suppressFabClick = false;
-  let fabPointerId = -1;
-  let fabStartX = 0;
-  let fabStartY = 0;
   let fabGrabOffsetX = 0;
   let fabGrabOffsetY = 0;
 
@@ -309,41 +306,20 @@ export function mountPanel(store: LogStore, onSend?: PanelSendFn): PanelHandle {
     }
   }
 
-  fab.addEventListener('pointerdown', (e: PointerEvent) => {
-    if (!e.isPrimary) {
-      return;
-    }
-    const rect = fab.getBoundingClientRect();
-    fabPointerId = e.pointerId;
-    fabStartX = e.clientX;
-    fabStartY = e.clientY;
-    fabGrabOffsetX = e.clientX - rect.left;
-    fabGrabOffsetY = e.clientY - rect.top;
-    fabDragging = false;
-    fab.setPointerCapture(e.pointerId);
-    e.preventDefault();
-  });
-  fab.addEventListener('pointermove', (e: PointerEvent) => {
-    if (e.pointerId !== fabPointerId) {
-      return;
-    }
-    if (!fabDragging) {
-      if (
-        Math.abs(e.clientX - fabStartX) < DRAG_THRESHOLD &&
-        Math.abs(e.clientY - fabStartY) < DRAG_THRESHOLD
-      ) {
+  makeDraggable(fab, {
+    threshold: DRAG_THRESHOLD,
+    onStart(e) {
+      const rect = fab.getBoundingClientRect();
+      fabGrabOffsetX = e.clientX - rect.left;
+      fabGrabOffsetY = e.clientY - rect.top;
+    },
+    onMove(e) {
+      setFabPosition(e.clientX - fabGrabOffsetX, e.clientY - fabGrabOffsetY);
+    },
+    onEnd(moved) {
+      if (!moved) {
         return;
       }
-      fabDragging = true;
-    }
-    setFabPosition(e.clientX - fabGrabOffsetX, e.clientY - fabGrabOffsetY);
-  });
-  const fabPointerEnd = (e: PointerEvent): void => {
-    if (e.pointerId !== fabPointerId) {
-      return;
-    }
-    fabPointerId = -1;
-    if (fabDragging) {
       suppressFabClick = true;
       const rect = fab.getBoundingClientRect();
       try {
@@ -351,11 +327,8 @@ export function mountPanel(store: LogStore, onSend?: PanelSendFn): PanelHandle {
       } catch {
         // ignore — the position just won't persist
       }
-    }
-    fabDragging = false;
-  };
-  fab.addEventListener('pointerup', fabPointerEnd);
-  fab.addEventListener('pointercancel', fabPointerEnd);
+    },
+  });
 
   fab.addEventListener('click', () => {
     if (suppressFabClick) {
@@ -367,44 +340,28 @@ export function mountPanel(store: LogStore, onSend?: PanelSendFn): PanelHandle {
 
   restoreFabPosition();
 
-  // Dragging the panel by its header. Pointer Events cover both mouse and
-  // touch; capture on the header keeps the move/up events even when the
-  // pointer leaves the header, so no document-level listeners are needed.
-  let dragging = false;
-  let startX = 0;
-  let startY = 0;
+  // Dragging the panel by its header.
   let startRight = 0;
   let startBottom = 0;
-  head.addEventListener('pointerdown', (e: PointerEvent) => {
-    // Skip interactive elements: capturing the pointer here would retarget
-    // the subsequent click to the header, breaking the buttons' handlers.
-    const target = e.target as HTMLElement | null;
-    if (target === filter || target?.closest('button')) {
-      return;
-    }
-    dragging = true;
-    startX = e.clientX;
-    startY = e.clientY;
-    const rect = root.getBoundingClientRect();
-    startRight = window.innerWidth - rect.right;
-    startBottom = window.innerHeight - rect.bottom;
-    head.setPointerCapture(e.pointerId);
-    e.preventDefault();
+  makeDraggable(head, {
+    onStart(e) {
+      // Skip interactive elements: capturing the pointer here would retarget
+      // the subsequent click to the header, breaking the buttons' handlers.
+      const target = e.target as HTMLElement | null;
+      if (target === filter || target?.closest('button')) {
+        return false;
+      }
+      const rect = root.getBoundingClientRect();
+      startRight = window.innerWidth - rect.right;
+      startBottom = window.innerHeight - rect.bottom;
+    },
+    onMove(_e, deltaX, deltaY) {
+      const right = Math.max(0, startRight - deltaX);
+      const bottom = Math.max(0, startBottom - deltaY);
+      root.style.right = `${right}px`;
+      root.style.bottom = `${bottom}px`;
+    },
   });
-  head.addEventListener('pointermove', (e: PointerEvent) => {
-    if (!dragging) {
-      return;
-    }
-    const right = Math.max(0, startRight - (e.clientX - startX));
-    const bottom = Math.max(0, startBottom - (e.clientY - startY));
-    root.style.right = `${right}px`;
-    root.style.bottom = `${bottom}px`;
-  });
-  const headPointerEnd = (): void => {
-    dragging = false;
-  };
-  head.addEventListener('pointerup', headPointerEnd);
-  head.addEventListener('pointercancel', headPointerEnd);
 
   const unsub = store.onChange(scheduleRender);
   render();
