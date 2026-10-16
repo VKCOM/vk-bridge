@@ -7,7 +7,7 @@ export interface DragHandlers {
    * the element). Skipping matters: capturing the pointer would retarget the
    * subsequent click to the drag element and break inner click handlers.
    */
-  onStart?(e: PointerEvent): boolean | void;
+  onStart?(e: PointerEvent): boolean | undefined;
   /** Called on pointermove once the movement exceeds the threshold. */
   onMove(e: PointerEvent, deltaX: number, deltaY: number): void;
   /** Called on pointerup/pointercancel; `moved` tells a real drag from a tap. */
@@ -49,10 +49,7 @@ export function makeDraggable(el: HTMLElement, handlers: DragHandlers): void {
       return;
     }
     if (!dragging) {
-      if (
-        Math.abs(e.clientX - startX) < threshold &&
-        Math.abs(e.clientY - startY) < threshold
-      ) {
+      if (Math.abs(e.clientX - startX) < threshold && Math.abs(e.clientY - startY) < threshold) {
         return;
       }
       dragging = true;

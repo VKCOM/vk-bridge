@@ -5,7 +5,21 @@ import { isLogEnabled } from './logger/detect.ts';
 import { createLogStore } from './logger/store.ts';
 import { createTap, removeTap } from './logger/tap.ts';
 import { attachLogger } from './logger/index.ts';
+import { buildGroups, entryMatchesQuery, isBridgeEvent } from './logger/panel/groups.ts';
+import { bodyWithoutRequestId, dataToString } from './logger/panel/format.ts';
 import type { VKBridge } from './types/bridge.ts';
+import type { LogEntry } from './logger/types.ts';
+
+function entryOf(partial: Partial<LogEntry>): LogEntry {
+  return {
+    id: 1,
+    dir: 'out',
+    method: 'VKWebAppInit',
+    data: undefined,
+    ts: 0,
+    ...partial,
+  };
+}
 
 describe('isLogEnabled', () => {
   const originalLocal = (globalThis as any).localStorage;
@@ -271,5 +285,85 @@ describe('attachLogger', () => {
     } finally {
       (globalThis as any).window = original;
     }
+  });
+});
+
+describe('buildGroups', () => {
+  it('groups request/response pairs by requestId', () => {
+    const entries = [
+      entryOf({ id: 1, requestId: '42' }),
+      entryOf({ id: 2, method: 'VKWebAppOther' }),
+      entryOf({ id: 3, dir: 'in', method: 'VKWebAppInitResult', requestId: '42' }),
+    ];
+    const groups = buildGroups(entries);
+    assert.strictEqual(groups.length, 2);
+    // Order of first appearance.
+    assert.strictEqual(groups[0].key, 1);
+    assert.strictEqual(groups[0].items.length, 2);
+    assert.deepStrictEqual(
+      groups[0].items.map((e) => e.id),
+      [1, 3],
+      'items stay chronological inside a group',
+    );
+    assert.strictEqual(groups[1].key, 2);
+    assert.strictEqual(groups[1].items.length, 1);
+  });
+
+  it('keys standalone entries by their own id', () => {
+    const groups = buildGroups([entryOf({ id: 7 })]);
+    assert.strictEqual(groups.length, 1);
+    assert.strictEqual(groups[0].key, 7);
+  });
+});
+
+describe('isBridgeEvent / entryMatchesQuery', () => {
+  it('accepts only VKWebApp* methods', () => {
+    assert.strictEqual(isBridgeEvent(entryOf({ method: 'VKWebAppInit' })), true);
+    assert.strictEqual(isBridgeEvent(entryOf({ method: 'VKWebAppInitResult' })), true);
+    assert.strictEqual(isBridgeEvent(entryOf({ method: 'ACTION' })), false);
+    assert.strictEqual(isBridgeEvent(entryOf({ method: 'vkWebAppInit' })), false);
+  });
+
+  it('matches by method and data substring', () => {
+    const entry = entryOf({ method: 'VKWebAppInit', data: { foo: 'Bar' } });
+    assert.strictEqual(entryMatchesQuery(entry, 'init'), true);
+    assert.strictEqual(entryMatchesQuery(entry, 'bar'), true);
+    assert.strictEqual(entryMatchesQuery(entry, 'nope'), false);
+  });
+
+  it('entryMatchesQuery with empty query matches everything', () => {
+    assert.strictEqual(entryMatchesQuery(entryOf({}), ''), true);
+  });
+});
+
+describe('dataToString', () => {
+  it('prints plain and pretty JSON', () => {
+    const entry = entryOf({ data: { a: 1 } });
+    assert.strictEqual(dataToString(entry, false), '{"a":1}');
+    assert.strictEqual(dataToString(entry, true), '{\n  "a": 1\n}');
+  });
+
+  it('prints an empty string for undefined data', () => {
+    assert.strictEqual(dataToString(entryOf({ data: undefined }), false), '');
+  });
+
+  it('falls back to String() for unserializable data', () => {
+    const circular: any = {};
+    circular.self = circular;
+    const out = dataToString(entryOf({ data: circular }), false);
+    assert.strictEqual(typeof out, 'string');
+    assert.strictEqual(out, String(circular));
+  });
+});
+
+describe('bodyWithoutRequestId', () => {
+  it('strips request_id and keeps the rest', () => {
+    const body = bodyWithoutRequestId({ request_id: '42', foo: 1 });
+    assert.deepStrictEqual(body, { foo: 1 });
+  });
+
+  it('returns an empty object for non-object data', () => {
+    assert.deepStrictEqual(bodyWithoutRequestId(undefined), {});
+    assert.deepStrictEqual(bodyWithoutRequestId('str'), {});
   });
 });
