@@ -4,17 +4,13 @@ import type { LogStore } from './store.ts';
 import { copyText } from './panel/clipboard.ts';
 export { copyText } from './panel/clipboard.ts';
 import { ensureStyles, PREFIX } from './panel/styles.ts';
-import { bodyWithoutRequestId, dataToString, formatTime } from './panel/format.ts';
+import { formatTime } from './panel/format.ts';
 import { buildGroups, entryMatchesQuery, isBridgeEvent } from './panel/groups.ts';
+import type { PanelSendFn, PanelState } from './panel/row.ts';
+import { renderEntryRow } from './panel/row.ts';
+export type { PanelSendFn } from './panel/row.ts';
 
 const MAX_VISIBLE = 200;
-
-/**
- * Sends a replayed request. Provided by the logger; failures are expected —
- * the caller swallows promise rejections (the Failed event still reaches the
- * log through subscribe).
- */
-export type PanelSendFn = (method: string, props: Record<string, unknown>) => void;
 
 /**
  * Mounts the overlay panel into the document body and wires it to the store.
@@ -87,92 +83,18 @@ export function mountPanel(store: LogStore, onSend?: PanelSendFn): PanelHandle {
   document.body.appendChild(root);
   document.body.appendChild(fab);
 
-  const expanded = new Set<number>();
-  // Entries whose data is shown pretty-printed (toggled per row).
-  const prettyIds = new Set<number>();
-  // Display order: newest entries at the top by default.
-  let newestFirst = true;
-  let filterQuery = '';
+  const state: PanelState = {
+    expanded: new Set<number>(),
+    // Entries whose data is shown pretty-printed (toggled per row).
+    prettyIds: new Set<number>(),
+    // Display order: newest entries at the top by default.
+    newestFirst: true,
+    filterQuery: '',
+  };
   let lastSeenCount = 0;
 
-  function renderEntryRow(entry: LogEntry, indent: boolean): HTMLElement {
-    const row = document.createElement('div');
-    row.className = indent ? `${PREFIX}-child-row` : `${PREFIX}-row`;
-
-    const dir = document.createElement('span');
-    dir.className = `${PREFIX}-dir ${PREFIX}-dir-${entry.dir}`;
-    dir.textContent = entry.dir === 'out' ? '↑' : '↓';
-
-    const body = document.createElement('div');
-    body.className = `${PREFIX}-body`;
-
-    const method = document.createElement('div');
-    method.className = `${PREFIX}-method`;
-    method.textContent = entry.method;
-
-    const meta = document.createElement('div');
-    meta.className = `${PREFIX}-meta`;
-    meta.textContent = formatTime(entry.ts) + (entry.requestId ? ` · #${entry.requestId}` : '');
-
-    body.append(method, meta);
-
-    if (expanded.has(entry.id)) {
-      const data = document.createElement('div');
-      data.className = `${PREFIX}-data`;
-      data.textContent = dataToString(entry, prettyIds.has(entry.id));
-      body.appendChild(data);
-    }
-
-    body.addEventListener('click', () => {
-      if (expanded.has(entry.id)) {
-        expanded.delete(entry.id);
-      } else {
-        expanded.add(entry.id);
-      }
-      render();
-    });
-
-    const prettyBtn = document.createElement('button');
-    prettyBtn.className = `${PREFIX}-btn ${PREFIX}-copy`;
-    prettyBtn.type = 'button';
-    prettyBtn.textContent = 'pretty';
-    prettyBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (prettyIds.has(entry.id)) {
-        prettyIds.delete(entry.id);
-      } else {
-        prettyIds.add(entry.id);
-        // Reveal the data right away so the effect of the toggle is visible.
-        expanded.add(entry.id);
-      }
-      render();
-    });
-
-    row.append(dir, body, prettyBtn);
-
-    if (entry.dir === 'out' && onSend) {
-      const sendBtn = document.createElement('button');
-      sendBtn.className = `${PREFIX}-btn ${PREFIX}-copy`;
-      sendBtn.type = 'button';
-      sendBtn.textContent = 'send';
-      sendBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        onSend(entry.method, bodyWithoutRequestId(entry.data));
-      });
-      row.append(sendBtn);
-    }
-
-    const copyBtn = document.createElement('button');
-    copyBtn.className = `${PREFIX}-btn ${PREFIX}-copy`;
-    copyBtn.type = 'button';
-    copyBtn.textContent = 'copy';
-    copyBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      copyText(store.serialize([entry]));
-    });
-
-    row.append(copyBtn);
-    return row;
+  function renderEntryRowFor(entry: LogEntry, indent: boolean): HTMLElement {
+    return renderEntryRow(store, state, onSend, render, entry, indent);
   }
 
   function render(): void {
@@ -188,13 +110,13 @@ export function mountPanel(store: LogStore, onSend?: PanelSendFn): PanelHandle {
     }
 
     // Apply filters, then cap to the most recent MAX_VISIBLE entries.
-    const q = filterQuery.trim().toLowerCase();
+    const q = state.filterQuery.trim().toLowerCase();
     const filtered = all.filter((e) => isBridgeEvent(e) && (!q || entryMatchesQuery(e, q)));
     const visible = filtered.slice(-MAX_VISIBLE);
     const groups = buildGroups(visible);
     // Reverse only the group order; items inside a group stay chronological
     // (request above response) in both modes.
-    if (newestFirst) {
+    if (state.newestFirst) {
       groups.reverse();
     }
 
@@ -203,7 +125,7 @@ export function mountPanel(store: LogStore, onSend?: PanelSendFn): PanelHandle {
     if (groups.length === 0) {
       const empty = document.createElement('div');
       empty.className = `${PREFIX}-empty`;
-      empty.textContent = filterQuery ? 'no matches' : 'no messages yet';
+      empty.textContent = state.filterQuery ? 'no matches' : 'no messages yet';
       list.appendChild(empty);
       return;
     }
@@ -213,7 +135,7 @@ export function mountPanel(store: LogStore, onSend?: PanelSendFn): PanelHandle {
       const head = group.items[0];
 
       if (!isGroup) {
-        list.appendChild(renderEntryRow(head, false));
+        list.appendChild(renderEntryRowFor(head, false));
         continue;
       }
 
@@ -223,7 +145,7 @@ export function mountPanel(store: LogStore, onSend?: PanelSendFn): PanelHandle {
 
       const caret = document.createElement('span');
       caret.className = `${PREFIX}-caret`;
-      caret.textContent = expanded.has(group.key) ? '▾' : '▸';
+      caret.textContent = state.expanded.has(group.key) ? '▾' : '▸';
 
       const body = document.createElement('div');
       body.className = `${PREFIX}-body`;
@@ -252,10 +174,10 @@ export function mountPanel(store: LogStore, onSend?: PanelSendFn): PanelHandle {
       row.append(caret, body, copyBtn);
 
       const toggleExpand = () => {
-        if (expanded.has(group.key)) {
-          expanded.delete(group.key);
+        if (state.expanded.has(group.key)) {
+          state.expanded.delete(group.key);
         } else {
-          expanded.add(group.key);
+          state.expanded.add(group.key);
         }
         render();
       };
@@ -263,11 +185,11 @@ export function mountPanel(store: LogStore, onSend?: PanelSendFn): PanelHandle {
 
       list.appendChild(row);
 
-      if (expanded.has(group.key)) {
+      if (state.expanded.has(group.key)) {
         const children = document.createElement('div');
         children.className = `${PREFIX}-group-children`;
         for (const item of group.items) {
-          children.appendChild(renderEntryRow(item, true));
+          children.appendChild(renderEntryRowFor(item, true));
         }
         list.appendChild(children);
       }
@@ -291,18 +213,18 @@ export function mountPanel(store: LogStore, onSend?: PanelSendFn): PanelHandle {
       clearTimeout(filterTimer);
     }
     filterTimer = setTimeout(() => {
-      filterQuery = filter.value;
+      state.filterQuery = filter.value;
       render();
     }, 150);
   });
 
   clearBtn.addEventListener('click', () => {
-    expanded.clear();
+    state.expanded.clear();
     store.clear();
   });
 
   exportBtn.addEventListener('click', () => {
-    const q = filterQuery.trim().toLowerCase();
+    const q = state.filterQuery.trim().toLowerCase();
     copyText(
       store.serialize(
         store.all().filter((e) => isBridgeEvent(e) && (!q || entryMatchesQuery(e, q))),
@@ -311,11 +233,11 @@ export function mountPanel(store: LogStore, onSend?: PanelSendFn): PanelHandle {
   });
 
   function updateSortBtn(): void {
-    sortBtn.textContent = newestFirst ? '↓' : '↑';
-    sortBtn.title = newestFirst ? 'Newest first' : 'Oldest first';
+    sortBtn.textContent = state.newestFirst ? '↓' : '↑';
+    sortBtn.title = state.newestFirst ? 'Newest first' : 'Oldest first';
   }
   sortBtn.addEventListener('click', () => {
-    newestFirst = !newestFirst;
+    state.newestFirst = !state.newestFirst;
     updateSortBtn();
     render();
   });
