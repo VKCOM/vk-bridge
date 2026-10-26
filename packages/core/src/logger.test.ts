@@ -5,7 +5,7 @@ import { isLogEnabled } from './logger/detect.ts';
 import { createLogStore } from './logger/store.ts';
 import { createTap, removeTap } from './logger/tap.ts';
 import { attachLogger } from './logger/index.ts';
-import { buildGroups, entryMatchesQuery, isBridgeEvent } from './logger/panel/groups.ts';
+import { buildGroups, entryMatchesQuery, isBridgeEvent, countUnseen } from './logger/panel/groups.ts';
 import { bodyWithoutRequestId, dataToString } from './logger/panel/format.ts';
 import type { VKBridge } from './types/bridge.ts';
 import type { LogEntry } from './logger/types.ts';
@@ -285,6 +285,30 @@ describe('attachLogger', () => {
     } finally {
       (globalThis as any).window = original;
     }
+  });
+});
+
+describe('countUnseen', () => {
+  it('returns 0 for an empty list', () => {
+    assert.strictEqual(countUnseen([], 0), 0);
+  });
+
+  it('counts all entries when nothing has been seen', () => {
+    const entries = [entryOf({ id: 1 }), entryOf({ id: 2 }), entryOf({ id: 3 })];
+    assert.strictEqual(countUnseen(entries, 0), 3);
+  });
+
+  it('counts entries past lastSeenId even after ring-buffer eviction (bug regression)', () => {
+    // Ids 1..6 were pushed into a maxSize-3 store: only ids 4..6 remain.
+    // The old length-based formula (3 - 3) reported 0 new entries.
+    const entries = [entryOf({ id: 4 }), entryOf({ id: 5 }), entryOf({ id: 6 })];
+    assert.strictEqual(countUnseen(entries, 3), 3);
+    assert.strictEqual(countUnseen(entries, 4), 2);
+  });
+
+  it('clamps to 0 when lastSeenId is ahead (after clear)', () => {
+    const entries = [entryOf({ id: 1 })];
+    assert.strictEqual(countUnseen(entries, 5), 0);
   });
 });
 

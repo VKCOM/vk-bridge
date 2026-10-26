@@ -21,6 +21,16 @@ export function entryMatchesQuery(entry: LogEntry, q: string): boolean {
 }
 
 /**
+ * Counts new entries as maxId - lastSeenId. Ids are dense and monotonic per
+ * store session, so the difference is exact even when the ring buffer has
+ * evicted old (id <= lastSeenId) entries.
+ */
+export function countUnseen(entries: LogEntry[], lastSeenId: number): number {
+  const maxId = entries.length > 0 ? entries[entries.length - 1].id : 0;
+  return Math.max(0, maxId - lastSeenId);
+}
+
+/**
  * Groups filtered entries by requestId. Entries without a requestId stay as
  * standalone single-entry groups. Returns groups in original order; for a
  * request/response pair the group key is the shared requestId (mapped to the

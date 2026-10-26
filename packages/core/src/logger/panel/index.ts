@@ -4,7 +4,7 @@ import type { LogStore } from '../store.ts';
 import { copyText } from './clipboard.ts';
 import { ensureStyles, PREFIX } from './styles.ts';
 import { formatTime } from './format.ts';
-import { buildGroups, entryMatchesQuery, isBridgeEvent } from './groups.ts';
+import { buildGroups, entryMatchesQuery, isBridgeEvent, countUnseen } from './groups.ts';
 import { makeDraggable } from './drag.ts';
 import type { PanelSendFn, PanelState } from './row.ts';
 import { renderEntryRow } from './row.ts';
@@ -92,7 +92,10 @@ export function mountPanel(store: LogStore, onSend?: PanelSendFn): PanelHandle {
     newestFirst: true,
     filterQuery: '',
   };
-  let lastSeenCount = 0;
+  // Max entry id at the moment the panel was last opened; entries with a
+  // greater id count as unseen. Id-based (not length-based) so the ring
+  // buffer evicting old entries cannot reset the counter.
+  let lastSeenId = 0;
 
   function renderEntryRowFor(entry: LogEntry, indent: boolean): HTMLElement {
     return renderEntryRow(store, state, onSend, render, entry, indent);
@@ -102,7 +105,7 @@ export function mountPanel(store: LogStore, onSend?: PanelSendFn): PanelHandle {
     const all = store.all();
     count.textContent = String(all.length);
     // FAB badge: show count of entries since the panel was last opened.
-    const unseen = all.length - lastSeenCount;
+    const unseen = countUnseen(all, lastSeenId);
     if (unseen > 0) {
       fabBadge.textContent = String(unseen);
       fabBadge.style.display = 'block';
@@ -248,7 +251,8 @@ export function mountPanel(store: LogStore, onSend?: PanelSendFn): PanelHandle {
   function showPanel(): void {
     root.style.display = 'flex';
     fab.style.display = 'none';
-    lastSeenCount = store.all().length;
+    const all = store.all();
+    lastSeenId = all.length > 0 ? all[all.length - 1].id : 0;
     fabBadge.style.display = 'none';
     render();
   }
