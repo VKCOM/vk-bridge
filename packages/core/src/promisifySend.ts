@@ -83,6 +83,9 @@ function createRequestResolver(instanceId: string) {
  * @param sendEvent Send event function.
  * @param subscribe Subscribe event function.
  * @param instanceId Uniq bridge instance ID.
+ * @param onSend Optional hook invoked synchronously right before dispatching,
+ *   with the final props (including the assigned `request_id`). Used by the
+ *   logger to capture outgoing messages with their real request id.
  * @returns Send function which returns the Promise object.
  */
 export function promisifySend(
@@ -92,6 +95,7 @@ export function promisifySend(
   ) => void,
   subscribe: (fn: VKBridgeSubscribeHandler) => void,
   instanceId: string,
+  onSend?: (method: AnyRequestMethodName, props: Record<string, any> & RequestIdProp) => void,
 ) {
   const requestResolver = createRequestResolver(instanceId);
 
@@ -117,11 +121,15 @@ export function promisifySend(
   ): Promise<K extends AnyReceiveMethodName ? ReceiveData<K> : void> {
     return new Promise((resolve, reject) => {
       const requestId = requestResolver.add({ resolve, reject }, props.request_id);
-
-      sendEvent(method, {
+      const finalProps = {
         ...props,
         request_id: requestId,
-      });
+      };
+      // Notify the logger hook (if any) with the final props, including the
+      // assigned request_id. This is the only point where the request id is
+      // known before the message is dispatched.
+      onSend?.(method, finalProps);
+      sendEvent(method, finalProps);
     });
   };
 }

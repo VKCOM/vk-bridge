@@ -338,8 +338,19 @@ export function createVKBridge(version: string): VKBridge {
   /**
    * Enhanced send functions for the ability to receive response data in
    * the Promise object.
+   *
+   * The `onSend` hook is stored in a closure so the logger can register it
+   * later (after `createVKBridge` returns) via `bridge.__setOnSend`. It is
+   * invoked synchronously with the final props (including `request_id`)
+   * right before the message is dispatched.
    */
-  const sendPromise = promisifySend(send, subscribe, instanceId);
+  let onSend:
+    | ((method: AnyRequestMethodName, props: Record<string, any> & RequestIdProp) => void)
+    | undefined;
+
+  const sendPromise = promisifySend(send, subscribe, instanceId, (method, props) => {
+    onSend?.(method, props);
+  });
 
   async function supportsAsync(method: AnyRequestMethodName): Promise<boolean> {
     if (IS_ANDROID_WEBVIEW || IS_IOS_WEBVIEW) {
@@ -381,5 +392,17 @@ export function createVKBridge(version: string): VKBridge {
     isIframe,
     isEmbedded,
     isStandalone,
+    /**
+     * Registers a hook invoked for every outgoing message right before
+     * dispatch, with the final props (including `request_id`). Used by the
+     * built-in logger. Pass `undefined` to remove.
+     *
+     * @internal
+     */
+    __setOnSend(
+      fn?: (method: AnyRequestMethodName, props: Record<string, any> & RequestIdProp) => void,
+    ) {
+      onSend = fn;
+    },
   };
 }
