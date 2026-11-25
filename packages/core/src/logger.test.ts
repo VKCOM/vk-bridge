@@ -5,7 +5,12 @@ import { isLogEnabled } from './logger/detect.ts';
 import { createLogStore } from './logger/store.ts';
 import { createTap, removeTap } from './logger/tap.ts';
 import { attachLogger } from './logger/index.ts';
-import { buildGroups, entryMatchesQuery, isBridgeEvent, countUnseen } from './logger/panel/groups.ts';
+import {
+  buildGroups,
+  entryMatchesQuery,
+  isBridgeEvent,
+  countUnseen,
+} from './logger/panel/groups.ts';
 import { bodyWithoutRequestId, dataToString } from './logger/panel/format.ts';
 import type { VKBridge } from './types/bridge.ts';
 import type { LogEntry } from './logger/types.ts';
